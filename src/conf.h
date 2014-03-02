@@ -1,24 +1,24 @@
 /*
     conf.h -- configuration database
     Copyright (C) 2003-2008 Marc Lehmann <gvpe@schmorp.de>
- 
+
     This file is part of GVPE.
 
     GVPE is free software; you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by the
     Free Software Foundation; either version 3 of the License, or (at your
     option) any later version.
-   
+
     This program is distributed in the hope that it will be useful, but
     WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
     Public License for more details.
-   
+
     You should have received a copy of the GNU General Public License along
     with this program; if not, see <http://www.gnu.org/licenses/>.
-   
+
     Additional permission under GNU GPL version 3 section 7
-   
+
     If you modify this Program, or any covered work, by linking or
     combining it with the OpenSSL project's OpenSSL library (or a modified
     version of that library), containing parts covered by the terms of the
@@ -36,6 +36,15 @@
 
 #include <openssl/rsa.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+#include <sys/types.h>
+#include <unistd.h>
+#ifdef __cplusplus
+}/*;*/
+#endif /* __cplusplus */
+
 #include "slog.h"
 #include "global.h"
 
@@ -47,7 +56,7 @@
 #define DEFAULT_MAX_RETRY		3600	// retry at least this often
 #define DEFAULT_MAX_TTL			60	// packets expire after this many seconds
 #define DEFAULT_MAX_QUEUE		512	// never queue more than this many packets
- 
+
 #define DEFAULT_DNS_TIMEOUT_FACTOR	8.F	// initial retry timeout multiple
 #define DEFAULT_DNS_SEND_INTERVAL	.01F	// minimum send interval
 #define DEFAULT_DNS_OVERLAP_FACTOR	.5F	// RTT * LATENCY_FACTOR == sending rate

@@ -44,15 +44,15 @@
 # include EV_H
 #else
 # include "ev.h"
-#endif
+#endif /* EV_H */
 
 #ifndef EV_USE_STDEXCEPT
 # define EV_USE_STDEXCEPT 1
-#endif
+#endif /* !EV_USE_STDEXCEPT */
 
 #if EV_USE_STDEXCEPT
 # include <stdexcept>
-#endif
+#endif /*EV_USE_STDEXCEPT */
 
 namespace ev {
 
@@ -65,7 +65,7 @@ namespace ev {
     WRITE    = EV_WRITE,
 #if EV_COMPAT3
     TIMEOUT  = EV_TIMEOUT,
-#endif
+#endif /* EV_COMPAT3 */
     TIMER    = EV_TIMER,
     PERIODIC = EV_PERIODIC,
     SIGNAL   = EV_SIGNAL,
@@ -100,7 +100,7 @@ namespace ev {
 #if EV_COMPAT3
     NONBLOCK = EVLOOP_NONBLOCK,
     ONESHOT  = EVLOOP_ONESHOT,
-#endif
+#endif /* EV_COMPAT3 */
     NOWAIT   = EVRUN_NOWAIT,
     ONCE     = EVRUN_ONCE
   };
@@ -114,23 +114,23 @@ namespace ev {
   struct bad_loop
 #if EV_USE_STDEXCEPT
   : std::runtime_error
-#endif
+#endif /* EV_USE_STDEXCEPT */
   {
 #if EV_USE_STDEXCEPT
     bad_loop ()
     : std::runtime_error ("libev event loop cannot be initialized, bad value of LIBEV_FLAGS?")
     {
     }
-#endif
+#endif /* EV_USE_STDEXCEPT */
   };
 
 #ifdef EV_AX
 #  undef EV_AX
-#endif
+#endif /* EV_AX */
 
 #ifdef EV_AX_
 #  undef EV_AX_
-#endif
+#endif /* EV_AX_ */
 
 #if EV_MULTIPLICITY
 #  define EV_AX  raw_loop
@@ -138,14 +138,14 @@ namespace ev {
 #else
 #  define EV_AX
 #  define EV_AX_
-#endif
+#endif /* EV_MULTIPLICITY */
 
   struct loop_ref
   {
     loop_ref (EV_P) throw ()
 #if EV_MULTIPLICITY
     : EV_AX (EV_A)
-#endif
+#endif /* EV_MULTIPLICITY */
     {
     }
 
@@ -155,7 +155,7 @@ namespace ev {
       return EV_AX == other.EV_AX;
 #else
       return true;
-#endif
+#endif /* EV_MULTIPLICITY */
     }
 
     bool operator != (const loop_ref &other) const throw ()
@@ -164,7 +164,7 @@ namespace ev {
       return ! (*this == other);
 #else
       return false;
-#endif
+#endif /* EV_MULTIPLICITY */
     }
 
 #if EV_MULTIPLICITY
@@ -192,7 +192,7 @@ namespace ev {
     {
       return EV_AX == ev_default_loop (0);
     }
-#endif
+#endif /* EV_MULTIPLICITY */
 
 #if EV_COMPAT3
     void loop (int flags = 0)
@@ -204,7 +204,7 @@ namespace ev {
     {
       ev_break (EV_AX_ how);
     }
-#endif
+#endif /* EV_COMPAT3 */
 
     void run (int flags = 0)
     {
@@ -261,7 +261,7 @@ namespace ev {
     {
       ev_set_timeout_collect_interval (EV_AX_ interval);
     }
-#endif
+#endif /* EV_FEATURE_API */
 
     // function callback
     void once (int fd, int events, tstamp timeout, void (*cb)(int, void *), void *arg = 0) throw ()
@@ -344,7 +344,7 @@ namespace ev {
 
 #if EV_MULTIPLICITY
     struct ev_loop* EV_AX;
-#endif
+#endif /* EV_MULTIPLICITY */
 
   };
 
@@ -372,21 +372,21 @@ namespace ev {
     dynamic_loop & operator= (const dynamic_loop &);
 
   };
-#endif
+#endif /* EV_MULTIPLICITY */
 
   struct default_loop : loop_ref
   {
     default_loop (unsigned int flags = AUTO) throw (bad_loop)
 #if EV_MULTIPLICITY
     : loop_ref (ev_default_loop (flags))
-#endif
+#endif /* EV_MULTIPLICITY */
     {
       if (
 #if EV_MULTIPLICITY
           !EV_AX
 #else
           !ev_default_loop (flags)
-#endif
+#endif /* EV_MULTIPLICITY */
       )
         throw bad_loop ();
     }
@@ -402,7 +402,7 @@ namespace ev {
     return ev_default_loop (0);
 #else
     return loop_ref ();
-#endif
+#endif /* EV_MULTIPLICITY */
   }
 
 #undef EV_AX
@@ -416,7 +416,7 @@ namespace ev {
 #else
 #  define EV_PX
 #  define EV_PX_
-#endif
+#endif /* EV_MULTIPLICITY */
 
   template<class ev_watcher, class watcher>
   struct base : ev_watcher
@@ -429,12 +429,12 @@ namespace ev {
       {
         this->EV_A = EV_A;
       }
-    #endif
+    #endif /* EV_MULTIPLICITY */
 
     base (EV_PX) throw ()
     #if EV_MULTIPLICITY
       : EV_A (EV_A)
-    #endif
+    #endif /* EV_MULTIPLICITY */
     {
       ev_init (this, 0);
     }
@@ -573,7 +573,7 @@ namespace ev {
       () throw ()                                                                       \
       {                                                                                 \
       }
-  #endif
+  #endif /* EV_MULTIPLICITY */
 
   /* using a template here would require quite a bit more lines,
    * so a macro solution was chosen */
@@ -682,7 +682,7 @@ namespace ev {
       ev_periodic_again (EV_A_ static_cast<ev_periodic *>(this));
     }
   EV_END_WATCHER (periodic, periodic)
-  #endif
+  #endif /* EV_PERIODIC_ENABLE */
 
   #if EV_SIGNAL_ENABLE
   EV_BEGIN_WATCHER (sig, signal)
@@ -700,7 +700,7 @@ namespace ev {
       start ();
     }
   EV_END_WATCHER (sig, signal)
-  #endif
+  #endif /* EV_SIGNAL_ENABLE */
 
   #if EV_CHILD_ENABLE
   EV_BEGIN_WATCHER (child, child)
@@ -718,7 +718,7 @@ namespace ev {
       start ();
     }
   EV_END_WATCHER (child, child)
-  #endif
+  #endif /* EV_CHILD_ENABLE */
 
   #if EV_STAT_ENABLE
   EV_BEGIN_WATCHER (stat, stat)
@@ -742,25 +742,25 @@ namespace ev {
       ev_stat_stat (EV_A_ static_cast<ev_stat *>(this));
     }
   EV_END_WATCHER (stat, stat)
-  #endif
+  #endif /* EV_STAT_ENABLE */
 
   #if EV_IDLE_ENABLE
   EV_BEGIN_WATCHER (idle, idle)
     void set () throw () { }
   EV_END_WATCHER (idle, idle)
-  #endif
+  #endif /* EV_IDLE_ENABLE */
 
   #if EV_PREPARE_ENABLE
   EV_BEGIN_WATCHER (prepare, prepare)
     void set () throw () { }
   EV_END_WATCHER (prepare, prepare)
-  #endif
+  #endif /* EV_PREPARE_ENABLE */
 
   #if EV_CHECK_ENABLE
   EV_BEGIN_WATCHER (check, check)
     void set () throw () { }
   EV_END_WATCHER (check, check)
-  #endif
+  #endif /* EV_CHECK_ENABLE */
 
   #if EV_EMBED_ENABLE
   EV_BEGIN_WATCHER (embed, embed)
@@ -783,13 +783,13 @@ namespace ev {
       ev_embed_sweep (EV_A_ static_cast<ev_embed *>(this));
     }
   EV_END_WATCHER (embed, embed)
-  #endif
+  #endif /* EV_EMBED_ENABLE */
 
   #if EV_FORK_ENABLE
   EV_BEGIN_WATCHER (fork, fork)
     void set () throw () { }
   EV_END_WATCHER (fork, fork)
-  #endif
+  #endif /* EV_FORK_ENABLE */
 
   #if EV_ASYNC_ENABLE
   EV_BEGIN_WATCHER (async, async)
@@ -803,7 +803,7 @@ namespace ev {
       return ev_async_pending (static_cast<ev_async *>(this));
     }
   EV_END_WATCHER (async, async)
-  #endif
+  #endif /* EV_ASYNC_ENABLE */
 
   #undef EV_PX
   #undef EV_PX_
@@ -812,5 +812,6 @@ namespace ev {
   #undef EV_END_WATCHER
 }
 
-#endif
+#endif /* !EVPP_H__ */
 
+/* EOF */

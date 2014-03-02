@@ -1,24 +1,24 @@
 /*
     connection.h -- header for connection.C
     Copyright (C) 2003-2008 Marc Lehmann <gvpe@schmorp.de>
- 
+
     This file is part of GVPE.
 
     GVPE is free software; you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by the
     Free Software Foundation; either version 3 of the License, or (at your
     option) any later version.
-   
+
     This program is distributed in the hope that it will be useful, but
     WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
     Public License for more details.
-   
+
     You should have received a copy of the GNU General Public License along
     with this program; if not, see <http://www.gnu.org/licenses/>.
-   
+
     Additional permission under GNU GPL version 3 section 7
-   
+
     If you modify this Program, or any covered work, by linking or
     combining it with the OpenSSL project's OpenSSL library (or a modified
     version of that library), containing parts covered by the terms of the
@@ -42,7 +42,7 @@
 
 struct vpn;
 
-// called after HUP etc. to (re-)initialize global data structures
+/* called after HUP etc. to (re-)initialize global data structures */
 void connection_init ();
 
 struct rsaid
@@ -78,7 +78,7 @@ struct vpn_packet : hmac_packet
     PT_RESET = 0,
     PT_DATA_UNCOMPRESSED,
     PT_DATA_COMPRESSED,
-    PT_PING, PT_PONG,	// wasting namespace space? ;)
+    PT_PING, PT_PONG,	// wasting namespace space? ;-)
     PT_AUTH_REQ,	// authentification request
     PT_AUTH_RES,	// authentification response
     PT_CONNECT_REQ,	// want other node to contact me
@@ -110,7 +110,7 @@ struct vpn_packet : hmac_packet
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-// a very simple fifo pkt-queue
+/* a very simple fifo pkt-queue */
 class pkt_queue
 {
   int i, j;
@@ -142,7 +142,7 @@ enum
 {
   FEATURE_COMPRESSION = 0x01,
   FEATURE_ROHC        = 0x02,
-  FEATURE_BRIDGING    = 0x04,
+  FEATURE_BRIDGING    = 0x04
 };
 
 struct connection
@@ -170,10 +170,10 @@ struct connection
 
 #if ENABLE_DNS
   struct dns_connection *dns;
-#endif
+#endif /* ENABLE_DNS */
 
   enum conf_node::connectmode connectmode;
-  u8 prot_minor; // minor number of other side
+  u8 prot_minor; /* minor number of other side */
 
   void reset_si ();
   const sockinfo &forward_si (const sockinfo &si) const;
@@ -183,8 +183,8 @@ struct connection
   void reset_connection ();
 
   void establish_connection_cb (ev::timer &w, int revents); ev::timer establish_connection;
-  void rekey_cb (ev::timer &w, int revents); ev::timer rekey; // next rekying (actually current reset + reestablishing)
-  void keepalive_cb (ev::timer &w, int revents); ev::timer keepalive; // next keepalive probe
+  void rekey_cb (ev::timer &w, int revents); ev::timer rekey; /* next rekying (actually current reset + reestablishing) */
+  void keepalive_cb (ev::timer &w, int revents); ev::timer keepalive; /* next keepalive probe */
 
   void send_connect_request (int id);
   void send_auth_request (const sockinfo &si, bool initiate);
@@ -196,7 +196,7 @@ struct connection
 
   void post_inject_queue ();
   void inject_data_packet (tap_packet *pkt);
-  void inject_vpn_packet (vpn_packet *pkt, int tos = 0); // for forwarding
+  void inject_vpn_packet (vpn_packet *pkt, int tos = 0); /* for forwarding */
 
   void recv_vpn_packet (vpn_packet *pkt, const sockinfo &rsi);
   void send_vpn_packet (vpn_packet *pkt, const sockinfo &si, int tos = 0);
@@ -213,5 +213,6 @@ struct connection
   ~connection ();
 };
 
-#endif
+#endif /* !GVPE_CONNECTION_H__ */
 
+/* EOF */

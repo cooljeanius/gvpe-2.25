@@ -1,24 +1,24 @@
 /*
     connection.C -- manage a single connection
     Copyright (C) 2003-2008,2010,2011 Marc Lehmann <gvpe@schmorp.de>
- 
+
     This file is part of GVPE.
 
     GVPE is free software; you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by the
     Free Software Foundation; either version 3 of the License, or (at your
     option) any later version.
-   
+
     This program is distributed in the hope that it will be useful, but
     WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
     Public License for more details.
-   
+
     You should have received a copy of the GNU General Public License along
     with this program; if not, see <http://www.gnu.org/licenses/>.
-   
+
     Additional permission under GNU GPL version 3 section 7
-   
+
     If you modify this Program, or any covered work, by linking or
     combining it with the OpenSSL project's OpenSSL library (or a modified
     version of that library), containing parts covered by the terms of the
@@ -68,7 +68,7 @@ static ev::child rs_child_ev;
 
 namespace
 {
-  void // c++ requires external linkage here, apparently :(
+  void // c++ requires external linkage here, apparently :-(
   rs_child_cb (ev::child &w, int revents)
   {
     w.stop ();
@@ -88,7 +88,7 @@ namespace
     delete rs_queue.front ().first;
     rs_queue.pop ();
   }
-};
+}
 
 // despite the fancy name, this is quite a hack
 static void
@@ -151,7 +151,7 @@ struct rsa_entry
 struct rsa_cache : list<rsa_entry>
 {
   inline void cleaner_cb (ev::timer &w, int revents); ev::timer cleaner;
-  
+
   bool find (const rsaid &id, rsachallenge &chg)
   {
     for (iterator i = begin (); i != end (); ++i)
@@ -501,10 +501,10 @@ vpndata_packet::unpack (connection *conn, u32 &seqno)
 #if ENABLE_COMPRESSION
   u8 cdata[MAX_MTU];
 
-  if (type == PT_DATA_COMPRESSED)
-    d = cdata;
-  else
-#endif
+	if (type == PT_DATA_COMPRESSED) {
+		d = cdata;
+	} else
+#endif /* ENABLE_COMPRESSION */
     d = &(*p)[6 + 6 - DATAHDR];
 
   /* this overwrites part of the src mac, but we fix that later */
@@ -515,7 +515,7 @@ vpndata_packet::unpack (connection *conn, u32 &seqno)
 
   require (EVP_DecryptFinal_ex (cctx, (unsigned char *)d + outl, &outl2));
   outl += outl2;
-  
+
   seqno = ntohl (*(u32 *)(d + RAND_SIZE));
 
   id2mac (dst () ? dst() : THISNODE->id, p->dst);
@@ -1461,7 +1461,7 @@ connection::connection (struct vpn *vpn, conf_node *conf)
 : vpn(vpn), conf(conf),
 #if ENABLE_DNS
   dns (0),
-#endif
+#endif /* ENABLE_DNS */
   data_queue(conf->max_ttl, conf->max_queue + 1),
   vpn_queue(conf->max_ttl, conf->max_queue + 1)
 {
@@ -1493,3 +1493,4 @@ connection_init ()
   reset_rate_limiter.clear ();
 }
 
+/* EOF */

@@ -1,33 +1,33 @@
 /*
-    netcompat.h -- network compatibility header
-    Copyright (C) 2003-2008 Marc Lehmann <gvpe@schmorp.de>
- 
-    This file is part of GVPE.
-
-    GVPE is free software; you can redistribute it and/or modify it
-    under the terms of the GNU General Public License as published by the
-    Free Software Foundation; either version 3 of the License, or (at your
-    option) any later version.
-   
-    This program is distributed in the hope that it will be useful, but
-    WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
-    Public License for more details.
-   
-    You should have received a copy of the GNU General Public License along
-    with this program; if not, see <http://www.gnu.org/licenses/>.
-   
-    Additional permission under GNU GPL version 3 section 7
-   
-    If you modify this Program, or any covered work, by linking or
-    combining it with the OpenSSL project's OpenSSL library (or a modified
-    version of that library), containing parts covered by the terms of the
-    OpenSSL or SSLeay licenses, the licensors of this Program grant you
-    additional permission to convey the resulting work.  Corresponding
-    Source for a non-source form of such a combination shall include the
-    source code for the parts of OpenSSL used as well as that of the
-    covered work.
-*/
+ *  netcompat.h -- network compatibility header
+ *  Copyright (C) 2003-2008 Marc Lehmann <gvpe@schmorp.de>
+ *
+ *  This file is part of GVPE.
+ *
+ *  GVPE is free software; you can redistribute it and/or modify it
+ *  under the terms of the GNU General Public License as published by the
+ *  Free Software Foundation; either version 3 of the License, or (at your
+ *  option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful, but
+ *  WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ *  Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, see <http://www.gnu.org/licenses/>.
+ *
+ *  Additional permission under GNU GPL version 3 section 7
+ *
+ *  If you modify this Program, or any covered work, by linking or
+ *  combining it with the OpenSSL project's OpenSSL library (or a modified
+ *  version of that library), containing parts covered by the terms of the
+ *  OpenSSL or SSLeay licenses, the licensors of this Program grant you
+ *  additional permission to convey the resulting work.  Corresponding
+ *  Source for a non-source form of such a combination shall include the
+ *  source code for the parts of OpenSSL used as well as that of the
+ *  covered work.
+ */
 
 #ifndef GVPE_NETCOMPAT_H
 #define GVPE_NETCOMPAT_H
@@ -36,53 +36,68 @@
 #include <sys/socket.h>
 #ifdef HAVE_NETINET_IN_H
 # include <netinet/in.h>
-#endif
+#else
+# warning "netcompat.h expects <netinet/in.h> to be included."
+#endif /* HAVE_NETINET_IN_H */
 #ifdef HAVE_ARPA_INET_H
 # include <arpa/inet.h>
-#endif
+#else
+# warning "netcompat.h expects <arpa/inet.h> to be included."
+#endif /* HAVE_ARPA_INET_H */
 #include <net/if.h>
 #ifdef HAVE_NETINET_IN_SYSTM_H
 # include <netinet/in_systm.h>
-#endif
+#else
+# warning "netcompat.h expects <netinet/in_systm.h> to be included."
+#endif /* HAVE_NETINET_IN_SYSTM_H */
 #ifdef HAVE_NETINET_IP_H
 # include <netinet/ip.h>
-#endif
+#else
+# ifndef __APPLE__
+#  warning "netcompat.h expects <netinet/ip.h> to be included."
+# endif /* !__APPLE__ */
+#endif /* HAVE_NETINET_IP_H */
 
 #ifndef IPTOS_MINCOST
 # define IPTOS_MINCOST      0x02
-#endif
+#endif /* !IPTOS_MINCOST */
 #ifndef IPTOS_RELIABILITY
 # define IPTOS_RELIABILITY  0x04
-#endif
+#endif /* !IPTOS_RELIABILITY */
 #ifndef IPTOS_THROUGHPUT
 # define IPTOS_THROUGHPUT   0x08
-#endif
+#endif /* !IPTOS_THROUGHPUT */
 #ifndef IPTOS_LOWDELAY
 # define IPTOS_LOWDELAY     0x10
-#endif
+#endif /* !IPTOS_LOWDELAY */
 
 #ifndef IPTOS_TOS_MASK
 # define IPTOS_TOS_MASK (IPTOS_LOWDELAY | IPTOS_THROUGHPUT | IPTOS_RELIABILITY | IPTOS_MINCOST)
-#endif
+#endif /* !IPTOS_TOS_MASK */
 
 #if !defined(SOL_IP) && defined(IPPROTO_IP)
 # define SOL_IP IPPROTO_IP
-#endif
+#endif /* !SOL_IP && IPPROTO_IP */
 
 #ifndef IPPROTO_GRE
 # define IPPROTO_GRE 47
-#endif
+#endif /* !IPPROTO_GRE */
 
 #ifndef ICMP_ECHOREPLY
 # define ICMP_ECHOREPLY 0
-#endif
+#endif /* !ICMP_ECHOREPLY */
 
 #ifndef HAVE_SOCKLEN_T
 typedef int socklen_t;
-#endif
+#endif /* !HAVE_SOCKLEN_T */
 
 #if ENABLE_ICMP
-# include <netinet/ip_icmp.h>
+# ifdef HAVE_NETINET_IP_ICMP_H
+#  include <netinet/ip_icmp.h>
+# else
+#  warning "netcompat.h expects <netinet/ip_icmp.h> to be included for icmp \
+support; silence this warning by passing '--disable-icmp' to the configure script."
+# endif /* HAVE_NETINET_IP_ICMP_H */
 struct icmp_header {
   u8          type;
   u8          code;
@@ -99,7 +114,8 @@ struct icmp_header {
         } frag;
   } un;
 };
-#endif
+#endif /* ENABLE_ICMP */
 
-#endif
+#endif /* !GVPE_NETCOMPAT_H */
 
+/* EOF */

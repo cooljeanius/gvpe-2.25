@@ -1,13 +1,17 @@
-dnl this file is part of libev, do not make local modifications
-dnl http://software.schmorp.de/pkg/libev
+dnl# this file is part of libev, do not make local modifications (sorry)
+dnl# http://software.schmorp.de/pkg/libev
 
-dnl libev support 
-AC_CHECK_HEADERS(sys/inotify.h sys/epoll.h sys/event.h port.h poll.h sys/select.h sys/eventfd.h sys/signalfd.h) 
+dnl# libev support
+AC_MSG_NOTICE([doing libev checks])
+AC_CHECK_HEADERS([sys/inotify.h sys/epoll.h sys/event.h port.h poll.h \
+                  sys/select.h sys/eventfd.h sys/signalfd.h]) 
  
-AC_CHECK_FUNCS(inotify_init epoll_ctl kqueue port_create poll select eventfd signalfd)
+AC_CHECK_FUNCS([inotify_init epoll_ctl kqueue port_create poll eventfd \
+                signalfd])
+AC_CHECK_FUNCS_ONCE([select])
  
 AC_CHECK_FUNCS(clock_gettime, [], [ 
-   dnl on linux, try syscall wrapper first
+   dnl# on linux, try syscall wrapper first
    if test $(uname) = Linux; then
       AC_MSG_CHECKING(for clock_gettime syscall)
       AC_LINK_IFELSE([AC_LANG_PROGRAM(
@@ -38,5 +42,5 @@ AC_CHECK_FUNCS(nanosleep, [], [
 if test -z "$LIBEV_M4_AVOID_LIBM"; then
    LIBM=m
 fi
-AC_SEARCH_LIBS(floor, $LIBM, [AC_DEFINE(HAVE_FLOOR, 1, Define to 1 if the floor function is available)])
+AC_SEARCH_LIBS([floor], $LIBM, [AC_DEFINE(HAVE_FLOOR, 1, Define to 1 if the floor function is available)])
 
