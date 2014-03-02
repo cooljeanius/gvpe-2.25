@@ -1,0 +1,65 @@
+=head1 NAME
+
+C<gvpectrl> - GNU Virtual Private Ethernet Control Program
+
+=head1 SYNOPSIS
+
+C<gvpectrl> [B<-ckgs>] [B<--config=>I<DIR>] [B<--generate-keys>] [B<--help>]
+[B<--kill>[B<=>I<SIGNAL>]] [B<--show-config>] [B<--version>]
+
+=head1 DESCRIPTION
+
+This is the control program for the C<gvpe>, the virtual private ethernet daemon.
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<-c>, B<--config=>I<DIR>
+
+Read configuration options from I<DIR>.
+
+=item B<-g>, B<--generate-keys>
+
+Generate public/private RSA key-pair and exit.
+
+=item B<-q>, B<--quiet>
+
+Suppresses messages the author finds nonessential for scripting purposes.
+
+=item B<--help>
+
+Display short list of options.
+
+=item B<--kill>[B<=>I<SIGNAL>]
+
+Attempt to kill a running C<gvpectrl> (optionally with the specified
+I<SIGNAL> instead of C<SIGTERM>) and exit.
+
+=item B<--show-config>
+
+Show a summary of the configuration, and how gvpe interprets it. Can also be very useful
+when designing firewall scripts.
+
+=item B<--version>
+
+Output version information and exit.
+
+=back
+
+=head1 BUGS
+
+If you find any bugs, report them to C<gvpe@schmorp.de>.
+
+=head1 SEE ALSO
+
+gvpe(5), gvpe.conf(5), gvpe(8).
+
+GVPE comes with ABSOLUTELY NO WARRANTY.  This is free software, and you are
+welcome to redistribute it under certain conditions; see the file COPYING
+for details.
+
+=head1 AUTHOR
+
+Marc Lehmann C<< <gvpe@schmorp.de> >>.
+

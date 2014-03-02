@@ -1,0 +1,8 @@
+Gvpe Author:
+
+Marc Lehmann <gvpe@schmorp.de>
+
+Although the actual gvpe code was completely rewritten, some configure
+macros and were taken from the tinc package, by Guus Sliepen
+<guus@sliepen.eu.org> and Ivo Timmermans <ivo@o2w.nl>.
+

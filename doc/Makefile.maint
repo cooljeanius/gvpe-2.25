@@ -1,0 +1,33 @@
+# This -*- Makefile -*- uses features of GNU make.
+# It is included via GNUmakefile.
+
+# The following one line summaries were extracted from the
+# original man pages using this bit of sh code:
+# for i in *.1; do echo "$i: "|tr -d '\012'; \
+#   grep -A1 SH.NAME $i|sed '/SH NAME/d;s/^[^ ][^ ]* .- //'; done
+
+# Depend on configure.in to get version number changes.
+$(dyn_MANS): $(top_srcdir)/configure.in
+
+# Depend on the source file containing the --help text.
+# Filter out irregular cases.
+regular-men = $(filter-out $(irregular-men),$(dyn_MANS))
+$(regular-men): %.8: $(top_srcdir)/src/%.c
+
+executable = $(patsubst %/install,%/ginstall, ../src/$(basename $@))
+
+%.5: %.5.pod Makefile.maint
+	pod2man -n$(shell perl -e '$$ARGV[0] =~ s/\.\d$$//; print uc $$ARGV[0]' $@) -qnone -r$(VERSION) -s5 -c "GNU Virtual Private Ethernet" $< >$@
+
+%.7: %.7.pod Makefile.maint
+	pod2man -n$(shell perl -e '$$ARGV[0] =~ s/\.\d$$//; print uc $$ARGV[0]' $@) -qnone -r$(VERSION) -s7 -c "GNU Virtual Private Ethernet" $< >$@
+
+%.8: %.8.pod Makefile.maint
+	pod2man -n$(shell perl -e '$$ARGV[0] =~ s/\.\d$$//; print uc $$ARGV[0]' $@) -qnone -r$(VERSION) -s8 -c "GNU Virtual Private Ethernet" $< >$@
+
+gvpe.texi: gvpe.texi.pod pod2texi
+	./pod2texi <gvpe.texi.pod >gvpe.texi
+
+../README: gvpe.5.pod
+	pod2text -q\\\" -a gvpe.5.pod >../README
+

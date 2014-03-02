@@ -1,0 +1,246 @@
+GVPE NEWS
+
+2.25 Sat Jul 13 06:42:33 CEST 2013
+	- INCOMPATIBLE CHANGE: no longer enable udp protocol if no other
+          protocols are enabled - this is necessary when you have nodes with
+          completely unknown protocols, to force mediated connection requests.
+        - INCOMPATIBLE CHANGE: dns transport protocol bumped to version 2.
+	- core protocol version 0.1, compatible with older releases.
+        - switch to using RSA_generate_key_ex, which is the badly documented
+          and needlessly more complicated replacement for the RSA_generate_key
+          function which is now deprecated.
+        - support additional hmac hashes: sha256 and sha512, usually truncated.
+        - change public exponent for rsa keys from 65535 to 65537, for
+          efficiency reasons - only affects new keys.
+        - nodes would sometimes declare transport endpoints valid despite
+          the protocol not being configured locally.
+        - new global configuration options: chroot, chuser, chuid, chgid,
+          to chroot to a specified or anonymous new root, and change user id.
+        - new global configuration options seed_device and seed_interval,
+          to configure another device than /dev/urandom for random seeds,
+          and to configure a regular imterval to reseed the rng.
+        - prefer inet_aton over gethostbyname, as the latter is not guaranteed
+          to "resolve" literal ip addresses.
+        - configure didn't detect openssl 1.0 because SHA1_version became private
+          (patch by TANIGUCHI Takaki).
+        - fix a bug where nodes would tell the other side that it supports
+          the same protocols as that other side, instead of its own.
+        - add zlib when found, as openssl depends on it in newer versions.
+        - work around append-bugs in uclibc by using an extra seek.
+        - new "include" directive for the config file.
+        - gvpectrl no longer evaluates any "on" directives.
+        - icmp and rawip protocols weren't upgradable to each other.
+        - major, but incremental, dns transport improvements:
+           - do not simply abort in some error cases in the dns transport,
+             but try to recover.
+           - allow lowercase/uppercase alises for base-n encodings that do
+             not rely on case.
+           - use base26 instead of base22 encoding for dns syn's, and
+             base36 instead of base22 for headers (saves one byte/packet).
+           - back off far quicker in dns tunnel when idling - increases
+             latency on an idle link somewhat, but avoids hundreds of
+             needless packets.
+           - poll more aggressively when idling in dns (poll once per
+             second as opposed to once per 5 seconds).
+           - reduce dns send payload size to allow greater rate of ack
+             messages (should help sack and ipv6).
+        - allow for ip options in rawip/icmp transports, even though gvpe
+          doesn't generate them.
+        - upgrade to autoconf 2.69, automake 1.11.
+        - upgrade to libev 4 API.
+        - replace COPYING file by actual GPLv3 - files were relicensed to GPLv3
+          earlier but COPYING was forgotten.
+
+2.24 Sat Feb 12 05:15:48 CET 2011
+	- protocol version 0.1, compatible with older releases.
+	- due to a bug, when packets were lost, a connection could go into a
+          state where a ping/connection request from another node would be
+          ignored, leading to connections not being re-established.
+        - due to a bug, compression was almost always enabled.
+	- enable-max-mtu was actually enable-mtu, contrary to documentation.
+	- add nfmark support.
+        - add node-change script support.
+        - new DESTSI variable for node-xxx scripts.
+        - updated codingstyle a bit, declared truly static stuff as static.
+        - clarify compression docs.
+
+2.22 Sun Feb  1 17:25:28 CET 2009
+	- protocol version 0.1, compatible with older releases.
+	- enabled icmp/tcp/http-proxy protocols by default.
+	- updated copyright in program greetings.
+        - fix some configure messages.
+        - updated to libev 3.52.
+
+2.21 Wed Sep  3 06:56:27 CEST 2008
+	- protocol version 0.1, compatible with older releases.
+	- add missing ev++.h include header to tarball, which everybody
+          who tested it apparently had in their include path :(. Caught
+          by Karl Kleinpaste and Marcus Kong.
+
+2.2  Mon Sep  1 06:28:09 CEST 2008
+	- protocol version 0.1, compatible with older releases.
+          but upgrade is recommended to due changed ondemand behaviour.
+        - new per-node options max-ttl and max-queue.
+        - convert from iom.C to libev, a high-performance event loop
+          (http://software.schmorp.de/pkg/libev).
+        - tcp connections were leaking in some cases.
+        - retry more aggressively (once/s) to establish a connection if
+          new packets arrive for it.
+        - save a lot of setsockopt calls when the tos doesn't change.
+        - honor disabled even on initial connect attempt.
+        - changed callback mechanism to be slightly less portable
+          but more efficient mechanism (standards-compliant c++ compilers
+          should work).
+        - increased receive window positive size, to allow for massive
+          packet loss due to occasional longer drop-outs.
+        - send RST when a positive window size violation is detected, but
+          not in other cases, to reconnect more quickly.
+        - upgraded liblzf to version 3.4.
+        - dropped -fno-exceptions due to ev++.h using it.
+        - node-up/down scripts are now run in sequence.
+        - new -q switch for gvpectrl, for when you run it often.
+        - work around the horribly inconsistent, ad-hoc, ever-changing
+          and broken texinfo syntax. YMMV. avoid texinfo.
+        - keepalive is more aggressive now, sensding ping's every 3 seconds
+          and killing the conenction after 15 seconds.
+        - bugfixes.
+
+2.01 Thu Mar 29 19:26:04 CEST 2007
+	- protocol version 0.1, compatible with older releases.
+        - bugfix of callback.h, might have cause callback return values to
+          be corrupted on architectures like sparc before.
+        - dns transport retries more aggressively.
+        - updated documentation, improved dns transport reliability
+          and throughput.
+        - added experimental support for sha256 and sha512 digests.
+
+2.0 Mon Dec  5 13:59:26 CET 2005
+	- protocol version 0.1, compatible with older releases.
+        - implement allow-direct, deny-direct node config statements.
+        - implemented != for sockinfo. This fixes a bug where
+          gvpe sent packets to the old ip address of another host
+          even though it had received packets from it's new address.
+          This only causes problems if you forget to -HUP your gvpe after
+          your ip address changed, which is *required*.
+        - sets close-on-exec flag on tcp connections. This fixes a bug
+          where child processes kept tcp connections open and caused
+          connections to fail when only one side can connect.
+        - fixed a bug in receive sequence checking that made gvpe
+          accept out-of-window packets in most cases.
+        - tighter limit for the maximum sequence # to avoid overflow
+          conditions + allow more headroom for packet reordering.
+        - replace some asserts that trapped config mismatches by
+          more useful log messages.
+        - fix spurious extra newline in some log messages.
+
+1.9 Tue Apr 19 06:21:50 CEST 2005
+	- protocol version 0.1, compatible with older releases.
+        - WARNING: this version checks the return value of if-up etc.
+          scripts and exits on failure.
+        - IMPORTANT: run if-up/node-up etc. scripts via /bin/sh.
+        - IMPORTANT: interface initialization (MAC, MTU) is now done
+          automatically in most configurations.
+        - options can now be specified on the gvpe command line, too.
+        - make some DNS transport values configurable and document them.
+        - improved OS specific information in gvpe.osdep(5).
+        - new tap device type "native/darwin", that supports the tap
+          driver available for darwin (thanks to matthew mead who tested
+          it out with me in a long session). tincd/darwin is still available.
+        - new device type "tincd/bsd", which is a newer version of the
+          *bsd-drivers taken from tinc.
+        - fixed a bug in relying on the order of global construction
+          when tcp transport was enabled. The fix makes it use no
+          cpu time unless it is in use, too.
+        - information about other nodes is now available to if-up etc. scripts.
+        - the value of the config variable if-up-data is passed to the if-up
+          etc. scripts.
+	- skip unparsable config lines with a warning instead of stopping
+          parsing and continuing with a certainly unusable config.
+
+1.8 Fri Mar 18 00:58:55 CET 2005
+	- protocol version 0.1, compatible with older releases.
+	- enable-udp = yes is now default only when no other protocols
+          are enabled. otherwise it is disabled unless explicitly enabled.
+        - implemented dns tunneling (experimental now and in the future).
+        - remove support for pre-release version protocol.
+        - updated tincd drivers (rev 1433), added uml_socket driver, documented
+          tincd drivers a bit better.
+        - document icmp configuration values.
+        - document transport protocols in gvpe.protocol(7).
+        - remove unused ChangeLog file.
+        - created a mailinglist at gvpe@lists.schmorp.de.
+        - added an exemption to allow distribution of binaries linked against
+          OpenSSL, as suggested by Guus Sliepen (author of tinc). No
+          GNUTLS conversion in sight.
+        - some portability fixes with respect to --disable-nls.
+
+1.7 Tue Feb 22 23:58:59 CET 2005
+	- protocol version 0.1, compatible with older releases.
+	- first gnu release.
+        - documented the special value 1 for router-priority.
+        - renamed vped => gvpe and vpectrl => gvpectrl, as well as
+          vped.conf => gvpe.conf.
+	- new per-node option "max-retry".
+	- asymmetric rekeying behaviour, so hosts don't rekey simultaneously.
+        - new configure option --enable-static-daemon.
+        - fix configure --help output.
+        - many documentation layout fixes.
+        - synced iom.[Ch] from rxvt-unicode.
+        - try to cope with some non-monotonic time changes.
+        - revert to locale.h - a usual, clocale is nonfunctioning on macosx.
+        - considerably improved pod2texi and the resulting texi doc.
+
+1.6.1 Wed May 12 14:48:20 CEST 2004
+	- protocol version 0.1, compatible with older releases.
+	- fix -c switch that has been broken due to a last-minute fix
+	  to option and config file parsing.
+
+1.6 Mon May 10 20:55:10 CEST 2004
+	- protocol version 0.1, compatible with older releases.
+	- do not RESET on out-of-sequence packets (good for wireless).
+	- various non-security-related bugfixes.
+	- c++ify (at least make it compile with g++-3.4, which should make
+	  it a little bit more standard c++).
+
+1.5 Fri Jan 30 00:50:04 CET 2004
+	- protocol version 0.1, compatible with older releases.
+	- vped will refuse to start when hostkey and public key do not match.
+	- updated lzf code to version 1.2.
+	- better error reporting for "unusual" conditions, like failing
+	  to allocate memory, that should not normally happen and
+	  will otherwise result in spurious other error messages. Also
+	  adds paranoid checks in case openssl's API changes in a bad way.
+	- fix a bug where queued vpn packets were cleared to zero. while
+	  this doesn't affect security, it did cause warning messages and
+	  unnecessary connectivity delays.
+
+1.4 Sat Jan 17 15:49:21 CET 2004
+	- protocol version 0.1, compatible with older releases.
+	- better retry behaviour on key mismatch.
+	- use select-based io_manager instead of poll-based one.
+	- share io manager between rxvt-unicode and vpe.
+	- sooo many *BSD workarounds because no BSD I could find is even
+	  remotely POSIX-compatible.
+
+1.2 Fri Oct 17 03:44:44 CEST 2003
+	- protocol version 0.1.
+	- tincd kernel interface code imported, more supported platforms
+	  (native/linux (2.4), tincd/linux (2.2 and 2.4), tincd/freebsd,
+	  native/cygwin).
+	- added primitive ethernet emulation (ipv4 only), which allows
+	  the following platforms that only have tun drivers to work:
+	  /* none yet tested */
+	- portability workarounds, especially for unfriendly freebsd
+	- very minor bugfixes
+	- warnings when choosing insecure ciphers/hashes
+	- reduced default hmac length to 8.
+	- cvs now contains configure, Makefile.in and other generated files.
+	- added doc/complex-example to the distribution.
+
+1.0 distant past
+	- protocol version 0.1.
+	- tweaked various timeouts to help very slow (486) class
+	  machines or nets with many hosts.
+	- tweaked rate-limiting to be more forgiving for hosts
+	  connecting through routers (not a fix).
+

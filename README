@@ -1,0 +1,270 @@
+
+==== NAME ====
+
+    GNU-VPE - Overview of the GNU Virtual Private Ethernet suite.
+
+
+==== DESCRIPTION ====
+
+    GVPE is a suite designed to provide a virtual private network for
+    multiple nodes over an untrusted network. This document first gives an
+    introduction to VPNs in general and then describes the specific
+    implementation of GVPE.
+
+
+==   WHAT IS A VPN?   ==
+
+    VPN is an acronym, it stands for:
+
+:       Virtual means that no physical network is created (of course), but a
+        network is *emulated* by creating multiple tunnels between the
+        member nodes by encapsulating and sending data over another
+        transport network.
+
+        Usually the emulated network is a normal IP or Ethernet, and the
+        transport network is the Internet. However, using a VPN system like
+        GVPE to connect nodes over other untrusted networks such as Wireless
+        LAN is not uncommon.
+
+:       Private means that non-participating nodes cannot decode ("sniff)"
+        nor inject ("spoof") packets. This means that nodes can be connected
+        over untrusted networks such as the public Internet without fear of
+        being eavesdropped while at the same time being able to trust data
+        sent by other nodes.
+
+        In the case of GVPE, even participating nodes cannot sniff packets
+        send to other nodes or spoof packets as if sent from other nodes, so
+        communications between any two nodes is private to those two nodes.
+
+:       Network means that more than two parties can participate in the
+        network, so for instance it's possible to connect multiple branches
+        of a company into a single network. Many so-called "vpn" solutions
+        only create point-to-point tunnels, which in turn can be used to
+        build larger networks.
+
+        GVPE provides a true multi-point network in wich any number of nodes
+        (at least a few dozen in practise, the theoretical limit is 4095
+        nodes) can participate.
+
+
+==   GVPE DESIGN GOALS   ==
+
+:   SIMPLE DESIGN
+        Cipher, HMAC algorithms and other key parameters must be selected at
+        compile time - this makes it possible to only link in algorithms you
+        actually need. It also makes the crypto part of the source very
+        transparent and easy to inspect, and last not least this makes it
+        possible to hardcode the layout of all packets into the binary. GVPE
+        goes a step further and internally reserves blocks of the same
+        length for all packets, which virtually removes all possibilities of
+        buffer overflows, as there is only a single type of buffer and it's
+        always of fixed length.
+
+:   EASY TO SETUP
+        A few lines of config (the config file is shared unmodified between
+        all hosts) and a single run of ``gvpectrl'' to generate the keys
+        suffices to make it work.
+
+:   MAC-BASED SECURITY
+        Since every host has it's own private key, other hosts cannot spoof
+        traffic from this host. That makes it possible to filter packet by
+        MAC address, e.g. to ensure that packets from a specific IP address
+        come, in fact, from a specific host that is associated with that IP
+        and not from another host.
+
+
+==== PROGRAMS ====
+
+    Vpe comes with two programs: one daemon (``gvpe'') and one control
+    program (``gvpectrl'').
+
+:   gvpectrl
+        Is used to generate the keys, check and give an overview of of the
+        configuration and contorl the daemon (restarting etc.).
+
+:   gvpe
+        Is the daemon used to establish and maintain connections to the
+        other network members. It should be run on the gateway machine.
+
+
+==== COMPILETIME CONFIGURATION ====
+
+    Please have a look at the ``gvpe.osdep(5)'' manpage for
+    platform-specific information.
+
+    Here are a few recipes for compiling your gvpe, showing the extremes
+    (fast, small, insecure OR slow, large, more secure), between you should
+    choose:
+
+
+==   AS LOW PACKET OVERHEAD AS POSSIBLE   ==
+
+       ./configure --enable-hmac-length=4 --enable-rand-length=0
+
+    Minimize the header overhead of VPN packets (the above will result in
+    only 4 bytes of overhead over the raw ethernet frame). This is a
+    insecure configuration because a HMAC length of 4 makes collision
+    attacks based on the birthday paradox easy, though.
+
+
+==   MINIMIZE CPU TIME REQUIRED   ==
+
+       ./configure --enable-cipher=bf --enable-digest=md4
+
+    Use the fastest cipher and digest algorithms currently available in
+    gvpe. MD4 has been broken and is quite insecure, though.
+
+
+==   MAXIMIZE SECURITY   ==
+
+       ./configure --enable-hmac-length=16 --enable-rand-length=8 --enable-digest=sha1
+
+    This uses a 16 byte HMAC checksum to authenticate packets (I guess 8-12
+    would also be pretty secure ;) and will additionally prefix each packet
+    with 8 bytes of random data. In the long run, people should move to
+    SHA-224 and beyond, but support in openssl is missing as of writing this
+    document.
+
+    In general, remember that AES-128 seems to be more secure and faster
+    than AES-192 or AES-256, more randomness helps against sniffing and a
+    longer HMAC helps against spoofing. MD4 is a fast digest, SHA1 or
+    RIPEMD160 are better, and Blowfish is a fast cipher (and also quite
+    secure).
+
+
+==== HOW TO SET UP A SIMPLE VPN ====
+
+    In this section I will describe how to get a simple VPN consisting of
+    three hosts up and running.
+
+
+==   STEP 1: configuration   ==
+
+    First you have to create a daemon configuation file and put it into the
+    configuration directory. This is usually ``/etc/gvpe'', depending on how
+    you configured gvpe, and can be overwritten using the ``-c'' commandline
+    switch.
+
+    Put the following lines into ``/etc/gvpe/gvpe.conf'':
+
+       udp-port = 50000 # the external port to listen on (configure your firewall)
+       mtu = 1400       # minimum MTU of all outgoing interfaces on all hosts
+       ifname = vpn0    # the local network device name
+
+       node = first     # just a nickname
+       hostname = first.example.net # the DNS name or IP address of the host
+
+       node = second
+       hostname = 133.55.82.9
+
+       node = third
+       hostname = third.example.net
+
+    The only other file neccessary if the ``if-up'' script that initializes
+    the local ethernet interface. Put the following lines into
+    ``/etc/gvpe/if-up'' and make it execute (``chmod 755 /etc/gvpe/if-up''):
+
+       #!/bin/sh
+       ip link set $IFNAME address $MAC mtu $MTU up
+       [ $NODENAME = first  ] && ip addr add 10.0.1.1 dev $IFNAME
+       [ $NODENAME = second ] && ip addr add 10.0.2.1 dev $IFNAME
+       [ $NODENAME = third  ] && ip addr add 10.0.3.1 dev $IFNAME
+       ip route add 10.0.0.0/16 dev $IFNAME
+
+    This script will give each node a different IP address in the
+    ``10.0/16'' network. The internal network (e.g. the ``eth0'' interface)
+    should then be set to a subset of that network, e.g. ``10.0.1.0/24'' on
+    node ``first'', ``10.0.2.0/24'' on node ``second'', and so on.
+
+    By enabling routing on the gateway host that runs ``gvpe'' all nodes
+    will be able to reach the other nodes. You can, of course, also use
+    proxy arp or other means of pseudo-bridging (or even real briding), or
+    (best) full routing - the choice is yours.
+
+
+==   STEP 2: create the RSA key pairs for all hosts   ==
+
+    Run the following command to generate all key pairs (that might take a
+    while):
+
+       gvpectrl -c /etc/gvpe -g
+
+    This command will put the public keys into
+    ``/etc/gvpe/pubkeys/*nodename*'' and the private keys into
+    ``/etc/gvpe/hostkeys/*nodename*''.
+
+
+==   STEP 3: distribute the config files to all nodes   ==
+
+    Now distribute the config files to the other nodes. This should be done
+    in two steps, since the private keys should not be distributed. The
+    example uses rsync-over-ssh
+
+    First all the config files without the hostkeys should be distributed:
+
+       rsync -avzessh /etc/gvpe first.example.net:/etc/. --exclude hostkeys
+       rsync -avzessh /etc/gvpe 133.55.82.9:/etc/. --exclude hostkeys
+       rsync -avzessh /etc/gvpe third.example.net:/etc/. --exclude hostkeys
+
+    Then the hostkeys should be copied:
+
+       rsync -avzessh /etc/gvpe/hostkeys/first  first.example.net:/etc/hostkey
+       rsync -avzessh /etc/gvpe/hostkeys/second 133.55.82.9:/etc/hostkey
+       rsync -avzessh /etc/gvpe/hostkeys/third  third.example.net:/etc/hostkey
+
+    You should now check the configration by issuing the command ``gvpectrl
+    -c /etc/gvpe -s'' on each node and verify it's output.
+
+
+==   STEP 4: starting gvpe   ==
+
+    You should then start gvpe on each node by issuing a command like:
+
+       gvpe -D -linfo first # first is the nodename
+
+    This will make the gvpe stay in foreground. You should then see
+    "connection established" messages. If you don't see them check your
+    firewall and routing (use tcpdump ;).
+
+    If this works you should check your networking setup by pinging various
+    endpoints.
+
+    To make gvpe run more permanently you can either run it as a daemon (by
+    starting it without the ``-D'' switch), or, much better, from your
+    inittab. I use a line like this on my systems:
+
+       t1:2345:respawn:/opt/gvpe/sbin/gvpe -D -L first >/dev/null 2>&1
+
+
+==   STEP 5: enjoy   ==
+
+    ... and play around. Sending a -HUP (``gvpectrl -kHUP'') to the daemon
+    will make it try to connect to all other nodes again. If you run it from
+    inittab, as is recommended, ``gvpectrl -k'' (or simply ``killall gvpe'')
+    will kill the daemon, start it again, making it read it's configuration
+    files again.
+
+
+==== SEE ALSO ====
+
+    gvpe.osdep(5) for OS-depedendent information, gvpe.conf(5), gvpectrl(8),
+    and for a description of the transports, protocol, and routing
+    algorithm, gvpe.protocol(7).
+
+    The GVPE mailinglist, at <http://lists.schmorp.de/>, or
+    ``gvpe@lists.schmorp.de''.
+
+
+==== AUTHOR ====
+
+    Marc Lehmann <gvpe@schmorp.de>
+
+
+==== COPYRIGHTS AND LICENSES ====
+
+    GVPE itself is distributed under the GENERAL PUBLIC LICENSE (see the
+    file COPYING that should be part of your distribution).
+
+    In some configurations it uses modified versions of the tinc vpn suite,
+    which is also available under the GENERAL PUBLIC LICENSE.
+

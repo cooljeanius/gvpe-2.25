@@ -1,0 +1,259 @@
+=head1 The GNU-VPE Protocols
+
+=head1 Overview
+
+GVPE can make use of a number of protocols. One of them is the GNU VPE
+protocol which is used to authenticate tunnels and send encrypted data
+packets. This protocol is described in more detail the second part of this
+document.
+
+The first part of this document describes the transport protocols which
+are used by GVPE to send it's data packets over the network.
+
+=head1 PART 1: Transport protocols
+
+GVPE offers a wide range of transport protocols that can be used to
+interchange data between nodes. Protocols differ in their overhead, speed,
+reliability, and robustness.
+
+The following sections describe each transport protocol in more
+detail. They are sorted by overhead/efficiency, the most efficient
+transport is listed first:
+
+=head2 RAW IP
+
+This protocol is the best choice, performance-wise, as the minimum
+overhead per packet is only 38 bytes.
+
+It works by sending the VPN payload using raw IP frames (using the
+protocol set by C<ip-proto>).
+
+Using raw IP frames has the drawback that many firewalls block "unknown"
+protocols, so this transport only works if you have full IP connectivity
+between nodes.
+
+=head2 ICMP
+
+This protocol offers very low overhead (minimum 42 bytes), and can
+sometimes tunnel through firewalls when other protocols can not.
+
+It works by prepending an ICMP header with type C<icmp-type> and a code
+of C<255>. The default C<icmp-type> is C<echo-reply>, so the resulting
+packets look like echo replies, which looks rather strange to network
+administrators.
+
+This transport should only be used if other transports (i.e. raw IP) are
+not available or undesirable (due to their overhead).
+
+=head2 UDP
+
+This is a good general choice for the transport protocol as UDP packets
+tunnel well through most firewalls and routers, and the overhead per
+packet is moderate (minimum 58 bytes).
+
+It should be used if RAW IP is not available.
+
+=head2 TCP
+
+This protocol is a very bad choice, as it not only has high overhead (more
+than 60 bytes), but the transport also retries on it's own, which leads
+to congestion when the link has moderate packet loss (as both the TCP
+transport and the tunneled traffic will retry, increasing congestion more
+and more). It also has high latency and is quite inefficient.
+
+It's only useful when tunneling through firewalls that block better
+protocols. If a node doesn't have direct internet access but a HTTP proxy
+that supports the CONNECT method it can be used to tunnel through a web
+proxy. For this to work, the C<tcp-port> should be C<443> (C<https>), as
+most proxies do not allow connections to other ports.
+
+It is an abuse of the usage a proxy was designed for, so make sure you are
+allowed to use it for GVPE.
+
+This protocol also has server and client sides. If the C<tcp-port> is
+set to zero, other nodes cannot connect to this node directly. If the
+C<tcp-port> is non-zero, the node can act both as a client as well as a
+server.
+
+=head2 DNS
+
+B<WARNING:> Parsing and generating DNS packets is rather tricky. The code
+almost certainly contains buffer overflows and other, likely exploitable,
+bugs. You have been warned.
+
+This is the worst choice of transport protocol with respect to overhead
+(overhead can be 2-3 times higher than the transferred data), and latency
+(which can be many seconds). Some DNS servers might not be prepared to
+handle the traffic and drop or corrupt packets. The client also has to
+constantly poll the server for data, so the client will constantly create
+traffic even if it doesn't need to transport packets.
+
+In addition, the same problems as the TCP transport also plague this
+protocol.
+
+Its only use is to tunnel through firewalls that do not allow direct
+internet access. Similar to using a HTTP proxy (as the TCP transport
+does), it uses a local DNS server/forwarder (given by the C<dns-forw-host>
+configuration value) as a proxy to send and receive data as a client,
+and an C<NS> record pointing to the GVPE server (as given by the
+C<dns-hostname> directive).
+
+The only good side of this protocol is that it can tunnel through most
+firewalls mostly undetected, iff the local DNS server/forwarder is sane
+(which is true for most routers, wireless LAN gateways and nameservers).
+
+Fine-tuning needs to be done by editing C<src/vpn_dns.C> directly.
+
+=head1 PART 2: The GNU VPE protocol
+
+This section, unfortunately, is not yet finished, although the protocol
+is stable (until bugs in the cryptography are found, which will likely
+completely change the following description). Nevertheless, it should give
+you some overview over the protocol.
+
+=head2 Anatomy of a VPN packet
+
+The exact layout and field lengths of a VPN packet is determined at
+compile time and doesn't change. The same structure is used for all
+transport protocols, be it RAWIP or TCP.
+
+ +------+------+--------+------+
+ | HMAC | TYPE | SRCDST | DATA |
+ +------+------+--------+------+
+
+The HMAC field is present in all packets, even if not used (e.g. in auth
+request packets), in which case it is set to all zeroes. The checksum
+itself is calculated over the TYPE, SRCDST and DATA fields in all cases.
+
+The TYPE field is a single byte and determines the purpose of the packet
+(e.g. RESET, COMPRESSED/UNCOMPRESSED DATA, PING, AUTH REQUEST/RESPONSE,
+CONNECT REQUEST/INFO etc.).
+
+SRCDST is a three byte field which contains the source and destination
+node IDs (12 bits each).
+
+The DATA portion differs between each packet type, naturally, and is the
+only part that can be encrypted. Data packets contain more fields, as
+shown:
+
+ +------+------+--------+------+-------+------+
+ | HMAC | TYPE | SRCDST | RAND | SEQNO | DATA |
+ +------+------+--------+------+-------+------+
+
+RAND is a sequence of fully random bytes, used to increase the entropy of
+the data for encryption purposes.
+
+SEQNO is a 32-bit sequence number. It is negotiated at every connection
+initialization and starts at some random 31 bit value. VPE currently uses
+a sliding window of 512 packets/sequence numbers to detect reordering,
+duplication and replay attacks.
+
+The encryption is done on RAND+SEQNO+DATA in CBC mode with zero IV (or,
+equivalently, the IV is RAND+SEQNO, encrypted with the block cipher,
+unless RAND size is decreased or increased over the default value).
+
+=head2 The authentication protocol
+
+Before nodes can exchange packets, they need to establish authenticity of
+the other side and a key. Every node has a private RSA key and the public
+RSA keys of all other nodes.
+
+A host establishes a simplex connection by sending the other node an RSA
+encrypted challenge containing a random challenge (consisting of the
+encryption and authentication keys to use when sending packets, more
+random data and PKCS1_OAEP padding) and a random 16 byte "challenge-id"
+(used to detect duplicate auth packets). The destination node will respond
+by replying with an (unencrypted) hash of the decrypted challenge, which
+will authenticate that node. The destination node will also set the
+outgoing encryption parameters as given in the packet.
+
+When the source node receives a correct auth reply (by verifying the
+hash and the id, which will expire after 120 seconds), it will start to
+accept data packets from the destination node.
+
+This means that a node can only initiate a simplex connection, telling the
+other side the key it has to use when it sends packets. The challenge
+reply is only used to set the current IP address of the other side and
+protocol parameters.
+
+This protocol is completely symmetric, so to be able to send packets the
+destination node must send a challenge in the exact same way as already
+described (so, in essence, two simplex connections are created per node
+pair).
+
+=head2 Retrying
+
+When there is no response to an auth request, the node will send auth
+requests in bursts with an exponential back-off. After some time it will
+resort to PING packets, which are very small (8 bytes + protocol header)
+and lightweight (no RSA operations required). A node that receives ping
+requests from an unconnected peer will respond by trying to create a
+connection.
+
+In addition to the exponential back-off, there is a global rate-limit on
+a per-IP base. It allows long bursts but will limit total packet rate to
+something like one control packet every ten seconds, to avoid accidental
+floods due to protocol problems (like a RSA key file mismatch between two
+nodes).
+
+The intervals between retries are limited by the C<max-retry>
+configuration value. A node with C<connect> = C<always> will always retry,
+a node with C<connect> = C<ondemand> will only try (and re-try) to connect
+as long as there are packets in the queue, usually this limits the retry
+period to C<max-ttl> seconds.
+
+Sending packets over the VPN will reset the retry intervals as well, which
+means as long as somebody is trying to send packets to a given node, GVPE
+will try to connect every few seconds.
+
+=head2 Routing and Protocol translation
+
+The GVPE routing algorithm is easy: there isn't much routing to speak
+of: When routing packets to another node, GVPE tries the following
+options, in order:
+
+=over 4
+
+=item If the two nodes should be able to reach each other directly (common
+protocol, port known), then GVPE will send the packet directly to the
+other node.
+
+=item If this isn't possible (e.g. because the node doesn't have a
+C<hostname> or known port), but the nodes speak a common protocol and a
+router is available, then GVPE will ask a router to "mediate" between both
+nodes (see below).
+
+=item If a direct connection isn't possible (no common protocols) or
+forbidden (C<deny-direct>) and there are any routers, then GVPE will try
+to send packets to the router with the highest priority that is connected
+already I<and> is able (as specified by the config file) to connect
+directly to the target node.
+
+=item If no such router exists, then GVPE will simply send the packet to
+the node with the highest priority available.
+
+=item Failing all that, the packet will be dropped.
+
+=back
+
+A host can usually declare itself unreachable directly by setting it's
+port number(s) to zero. It can declare other hosts as unreachable by using
+a config-file that disables all protocols for these other hosts. Another
+option is to disable all protocols on that host in the other config files.
+
+If two hosts cannot connect to each other because their IP address(es)
+are not known (such as dial-up hosts), one side will send a I<mediated>
+connection request to a router (routers must be configured to act as
+routers!), which will send both the originating and the destination host
+a connection info request with protocol information and IP address of the
+other host (if known). Both hosts will then try to establish a direct
+connection to the other peer, which is usually possible even when both
+hosts are behind a NAT gateway.
+
+Routing via other nodes works because the SRCDST field is not encrypted,
+so the router can just forward the packet to the destination host. Since
+each host uses it's own private key, the router will not be able to
+decrypt or encrypt packets, it will just act as a simple router and
+protocol translator.
+
+

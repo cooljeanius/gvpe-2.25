@@ -1,0 +1,1199 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Marc Lehmann
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-13 06:45+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/tincd/cygwin/device.c:62 src/tincd/mingw/device.c:140
+#, c-format
+msgid "Unable to read registry: %s"
+msgstr ""
+
+#: src/tincd/cygwin/device.c:114 src/tincd/mingw/device.c:191
+msgid "No Windows tap device found!"
+msgstr ""
+
+#: src/tincd/cygwin/device.c:131 src/tincd/cygwin/device.c:162
+#: src/tincd/mingw/device.c:59 src/tincd/mingw/device.c:68
+#: src/tincd/mingw/device.c:73 src/tincd/mingw/device.c:229
+#: src/tincd/mingw/device.c:236 src/tincd/mingw/device.c:241
+#: src/tincd/mingw/device.c:248 src/tincd/mingw/device.c:257
+#: src/tincd/mingw/device.c:264 src/tincd/uml_socket/device.c:82
+#: src/tincd/uml_socket/device.c:96 src/tincd/uml_socket/device.c:123
+#: src/tincd/uml_socket/device.c:187
+#, c-format
+msgid "System call `%s' failed: %s"
+msgstr ""
+
+#: src/tincd/cygwin/device.c:140
+#, c-format
+msgid "Could not open Windows tap device %s (%s) for writing: %s"
+msgstr ""
+
+#: src/tincd/cygwin/device.c:149 src/tincd/mingw/device.c:216
+#, c-format
+msgid "Could not get MAC address from Windows tap device %s (%s): %s"
+msgstr ""
+
+#: src/tincd/cygwin/device.c:178
+#, c-format
+msgid "Could not open Windows tap device %s (%s) for reading: %s"
+msgstr ""
+
+#: src/tincd/cygwin/device.c:184
+msgid "Tap reader forked and running."
+msgstr ""
+
+#: src/tincd/cygwin/device.c:201
+msgid "Tap reader failed!"
+msgstr ""
+
+#: src/tincd/cygwin/device.c:205 src/tincd/mingw/device.c:275
+msgid "Windows tap device"
+msgstr ""
+
+#: src/tincd/cygwin/device.c:207 src/tincd/mingw/device.c:277
+#, c-format
+msgid "%s (%s) is a %s"
+msgstr ""
+
+#: src/tincd/cygwin/device.c:230 src/tincd/darwin/device.c:70
+#: src/tincd/freebsd/device.c:70 src/tincd/linux/device.c:129
+#: src/tincd/linux/device.c:140 src/tincd/linux/device.c:151
+#: src/tincd/mingw/device.c:96 src/tincd/mingw/device.c:296
+#: src/tincd/netbsd/device.c:73 src/tincd/openbsd/device.c:76
+#: src/tincd/raw_socket/device.c:95 src/tincd/solaris/device.c:120
+#: src/tincd/uml_socket/device.c:232
+#, c-format
+msgid "Error while reading from %s %s: %s"
+msgstr ""
+
+#: src/tincd/cygwin/device.c:239 src/tincd/darwin/device.c:82
+#: src/tincd/freebsd/device.c:79 src/tincd/linux/device.c:162
+#: src/tincd/mingw/device.c:305 src/tincd/netbsd/device.c:85
+#: src/tincd/openbsd/device.c:103 src/tincd/raw_socket/device.c:104
+#: src/tincd/solaris/device.c:145 src/tincd/uml_socket/device.c:242
+#, c-format
+msgid "Read packet of %d bytes from %s"
+msgstr ""
+
+#: src/tincd/cygwin/device.c:251 src/tincd/darwin/device.c:92
+#: src/tincd/freebsd/device.c:89 src/tincd/linux/device.c:172
+#: src/tincd/mingw/device.c:318 src/tincd/netbsd/device.c:95
+#: src/tincd/openbsd/device.c:117 src/tincd/raw_socket/device.c:114
+#: src/tincd/solaris/device.c:155 src/tincd/uml_socket/device.c:260
+#, c-format
+msgid "Writing packet of %d bytes to %s"
+msgstr ""
+
+#: src/tincd/cygwin/device.c:255 src/tincd/darwin/device.c:96
+#: src/tincd/freebsd/device.c:93 src/tincd/mingw/device.c:322
+#, c-format
+msgid "Error while writing to %s %s: %s"
+msgstr ""
+
+#: src/tincd/cygwin/device.c:268 src/tincd/darwin/device.c:110
+#: src/tincd/freebsd/device.c:107 src/tincd/linux/device.c:211
+#: src/tincd/mingw/device.c:335 src/tincd/netbsd/device.c:113
+#: src/tincd/openbsd/device.c:156 src/tincd/raw_socket/device.c:132
+#: src/tincd/solaris/device.c:173 src/tincd/uml_socket/device.c:281
+#, c-format
+msgid "Statistics for %s %s:"
+msgstr ""
+
+#: src/tincd/cygwin/device.c:269 src/tincd/darwin/device.c:111
+#: src/tincd/freebsd/device.c:108 src/tincd/linux/device.c:212
+#: src/tincd/mingw/device.c:336 src/tincd/netbsd/device.c:114
+#: src/tincd/openbsd/device.c:157 src/tincd/raw_socket/device.c:133
+#: src/tincd/solaris/device.c:174 src/tincd/uml_socket/device.c:282
+#, c-format
+msgid " total bytes in:  %10d"
+msgstr ""
+
+#: src/tincd/cygwin/device.c:270 src/tincd/darwin/device.c:112
+#: src/tincd/freebsd/device.c:109 src/tincd/linux/device.c:213
+#: src/tincd/mingw/device.c:337 src/tincd/netbsd/device.c:115
+#: src/tincd/openbsd/device.c:158 src/tincd/raw_socket/device.c:134
+#: src/tincd/solaris/device.c:175 src/tincd/uml_socket/device.c:283
+#, c-format
+msgid " total bytes out: %10d"
+msgstr ""
+
+#: src/tincd/darwin/device.c:45 src/tincd/freebsd/device.c:45
+#: src/tincd/linux/device.c:68 src/tincd/netbsd/device.c:48
+#: src/tincd/openbsd/device.c:49 src/tincd/raw_socket/device.c:52
+#: src/tincd/solaris/device.c:52 src/tincd/uml_socket/device.c:115
+#, c-format
+msgid "Could not open %s: %s"
+msgstr ""
+
+#: src/tincd/darwin/device.c:49
+msgid "MacOS/X tun device"
+msgstr ""
+
+#: src/tincd/darwin/device.c:51 src/tincd/freebsd/device.c:51
+#: src/tincd/linux/device.c:106 src/tincd/netbsd/device.c:54
+#: src/tincd/openbsd/device.c:55 src/tincd/raw_socket/device.c:76
+#: src/tincd/solaris/device.c:101 src/tincd/uml_socket/device.c:142
+#: src/device-linux.C:126
+#, c-format
+msgid "%s is a %s"
+msgstr ""
+
+#: src/tincd/freebsd/device.c:49
+msgid "FreeBSD tap device"
+msgstr ""
+
+#: src/tincd/linux/device.c:79
+msgid "Linux tun/tap device (tun mode)"
+msgstr ""
+
+#: src/tincd/linux/device.c:83
+msgid "Linux tun/tap device (tap mode)"
+msgstr ""
+
+#: src/tincd/linux/device.c:93
+#, c-format
+msgid "Old ioctl() request was needed for %s"
+msgstr ""
+
+#: src/tincd/linux/device.c:101
+msgid "Linux ethertap device"
+msgstr ""
+
+#: src/tincd/linux/device.c:179 src/tincd/linux/device.c:186
+#: src/tincd/linux/device.c:195 src/tincd/netbsd/device.c:99
+#: src/tincd/openbsd/device.c:142 src/tincd/raw_socket/device.c:118
+#: src/tincd/solaris/device.c:159 src/tincd/uml_socket/device.c:265
+#, c-format
+msgid "Can't write to %s %s: %s"
+msgstr ""
+
+#: src/tincd/mingw/device.c:77
+msgid "Tap reader running"
+msgstr ""
+
+#: src/tincd/mingw/device.c:209
+#, c-format
+msgid "%s (%s) is not a usable Windows tap device: %s"
+msgstr ""
+
+#: src/tincd/netbsd/device.c:52
+msgid "NetBSD tun device"
+msgstr ""
+
+#: src/tincd/openbsd/device.c:53
+msgid "OpenBSD tun device"
+msgstr ""
+
+#: src/tincd/openbsd/device.c:94
+#, c-format
+msgid "Unknown address family %d while reading packet from %s %s"
+msgstr ""
+
+#: src/tincd/openbsd/device.c:131
+#, c-format
+msgid "Unknown address family %d while writing packet to %s %s"
+msgstr ""
+
+#: src/tincd/raw_socket/device.c:49
+msgid "raw socket"
+msgstr ""
+
+#: src/tincd/raw_socket/device.c:61
+#, c-format
+msgid "Can't find interface %s: %s"
+msgstr ""
+
+#: src/tincd/raw_socket/device.c:72 src/tincd/uml_socket/device.c:130
+#, c-format
+msgid "Could not bind %s to %s: %s"
+msgstr ""
+
+#: src/tincd/solaris/device.c:64
+#, c-format
+msgid "Could not open /dev/ip: %s"
+msgstr ""
+
+#: src/tincd/solaris/device.c:70
+#, c-format
+msgid "Can't assign new interface: %s"
+msgstr ""
+
+#: src/tincd/solaris/device.c:75
+#, c-format
+msgid "Could not open %s twice: %s"
+msgstr ""
+
+#: src/tincd/solaris/device.c:81
+#, c-format
+msgid "Can't push IP module: %s"
+msgstr ""
+
+#: src/tincd/solaris/device.c:87
+#, c-format
+msgid "Can't set PPA %d: %s"
+msgstr ""
+
+#: src/tincd/solaris/device.c:92
+#, c-format
+msgid "Can't link TUN device to IP: %s"
+msgstr ""
+
+#: src/tincd/solaris/device.c:99
+msgid "Solaris tun device"
+msgstr ""
+
+#: src/tincd/solaris/device.c:136
+#, c-format
+msgid "Unknown IP version %d while reading packet from %s %s"
+msgstr ""
+
+#: src/tincd/uml_socket/device.c:71
+msgid "UML network socket"
+msgstr ""
+
+#: src/tincd/uml_socket/device.c:74
+#, c-format
+msgid "Could not open write %s: %s"
+msgstr ""
+
+#: src/tincd/uml_socket/device.c:88
+#, c-format
+msgid "Could not open data %s: %s"
+msgstr ""
+
+#: src/tincd/uml_socket/device.c:109
+#, c-format
+msgid "Could not bind data %s: %s"
+msgstr ""
+
+#: src/tincd/uml_socket/device.c:135
+#, c-format
+msgid "Could not listen on %s %s: %s"
+msgstr ""
+
+#: src/tincd/uml_socket/device.c:182
+#, c-format
+msgid "Could not accept connection to %s %s: %s"
+msgstr ""
+
+#: src/tincd/uml_socket/device.c:202
+#, c-format
+msgid "Error while reading request from %s %s: %s"
+msgstr ""
+
+#: src/tincd/uml_socket/device.c:209
+#, c-format
+msgid "Unknown magic %x, version %d, request type %d from %s %s"
+msgstr ""
+
+#: src/tincd/uml_socket/device.c:216
+#, c-format
+msgid "Could not bind write %s: %s"
+msgstr ""
+
+#: src/tincd/uml_socket/device.c:224
+msgid "Connection with UML established"
+msgstr ""
+
+#: src/tincd/uml_socket/device.c:255
+#, c-format
+msgid "Dropping packet of %d bytes to %s: not connected to UML yet"
+msgstr ""
+
+#: src/conf.C:222
+msgid ""
+"illegal boolean value, only 'yes|true|on' or 'no|false|off' allowed, ignored"
+msgstr ""
+
+#: src/conf.C:250
+msgid "no value given for variable, ignored"
+msgstr ""
+
+#: src/conf.C:273
+msgid "unknown loglevel, ignored"
+msgstr ""
+
+#: src/conf.C:287
+msgid "user specified for chuser not found"
+msgstr ""
+
+#: src/conf.C:323
+#, c-format
+msgid "unable to open public rsa key file '%s': %s"
+msgstr ""
+
+#: src/conf.C:333
+#, c-format
+msgid "unable to read public rsa key file '%s': %s"
+msgstr ""
+
+#: src/conf.C:478
+msgid ""
+"illegal value for 'connectmode', use one of 'ondemand', 'never', 'always' or "
+"'disabled', ignored"
+msgstr ""
+
+#: src/conf.C:522
+msgid "unknown configuration directive - ignored"
+msgstr ""
+
+#: src/conf.C:532
+#, c-format
+msgid "%s: max-queue value invalid, setting it to 1."
+msgstr ""
+
+#: src/conf.C:571
+#, c-format
+msgid "%s, while parsing command line option '%s'."
+msgstr ""
+
+#: src/conf.C:593
+#, c-format
+msgid "%s, at '%s', line %d."
+msgstr ""
+
+#: src/conf.C:602
+#, c-format
+msgid "unable to read config file '%s': %s"
+msgstr ""
+
+#: src/conf.C:631
+#, c-format
+msgid "unable to read private rsa key file '%s': %s"
+msgstr ""
+
+#: src/conf.C:641
+#, c-format
+msgid "unable to open private rsa key file '%s': %s"
+msgstr ""
+
+#: src/conf.C:654
+#, c-format
+msgid "private hostkey and public node key mismatch: is '%s' the correct node?"
+msgstr ""
+
+#: src/conf.C:702
+#, c-format
+msgid ""
+"\n"
+"Configuration\n"
+"\n"
+msgstr ""
+
+#: src/conf.C:703
+#, c-format
+msgid "# of nodes:         %d\n"
+msgstr ""
+
+#: src/conf.C:704
+#, c-format
+msgid "this node:          %s\n"
+msgstr ""
+
+#: src/conf.C:705
+#, c-format
+msgid "MTU:                %d\n"
+msgstr ""
+
+#: src/conf.C:706
+#, c-format
+msgid "rekeying interval:  %d\n"
+msgstr ""
+
+#: src/conf.C:707
+#, c-format
+msgid "keepalive interval: %d\n"
+msgstr ""
+
+#: src/conf.C:708
+#, c-format
+msgid "interface:          %s\n"
+msgstr ""
+
+#: src/conf.C:709
+#, c-format
+msgid "primary rsa key:    %s\n"
+msgstr ""
+
+#: src/conf.C:710
+#, c-format
+msgid "rsa key size:       %d\n"
+msgstr ""
+
+#: src/conf.C:714
+msgid "ID#"
+msgstr ""
+
+#: src/conf.C:714
+msgid "MAC"
+msgstr ""
+
+#: src/conf.C:714
+msgid "Com"
+msgstr ""
+
+#: src/conf.C:714
+msgid "Conmode"
+msgstr ""
+
+#: src/conf.C:714
+msgid "Node"
+msgstr ""
+
+#: src/conf.C:714
+msgid "Prot"
+msgstr ""
+
+#: src/conf.C:714
+msgid "Host:Port"
+msgstr ""
+
+#: src/connection.C:600
+#, c-format
+msgid "major version mismatch (remote %d <=> local %d)"
+msgstr ""
+
+#: src/connection.C:602
+#, c-format
+msgid "rand size mismatch (remote %d <=> local %d)"
+msgstr ""
+
+#: src/connection.C:604
+#, c-format
+msgid "hmac length mismatch (remote %d <=> local %d)"
+msgstr ""
+
+#: src/connection.C:606
+#, c-format
+msgid "challenge length mismatch (remote %d <=> local %d)"
+msgstr ""
+
+#: src/connection.C:608
+#, c-format
+msgid "cipher mismatch (remote %x <=> local %x)"
+msgstr ""
+
+#: src/connection.C:610
+#, c-format
+msgid "digest mismatch (remote %x <=> local %x)"
+msgstr ""
+
+#: src/connection.C:612
+#, c-format
+msgid "hmac mismatch (remote %x <=> local %x)"
+msgstr ""
+
+#: src/connection.C:690
+#, c-format
+msgid "%s: possible connection establish (ictx %d, octx %d)"
+msgstr ""
+
+#: src/connection.C:734
+#, c-format
+msgid "%s: direct connection denied by config."
+msgstr ""
+
+#: src/connection.C:753
+#, c-format
+msgid "%s: no common protocol, trying to route through %s."
+msgstr ""
+
+#: src/connection.C:758
+#, c-format
+msgid "%s: node unreachable, no common protocol or no router available."
+msgstr ""
+
+#: src/connection.C:885
+#, c-format
+msgid "%s: sending direct connection request to %s."
+msgstr ""
+
+#: src/connection.C:917
+#, c-format
+msgid "%s(%s): connection lost"
+msgstr ""
+
+#: src/connection.C:924
+msgid "node-down command execution failed, continuing."
+msgstr ""
+
+#: src/connection.C:1059
+#, c-format
+msgid "%s(%s): protocol mismatch, disabling node."
+msgstr ""
+
+#: src/connection.C:1081 src/connection.C:1131
+#, c-format
+msgid "%s(%s): protocol minor version mismatch: ours is %d, %s's is %d."
+msgstr ""
+
+#: src/connection.C:1092
+#, c-format
+msgid ""
+"%s(%s): challenge illegal or corrupted (%s). mismatched key or config file?"
+msgstr ""
+
+#: src/connection.C:1114
+#, c-format
+msgid "%s(%s): protocol mismatch."
+msgstr ""
+
+#: src/connection.C:1139
+#, c-format
+msgid "%s(%s): unrequested auth response, ignoring."
+msgstr ""
+
+#: src/connection.C:1149
+#, c-format
+msgid ""
+"%s(%s): hmac authentication error on auth response, received invalid packet\n"
+"could be an attack, or just corruption or a synchronization error."
+msgstr ""
+
+#: src/connection.C:1171
+#, c-format
+msgid "%s(%s): connection established (%s), protocol version %d.%d."
+msgstr ""
+
+#: src/connection.C:1182
+msgid "node-up command execution failed, continuing."
+msgstr ""
+
+#: src/connection.C:1188
+#, c-format
+msgid "%s(%s): sent and received challenge do not match."
+msgstr ""
+
+#: src/connection.C:1213
+#, c-format
+msgid ""
+"%s(%s): hmac authentication error, received invalid packet\n"
+"could be an attack, or just corruption or a synchronization error."
+msgstr ""
+
+#: src/connection.C:1231
+#, c-format
+msgid "%s(%s): changing socket address to %s."
+msgstr ""
+
+#: src/connection.C:1240
+msgid "node-change command execution failed, continuing."
+msgstr ""
+
+#: src/connection.C:1250
+#, c-format
+msgid ""
+"received very old packet (received %08lx, expected %08lx). possible replay "
+"attack, or just packet duplication/delay, ignoring."
+msgstr ""
+
+#: src/connection.C:1253
+#, c-format
+msgid ""
+"received recent duplicated packet (received %08lx, expected %08lx). possible "
+"replay attack, or just packet duplication, ignoring."
+msgstr ""
+
+#: src/connection.C:1257
+#, c-format
+msgid ""
+"received out-of-sync (far future) packet (received %08lx, expected %08lx). "
+"probably just massive packet loss, sending reset."
+msgstr ""
+
+#: src/connection.C:1297 src/connection.C:1336
+#, c-format
+msgid ""
+"received authenticated connection request from unknown node #%d, config file "
+"mismatch?"
+msgstr ""
+
+#: src/device-cygwin.C:83
+msgid "(unable to format errormessage)"
+msgstr ""
+
+#: src/device-cygwin.C:134
+msgid "cygwin cipe/openvpn tap device"
+msgstr ""
+
+#: src/device-cygwin.C:162
+#, c-format
+msgid "WIN32 TAP: unable to read registry: %s"
+msgstr ""
+
+#: src/device-cygwin.C:214
+msgid "WIN32 TAP: no windows tap device found!"
+msgstr ""
+
+#: src/device-cygwin.C:231
+#, c-format
+msgid "WIN32 TAP: %s is not a usable windows tap device %s: %s"
+msgstr ""
+
+#: src/device-cygwin.C:245
+#, c-format
+msgid "WIN32 TAP: could not get MAC address from windows tap device %s: %s"
+msgstr ""
+
+#: src/device-cygwin.C:281
+msgid "WIN32 TAP: i/o thread delivered incomplete pkt length"
+msgstr ""
+
+#: src/device-cygwin.C:288
+msgid "WIN32 TAP: i/o thread delivered incomplete pkt"
+msgstr ""
+
+#: src/device-cygwin.C:327
+#, c-format
+msgid "WIN32 TAP: can't write to %s %s: %s"
+msgstr ""
+
+#: src/device-linux.C:67
+msgid "Linux tun/tap device"
+msgstr ""
+
+#: src/device-linux.C:86 src/device-darwin.C:72
+#, c-format
+msgid "could not open device %s: %s"
+msgstr ""
+
+#: src/device-linux.C:109
+#, c-format
+msgid "unable to configure tun/tap interface, exiting: %s"
+msgstr ""
+
+#: src/device-linux.C:118
+#, c-format
+msgid "cannot set MAC address for device %s, exiting: %s"
+msgstr ""
+
+#: src/device-linux.C:124
+#, c-format
+msgid "cannot set persistency mode for device %s: %s"
+msgstr ""
+
+#: src/device-linux.C:148 src/device-darwin.C:96
+#, c-format
+msgid "error while reading from %s %s: %s"
+msgstr ""
+
+#: src/device-linux.C:179 src/device-tincd.C:232 src/device-darwin.C:108
+#, c-format
+msgid "can't write to %s %s: %s"
+msgstr ""
+
+#: src/device-tincd.C:98
+#, c-format
+msgid "tincd layer asking for unknown config '%s'"
+msgstr ""
+
+#: src/device-tincd.C:166
+msgid "tincd compatibility layer"
+msgstr ""
+
+#: src/device-tincd.C:180 src/device-darwin.C:76
+#, c-format
+msgid "interface %s on %s initialized"
+msgstr ""
+
+#: src/device-tincd.C:186
+#, c-format
+msgid "error while configuring tincd device %s on %s"
+msgstr ""
+
+#: src/device-tincd.C:204
+#, c-format
+msgid "can't read from to %s %s: %s"
+msgstr ""
+
+#: src/device-darwin.C:57
+msgid "darwin tap driver"
+msgstr ""
+
+#: src/device.C:48
+#, c-format
+msgid ""
+"FATAL: allocation for network packet larger than max supported packet size "
+"(%d > %d)."
+msgstr ""
+
+#: src/gvpe.C:95 src/gvpectrl.C:96
+#, c-format
+msgid "Try `%s --help' for more information.\n"
+msgstr ""
+
+#: src/gvpe.C:98
+#, c-format
+msgid ""
+"Usage: %s [option]... NODENAME\n"
+"\n"
+msgstr ""
+
+#: src/gvpe.C:100
+#, c-format
+msgid ""
+"  -c, --config=DIR           Read configuration options from DIR.\n"
+"  -D, --no-detach            Don't fork and detach.\n"
+"  -l, --log-level=LEVEL      Set logging level (info, notice, warn are "
+"common).\n"
+"  -L, --mlock                Lock gvpe into main memory.\n"
+"      --help                 Display this help and exit.\n"
+"      --version              Output version information and exit.\n"
+"\n"
+msgstr ""
+
+#: src/gvpe.C:106 src/gvpectrl.C:108
+#, c-format
+msgid "Report bugs to <gvpe@schmorp.de>.\n"
+msgstr ""
+
+#: src/gvpe.C:164
+#, c-format
+msgid "terminating with exit code %d"
+msgstr ""
+
+#: src/gvpe.C:242
+#, c-format
+msgid "unable to open seed device '%s': %s, exiting."
+msgstr ""
+
+#: src/gvpe.C:278 src/gvpectrl.C:326
+#, c-format
+msgid "%s version %s (built %s %s, protocol version %d.%d)\n"
+msgstr ""
+
+#: src/gvpe.C:280 src/gvpectrl.C:328
+#, c-format
+msgid "Built with kernel interface %s/%s.\n"
+msgstr ""
+
+#: src/gvpe.C:282
+#, c-format
+msgid ""
+"Copyright (C) 2003-2011 Marc Lehmann <gvpe@schmorp.de> and others.\n"
+"See the AUTHORS file for a complete list.\n"
+"\n"
+"GVPE comes with ABSOLUTELY NO WARRANTY.  This is free software,\n"
+"and you are welcome to redistribute it under certain conditions;\n"
+"see the file COPYING for details.\n"
+msgstr ""
+
+#: src/gvpe.C:301
+#, c-format
+msgid "system call `%s' failed: %s"
+msgstr ""
+
+#: src/gvpe.C:312
+msgid "unable to initialise the event loop (bad $LIBEV_METHODS?)"
+msgstr ""
+
+#: src/gvpe.C:326
+#, c-format
+msgid ""
+"current node not set, or node '%s' not found in configfile, specify the "
+"nodename when starting gvpe."
+msgstr ""
+
+#: src/gvpe.C:343
+msgid "unrecoverable error while setting up network, exiting."
+msgstr ""
+
+#: src/gvpectrl.C:99
+#, c-format
+msgid ""
+"Usage: %s [option]...\n"
+"\n"
+msgstr ""
+
+#: src/gvpectrl.C:101
+#, c-format
+msgid ""
+"  -c, --config=DIR           Read configuration options from DIR.\n"
+"  -k, --kill[=SIGNAL]        Attempt to kill a running gvpe and exit.\n"
+"  -g, --generate-keys        Generate public/private RSA keypair.\n"
+"  -s, --show-config          Display the configuration information.\n"
+"  -q, --quiet                Be quite quiet.\n"
+"      --help                 Display this help and exit.\n"
+"      --version              Output version information and exit.\n"
+"\n"
+msgstr ""
+
+#: src/gvpectrl.C:156
+#, c-format
+msgid ""
+"Invalid argument `%s'; SIGNAL must be a number or one of HUP, TERM, KILL, "
+"USR1, USR2, WINCH, INT or ALRM.\n"
+msgstr ""
+
+#: src/gvpectrl.C:275
+#, c-format
+msgid "generating %d bits key for %s:\n"
+msgstr ""
+
+#: src/gvpectrl.C:286
+#, c-format
+msgid "Done.\n"
+msgstr ""
+
+#: src/gvpectrl.C:330
+#, c-format
+msgid ""
+"Copyright (C) 2003-2013 Marc Lehmann <gvpe@schmorp.de> and others.\n"
+"See the AUTHORS file for a complete list.\n"
+"\n"
+"vpe comes with ABSOLUTELY NO WARRANTY.  This is free software,\n"
+"and you are welcome to redistribute it under certain conditions;\n"
+"see the file COPYING for details.\n"
+msgstr ""
+
+#: src/slog.h:56
+msgid ""
+"unknown loglevel, try 'noise', 'debug', 'info', 'notice', 'warn', 'error' or "
+"'critical'"
+msgstr ""
+
+#: src/sockinfo.C:82
+#, c-format
+msgid "unable to resolve host '%s'"
+msgstr ""
+
+#: src/util.C:73
+#, c-format
+msgid "A gvpe daemon is already running with pid %d.\n"
+msgstr ""
+
+#: src/util.C:93
+#, c-format
+msgid "No other gvpe daemon is running.\n"
+msgstr ""
+
+#: src/util.C:102
+#, c-format
+msgid "The gvpe daemon is no longer running. "
+msgstr ""
+
+#: src/util.C:104
+#, c-format
+msgid "Removing stale lock file.\n"
+msgstr ""
+
+#: src/util.C:129
+#, c-format
+msgid "couldn't detach from terminal: %s"
+msgstr ""
+
+#: src/util.C:143
+#, c-format
+msgid "gvpe daemon %s (%s %s) starting up."
+msgstr ""
+
+#: src/util.C:183
+#, c-format
+msgid "waiting for an external command failed: %s."
+msgstr ""
+
+#: src/util.C:189
+#, c-format
+msgid "external command returned with exit status %d (%04x)."
+msgstr ""
+
+#: src/util.C:197
+#, c-format
+msgid "unable to fork, exiting: %s"
+msgstr ""
+
+#: src/vpn.C:134
+#, c-format
+msgid "unable to create %s socket: %s."
+msgstr ""
+
+#: src/vpn.C:144
+#, c-format
+msgid "unable to set nfmark on %s socket: %s"
+msgstr ""
+
+#: src/vpn.C:179
+#, c-format
+msgid "can't bind ipv4 socket on %s: %s, exiting."
+msgstr ""
+
+#: src/vpn.C:219
+#, c-format
+msgid "can't bind udpv4 on %s: %s, exiting."
+msgstr ""
+
+#: src/vpn.C:265
+#, c-format
+msgid "can't bind icmpv4 on %s: %s, exiting."
+msgstr ""
+
+#: src/vpn.C:294
+#, c-format
+msgid "can't bind tcpv4 on %s: %s, exiting."
+msgstr ""
+
+#: src/vpn.C:300
+#, c-format
+msgid "can't listen tcpv4 on %s: %s, exiting."
+msgstr ""
+
+#: src/vpn.C:346
+#, c-format
+msgid "can't bind dnsv4 on %s: %s, exiting."
+msgstr ""
+
+#: src/vpn.C:359
+msgid "no protocols enabled."
+msgstr ""
+
+#: src/vpn.C:370
+#, c-format
+msgid "cannot create network interface '%s'."
+msgstr ""
+
+#: src/vpn.C:382
+#, c-format
+msgid "interface initialization command '%s' failed."
+msgstr ""
+
+#: src/vpn.C:390
+msgid "if-up command execution failed."
+msgstr ""
+
+#: src/vpn.C:409
+msgid "unable to create anonymous root path."
+msgstr ""
+
+#: src/vpn.C:415
+msgid "unable to crate anonymous root directory."
+msgstr ""
+
+#: src/vpn.C:421
+msgid "unable to change to anonymous root directory."
+msgstr ""
+
+#: src/vpn.C:426
+msgid "unable to remove anonymous root directory, continuing."
+msgstr ""
+
+#: src/vpn.C:432
+#, c-format
+msgid "%s: unable to change to specified root directory."
+msgstr ""
+
+#: src/vpn.C:439
+msgid "unable to set new root directory."
+msgstr ""
+
+#: src/vpn.C:445
+msgid "unable to set cwd to new root directory."
+msgstr ""
+
+#: src/vpn.C:453
+#, c-format
+msgid "unable to change group id to %d."
+msgstr ""
+
+#: src/vpn.C:460
+#, c-format
+msgid "unable to change user id to %d."
+msgstr ""
+
+#: src/vpn.C:552
+#, c-format
+msgid "<<?/%s received possible vpn packet type %d from %d to %d, length %d."
+msgstr ""
+
+#: src/vpn.C:558
+#, c-format
+msgid "(%s): received corrupted packet type %d (src %d, dst %d)."
+msgstr ""
+
+#: src/vpn.C:565
+#, c-format
+msgid "%s(%s): received broadcast (protocol violation)."
+msgstr ""
+
+#: src/vpn.C:574
+#, c-format
+msgid ""
+"%s(%s): request to forward packet to %s, but we are no router (config "
+"mismatch?)."
+msgstr ""
+
+#: src/vpn.C:607
+#, c-format
+msgid "%s: FATAL: trying to send packet with unsupported protocol."
+msgstr ""
+
+#: src/vpn.C:639 src/vpn.C:687
+#, c-format
+msgid "%s: %s."
+msgstr ""
+
+#: src/vpn.C:647 src/vpn.C:695 src/vpn.C:733
+#, c-format
+msgid "FATAL: unknown revents %08x in socket, exiting.\n"
+msgstr ""
+
+#: src/vpn.C:725
+#, c-format
+msgid "%s: fd %d, %s."
+msgstr ""
+
+#: src/vpn.C:759
+msgid ""
+"FATAL: tap packet not originating on current node received (if-up script not "
+"working properly?), exiting."
+msgstr ""
+
+#: src/vpn.C:765
+msgid "FATAL: tap packet destined for current node received, exiting."
+msgstr ""
+
+#: src/vpn.C:770
+#, c-format
+msgid "tap packet for unknown node %d received, ignoring."
+msgstr ""
+
+#: src/vpn.C:788
+msgid "preparing shutdown..."
+msgstr ""
+
+#: src/vpn.C:792
+msgid "exiting."
+msgstr ""
+
+#: src/vpn.C:798
+msgid "forced reconnect."
+msgstr ""
+
+#: src/vpn.C:905
+#, c-format
+msgid "%s: can now route packets via %s, re-keying connection."
+msgstr ""
+
+#: src/vpn.C:919
+#, c-format
+msgid "%s: no address known, sending mediated connection request via %s."
+msgstr ""
+
+#: src/vpn.C:924
+#, c-format
+msgid ""
+"%s: no way to connect and no router found: unable to connect at this time."
+msgstr ""
+
+#: src/vpn.C:931
+#, c-format
+msgid "node %s (id %d)"
+msgstr ""
+
+#: src/vpn.C:932
+#, c-format
+msgid "  connectmode %d (%d) / sockaddr %s / minor %d"
+msgstr ""
+
+#: src/vpn.C:934
+#, c-format
+msgid "  ictx/octx %08lx/%08lx / oseqno %d / retry_cnt %d"
+msgstr ""
+
+#: src/vpn.C:941
+#, c-format
+msgid "BEGIN status dump (%ld)"
+msgstr ""
+
+#: src/vpn.C:946
+msgid "END status dump"
+msgstr ""
+
+#: src/vpn_dns.C:415
+#, c-format
+msgid "DNS: corrupted packet (%02x %02x > %d) stream skipping a byte..."
+msgstr ""
+
+#: src/vpn_dns.C:1084
+#, c-format
+msgid "DNS: client %d connects (version %d, req_cdc %d)"
+msgstr ""
+
+#: src/vpn_dns.C:1210
+#, c-format
+msgid "DNS: got tunnel meta command %02x"
+msgstr ""
+
+#: src/vpn_dns.C:1214
+msgid "DNS: got tunnel RST request."
+msgstr ""
+
+#: src/vpn_dns.C:1221
+msgid "DNS: got tunnel SYN reply, server likes us."
+msgstr ""
+
+#: src/vpn_dns.C:1228
+msgid ""
+"DNS: got tunnel CSE reply, globally downgrading to case-insensitive protocol."
+msgstr ""
+
+#: src/vpn_dns.C:1235
+msgid "DNS: got tunnel CSE reply, server likes us."
+msgstr ""
+
+#: src/vpn_dns.C:1241
+msgid "DNS: got tunnel REJ reply, server does not like us."
+msgstr ""
+
+#: src/vpn_dns.C:1246
+#, c-format
+msgid "DNS: got unknown meta command %02x"
+msgstr ""
+
+#: src/vpn_dns.C:1251
+#, c-format
+msgid "DNS: got spurious a record %d.%d.%d.%d"
+msgstr ""
+
+#: src/vpn_dns.C:1262
+msgid "DNS: got dns tunnel response with wrong clientid, ignoring"
+msgstr ""
+
+#: src/vpn_dns.C:1267
+msgid ""
+"DNS: got dns tunnel response with wrong seqno, badly caching nameserver?"
+msgstr ""
+
+#: src/vpn_tcp.C:156
+#, c-format
+msgid "%s: accepted tcp connection"
+msgstr ""
+
+#: src/vpn_tcp.C:345
+#, c-format
+msgid "(%s): unable to do proxy-forwarding, short response"
+msgstr ""
+
+#: src/vpn_tcp.C:353
+#, c-format
+msgid "(%s): malformed or unexpected proxy response (%.12s)"
+msgstr ""
+
+#: src/vpn_tcp.C:401
+#, c-format
+msgid "unable to resolve http proxy hostname '%s', trying direct"
+msgstr ""
