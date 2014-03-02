@@ -1,3 +1,16 @@
 *DS_Store*
 *.log
 *.cache
+confdefs.h
+config.h
+conftest*
+Makefile
+*.status
+*/*deps/*.*o
+stamp-*
+po/Makefile.in
+po/POTFILES
+*.o
+lib/lib*.a
+src/gvpe
+src/gvpectrl
