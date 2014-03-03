@@ -49,3 +49,7 @@ AM_CXXFLAGS = $(DEFINES) -Wno-unused
 dist-hook:
 	rm -f `find . -type l`
 
+check-local: gvpe gvpectrl
+	test -e ./gvpe && ./gvpe --version || exit 1
+	test -e ./gvpectrl && ./gvpectrl --version || exit 1	
+

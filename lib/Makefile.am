@@ -12,3 +12,5 @@ libgvpe_a_DEPENDENCIES = $(libgvpe_a_LIBADD)
 
 noinst_HEADERS = pidfile.h getopt.h dropin.h gettext.h
 
+check-local: libgvpe.a
+	test -e libgvpe.a || exit 1

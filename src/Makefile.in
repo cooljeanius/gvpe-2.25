@@ -741,6 +741,7 @@ distdir: $(DISTFILES)
 	  top_distdir="$(top_distdir)" distdir="$(distdir)" \
 	  dist-hook
 check-am: all-am
+	$(MAKE) $(AM_MAKEFLAGS) check-local
 check: check-recursive
 all-am: Makefile $(PROGRAMS)
 installdirs: installdirs-recursive
@@ -848,10 +849,10 @@ ps-am:
 
 uninstall-am: uninstall-binPROGRAMS uninstall-sbinPROGRAMS
 
-.MAKE: $(am__recursive_targets) install-am install-strip
+.MAKE: $(am__recursive_targets) check-am install-am install-strip
 
 .PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am check \
-	check-am clean clean-binPROGRAMS clean-generic \
+	check-am check-local clean clean-binPROGRAMS clean-generic \
 	clean-sbinPROGRAMS cscopelist-am ctags ctags-am dist-hook \
 	distclean distclean-compile distclean-generic distclean-tags \
 	distdir dvi dvi-am html html-am info info-am install \
@@ -870,6 +871,10 @@ uninstall-am: uninstall-binPROGRAMS uninstall-sbinPROGRAMS
 
 dist-hook:
 	rm -f `find . -type l`
+
+check-local: gvpe gvpectrl
+	test -e ./gvpe && ./gvpe --version || exit 1
+	test -e ./gvpectrl && ./gvpectrl --version || exit 1	
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
