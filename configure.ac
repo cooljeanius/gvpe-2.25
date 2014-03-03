@@ -6,7 +6,7 @@ AC_INIT([gvpe],[2.25],[gvpe@schmorp.de])
 AC_CONFIG_SRCDIR([src/gvpe.C])
 AC_CANONICAL_TARGET
 AC_USE_SYSTEM_EXTENSIONS
-AM_INIT_AUTOMAKE([gnits])
+AM_INIT_AUTOMAKE([1.11 gnits])
 AC_CONFIG_HEADERS([config.h])
 AM_MAINTAINER_MODE
 
@@ -68,6 +68,7 @@ AC_PROG_INSTALL
 AC_PROG_MKDIR_P
 AC_PROG_LN_S
 AC_PROG_RANLIB
+AC_PROG_YACC
 AC_PATH_PROG([PERL],[perl perl5])
 
 AC_DEFUN([AC_DUPLICATE_PROG_CHECKS],[
@@ -181,10 +182,12 @@ dnl# Checks for header files.
 AC_HEADER_STDBOOL dnl# also "_CHECK"s it
 AC_HEADER_TIME
 AC_SYS_POSIX_TERMIOS
-AC_CHECK_HEADERS([arpa/inet.h errno.h fcntl.h float.h gnu-versions.h \
-                  libintl.h limits.h locale.h malloc.h malloc/malloc.h \
-                  netdb.h netinet/in.h netinet/in_systm.h netinet/ip.h \
-                  netinet/ip_icmp.h signal.h stdarg.h stddef.h stdio.h \
+AC_CHECK_HEADERS([argz.h arpa/inet.h bits/libc-lock.h errno.h fcntl.h \
+                  float.h gnu-versions.h langinfo.h libintl.h \
+                  libio/iolibio.h libio/libioP.h limits.h locale.h \
+                  malloc.h malloc/malloc.h netdb.h netinet/in.h \
+                  netinet/in_systm.h netinet/ip.h netinet/ip_icmp.h \
+                  signal.h stdarg.h stddef.h stdio.h stdio_ext.h \
                   syslog.h sys/cygwin.h sys/file.h sys/ioctl.h sys/mman.h \
                   sys/param.h sys/socket.h sys/statfs.h sys/time.h \
                   sys/timeb.h termio.h termios.h unixlib.h wchar.h \
@@ -296,24 +299,30 @@ AC_DEFINE_UNQUOTED([RETSIGTYPE],[${ac_cv_type_signal}],
 		    (`int' or `void').])
 dnl# end what used to be AC\_TYPE\_SIGNAL
 AC_CHECK_MEMBERS([struct stat.st_rdev])
+AC_CHECK_MEMBER([std.libintl_setlocale])
+AC_CHECK_TYPES([ptrdiff_t])
 
 dnl# Checks for library functions.
 
 AC_LANG_PUSH([C])
 
 dnl# argl, could somebody catapult darwin into the 21st century??? (huh?)
-AC_CHECK_FUNCS([asprintf daemon dup2 fprintf getcwd getenv \
-                gettimeofday getpid get_current_dir_name inet_ntoa \
-                memcmp memcpy memmove memset mkdir mlockall ntohl putenv \
-                rmdir setlocale socket strcasecmp strchr strcmp \
-                strdup strerror strlen strncmp strrchr strsignal strstr \
-                strtol uname unsetenv])
+AC_CHECK_FUNCS([__argz_count __argz_next __argz_stringify asprintf daemon \
+                dup2 fprintf getcwd getenv gettimeofday getpid \
+                get_current_dir_name inet_ntoa localeconv mblen mbrlen \
+                memchr memcmp memcpy memmove mempcpy memset mkdir \
+                mlockall munmap nl_langinfo ntohl putenv rmdir setlocale \
+                socket stpcpy strcasecmp strchr strcmp strcspn strdup \
+                strerror strlen strncmp strrchr strsignal strstr \
+                strtol strtoul uname unsetenv])
 AC_CHECK_FUNCS_ONCE([gethostbyname select]) 
 AC_FUNC_ERROR_AT_LINE
 AC_FUNC_ALLOCA
 AC_FUNC_FORK
 AC_FUNC_LSTAT dnl# also checks whether it "_FOLLOWS_SLASHED_SYMLINK"
 AC_FUNC_MALLOC
+AC_FUNC_MBRTOWC
+AC_FUNC_MMAP
 AC_FUNC_REALLOC
 AC_FUNC_STRERROR_R
 
@@ -550,7 +559,10 @@ fi
 
 if test "x${AM_CPPFLAGS}" = "x"; then
   test -z "${AM_CPPFLAGS}"
+  AC_LANG_PUSH([C])
+  test ! -z "${CPPFLAGS}"
   export AM_CPPFLAGS="${CPPFLAGS} -Wimplicit -Wno-unused"
+  AC_LANG_POP
 fi
 AC_SUBST([AM_CPPFLAGS])
 

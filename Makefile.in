@@ -279,6 +279,8 @@ VERSION = @VERSION@
 XGETTEXT = @XGETTEXT@
 XGETTEXT_015 = @XGETTEXT_015@
 XGETTEXT_EXTRA_OPTIONS = @XGETTEXT_EXTRA_OPTIONS@
+YACC = @YACC@
+YFLAGS = @YFLAGS@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -338,7 +340,7 @@ AUTOMAKE_OPTIONS = gnits
 SUBDIRS = m4 lib src doc po
 ACLOCAL_AMFLAGS = -I m4 --install
 AM_CFLAGS = -Wimplicit -Wno-unused
-AM_CXXFLAGS = -Wimplicit -Wno-unused
+AM_CXXFLAGS = -Wno-unused
 EXTRA_DIST = config.rpath mkinstalldirs depcomp TODO \
 	     libev/ev.c libev/ev.h libev/libev.m4 libev/ev++.h \
 	     libev/ev_epoll.c libev/ev_kqueue.c libev/ev_poll.c \

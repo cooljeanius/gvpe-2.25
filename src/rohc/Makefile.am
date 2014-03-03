@@ -8,5 +8,5 @@ endif
 
 AM_CPPFLAGS = @AM_CPPFLAGS@
 AM_CFLAGS = -Wimplicit -Wno-unused
-AM_CXXFLAGS = -Wimplicit -Wno-unused
+AM_CXXFLAGS = -Wno-unused
 

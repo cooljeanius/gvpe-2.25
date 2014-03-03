@@ -195,6 +195,8 @@ VERSION = @VERSION@
 XGETTEXT = @XGETTEXT@
 XGETTEXT_015 = @XGETTEXT_015@
 XGETTEXT_EXTRA_OPTIONS = @XGETTEXT_EXTRA_OPTIONS@
+YACC = @YACC@
+YFLAGS = @YFLAGS@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -253,7 +255,7 @@ top_srcdir = @top_srcdir@
 @ROHC_FALSE@ROHCLIB = 
 @ROHC_TRUE@ROHCLIB = librohc.a
 AM_CFLAGS = -Wimplicit -Wno-unused
-AM_CXXFLAGS = -Wimplicit -Wno-unused
+AM_CXXFLAGS = -Wno-unused
 all: all-am
 
 .SUFFIXES:

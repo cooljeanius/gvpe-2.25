@@ -19,7 +19,7 @@
 
 #if !_LIBC
 # include <config.h>
-#endif
+#endif /* !_LIBC */
 
 #include "error.h"
 
@@ -30,8 +30,10 @@
 
 #if !_LIBC && ENABLE_NLS
 # include "gettext.h"
-# define _(msgid) gettext (msgid)
-#endif
+# ifndef _
+#  define _(msgid) gettext (msgid)
+# endif /* !_ */
+#endif /* !_LIBC && ENABLE_NLS */
 
 #ifdef _LIBC
 # include <libintl.h>
@@ -39,19 +41,19 @@
 # include <stdint.h>
 # include <wchar.h>
 # define mbsrtowcs __mbsrtowcs
-#endif
+#endif /* _LIBC */
 
 #if USE_UNLOCKED_IO
 # include "unlocked-io.h"
-#endif
+#endif /* USE_UNLOCKED_IO */
 
 #ifndef _
 # define _(String) String
-#endif
+#endif /* !_ */
 
 /* If NULL, error will flush stdout, then print on stderr the program
-   name, a colon and a space.  Otherwise, error will call this
-   function without parameters instead.  */
+ * name, a colon and a space. Otherwise, error will call this
+ * function without parameters instead.  */
 void (*error_print_progname) (void);
 
 /* This variable is incremented each time 'error' is called.  */

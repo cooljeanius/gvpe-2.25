@@ -25,7 +25,7 @@
 # include CLOCALE
 #else
 # include <locale.h>
-#endif
+#endif /* __cplusplus */
 
 /* NLS can be disabled through the configure --disable-nls option.  */
 #if ENABLE_NLS
@@ -35,7 +35,9 @@
 
 /* Shorthand notation */
 
-# define _(Text) gettext (Text)
+# ifndef _
+#  define _(Text) gettext (Text)
+# endif /* !_ */
 
 #else
 
@@ -47,7 +49,7 @@
    is OK.  */
 #if defined(__sun)
 # include <locale.h>
-#endif
+#endif /* __sun */
 
 /* Disabled NLS.
    The casts to 'const char *' serve the purpose of producing warnings

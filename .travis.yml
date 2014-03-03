@@ -1,5 +1,9 @@
 language: C
 
+install:
+  # texinfo is needed for documentation
+  - "sudo apt-get install texinfo"
+
 # try to build
 script: ./configure && make && make check
 

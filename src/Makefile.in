@@ -303,6 +303,8 @@ VERSION = @VERSION@
 XGETTEXT = @XGETTEXT@
 XGETTEXT_015 = @XGETTEXT_015@
 XGETTEXT_EXTRA_OPTIONS = @XGETTEXT_EXTRA_OPTIONS@
+YACC = @YACC@
+YFLAGS = @YFLAGS@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -388,7 +390,7 @@ DEFINES = -DPKGLIBDIR=$(pkglibdir) -DCONFDIR=\"$(sysconfdir)\" \
           -DIFTYPE_@IFTYPE@=1 -DIF_@IFSUBTYPE@=1
 
 AM_CFLAGS = $(DEFINES) -Wimplicit -Wno-unused
-AM_CXXFLAGS = $(DEFINES) -Wimplicit -Wno-unused
+AM_CXXFLAGS = $(DEFINES) -Wno-unused
 all: all-recursive
 
 .SUFFIXES:

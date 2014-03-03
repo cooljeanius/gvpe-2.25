@@ -44,7 +44,7 @@ DEFINES = -DPKGLIBDIR=$(pkglibdir) -DCONFDIR=\"$(sysconfdir)\" \
           -DIFTYPE_@IFTYPE@=1 -DIF_@IFSUBTYPE@=1
 
 AM_CFLAGS = $(DEFINES) -Wimplicit -Wno-unused
-AM_CXXFLAGS = $(DEFINES) -Wimplicit -Wno-unused
+AM_CXXFLAGS = $(DEFINES) -Wno-unused
 
 dist-hook:
 	rm -f `find . -type l`
