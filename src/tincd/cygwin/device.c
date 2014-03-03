@@ -23,7 +23,6 @@
 #include <w32api/windows.h>
 #include <w32api/winioctl.h>
 
-#include "mingw/common.h"
 
 int device_fd = -1;
 static HANDLE device_handle = INVALID_HANDLE_VALUE;

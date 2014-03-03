@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-13 06:45+0200\n"
+"Project-Id-Version: gvpe 2.25\n"
+"Report-Msgid-Bugs-To: gvpe@schmorp.de\n"
+"POT-Creation-Date: 2014-03-02 19:27-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -732,7 +732,7 @@ msgid ""
 "(%d > %d)."
 msgstr ""
 
-#: src/gvpe.C:95 src/gvpectrl.C:96
+#: src/gvpe.C:95 src/gvpectrl.C:109
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr ""
@@ -757,7 +757,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/gvpe.C:106 src/gvpectrl.C:108
+#: src/gvpe.C:106 src/gvpectrl.C:121
 #, c-format
 msgid "Report bugs to <gvpe@schmorp.de>.\n"
 msgstr ""
@@ -772,12 +772,12 @@ msgstr ""
 msgid "unable to open seed device '%s': %s, exiting."
 msgstr ""
 
-#: src/gvpe.C:278 src/gvpectrl.C:326
+#: src/gvpe.C:278 src/gvpectrl.C:336
 #, c-format
 msgid "%s version %s (built %s %s, protocol version %d.%d)\n"
 msgstr ""
 
-#: src/gvpe.C:280 src/gvpectrl.C:328
+#: src/gvpe.C:280 src/gvpectrl.C:338
 #, c-format
 msgid "Built with kernel interface %s/%s.\n"
 msgstr ""
@@ -813,14 +813,14 @@ msgstr ""
 msgid "unrecoverable error while setting up network, exiting."
 msgstr ""
 
-#: src/gvpectrl.C:99
+#: src/gvpectrl.C:112
 #, c-format
 msgid ""
 "Usage: %s [option]...\n"
 "\n"
 msgstr ""
 
-#: src/gvpectrl.C:101
+#: src/gvpectrl.C:114
 #, c-format
 msgid ""
 "  -c, --config=DIR           Read configuration options from DIR.\n"
@@ -833,24 +833,24 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/gvpectrl.C:156
+#: src/gvpectrl.C:169
 #, c-format
 msgid ""
 "Invalid argument `%s'; SIGNAL must be a number or one of HUP, TERM, KILL, "
 "USR1, USR2, WINCH, INT or ALRM.\n"
 msgstr ""
 
-#: src/gvpectrl.C:275
+#: src/gvpectrl.C:287
 #, c-format
 msgid "generating %d bits key for %s:\n"
 msgstr ""
 
-#: src/gvpectrl.C:286
+#: src/gvpectrl.C:298
 #, c-format
 msgid "Done.\n"
 msgstr ""
 
-#: src/gvpectrl.C:330
+#: src/gvpectrl.C:340
 #, c-format
 msgid ""
 "Copyright (C) 2003-2013 Marc Lehmann <gvpe@schmorp.de> and others.\n"
@@ -1178,22 +1178,22 @@ msgid ""
 "DNS: got dns tunnel response with wrong seqno, badly caching nameserver?"
 msgstr ""
 
-#: src/vpn_tcp.C:156
+#: src/vpn_tcp.C:157
 #, c-format
 msgid "%s: accepted tcp connection"
 msgstr ""
 
-#: src/vpn_tcp.C:345
+#: src/vpn_tcp.C:346
 #, c-format
 msgid "(%s): unable to do proxy-forwarding, short response"
 msgstr ""
 
-#: src/vpn_tcp.C:353
+#: src/vpn_tcp.C:354
 #, c-format
 msgid "(%s): malformed or unexpected proxy response (%.12s)"
 msgstr ""
 
-#: src/vpn_tcp.C:401
+#: src/vpn_tcp.C:402
 #, c-format
 msgid "unable to resolve http proxy hostname '%s', trying direct"
 msgstr ""

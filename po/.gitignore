@@ -1,0 +1,11 @@
+*.insert-header
+remove-potcdate.sed
+stamp-*
+core*
+gvpe.*po
+*.new.po
+*.o
+Makefile
+Makefile.in
+POTFILES
+*.mo

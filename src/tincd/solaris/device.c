@@ -21,7 +21,6 @@
 */
 
 
-#include "system.h"
 
 #include <sys/stropts.h>
 #include <sys/sockio.h>

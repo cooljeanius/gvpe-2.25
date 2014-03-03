@@ -20,12 +20,10 @@
     $Id: device.c,v 1.2 2005-03-17 23:59:38 pcg Exp $
 */
 
-#include "system.h"
 
 #include <windows.h>
 #include <winioctl.h>
 
-#include "tincd/mingw/common.h"
 
 int device_fd = 0;
 static HANDLE device_handle = INVALID_HANDLE_VALUE;

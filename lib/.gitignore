@@ -1,0 +1,12 @@
+libgvpe.a
+*.o
+*.tab.c
+TAGS
+ID
+GTAGS
+GRTAGS
+GSYMS
+GPATH
+tags
+*deps/*
+Makefile
