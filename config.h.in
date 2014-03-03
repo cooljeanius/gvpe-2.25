@@ -160,6 +160,9 @@
 /* Define to 1 when targeting FreeBSD */
 #undef HAVE_FREEBSD
 
+/* Define to 1 if you have the `fscanf' function. */
+#undef HAVE_FSCANF
+
 /* Define to 1 if you have the `gai_strerror' function. */
 #undef HAVE_GAI_STRERROR
 
@@ -400,6 +403,9 @@
 /* Define to 1 if you have the `RAND_pseudo_bytes' function. */
 #undef HAVE_RAND_PSEUDO_BYTES
 
+/* Define to 1 if you have the `read' function. */
+#undef HAVE_READ
+
 /* Define to 1 if your system has a GNU libc compatible `realloc' function,
    and to 0 otherwise. */
 #undef HAVE_REALLOC
@@ -613,6 +619,9 @@
 
 /* Define to 1 if `vfork' works. */
 #undef HAVE_WORKING_VFORK
+
+/* Define to 1 if you have the `write' function. */
+#undef HAVE_WRITE
 
 /* Define to 1 if you have the <xlocale.h> header file. */
 #undef HAVE_XLOCALE_H

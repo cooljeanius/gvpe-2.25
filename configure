@@ -10151,13 +10151,13 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 for ac_func in __argz_count __argz_next __argz_stringify asprintf daemon \
-                dup2 fprintf getcwd getenv gettimeofday getpid \
+                dup2 fprintf fscanf getcwd getenv gettimeofday getpid \
                 get_current_dir_name inet_ntoa localeconv mblen mbrlen \
                 memchr memcmp memcpy memmove mempcpy memset mkdir \
-                mlockall munmap nl_langinfo ntohl putenv rmdir setlocale \
-                socket stpcpy strcasecmp strchr strcmp strcspn strdup \
-                strerror strlen strncmp strrchr strsignal strstr \
-                strtol strtoul uname unsetenv
+                mlockall munmap nl_langinfo ntohl putenv read rmdir \
+                setlocale socket stpcpy strcasecmp strchr strcmp strcspn \
+                strdup strerror strlen strncmp strrchr strsignal strstr \
+                strtol strtoul uname unsetenv write
 do :
   as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
 ac_fn_c_check_func "$LINENO" "$ac_func" "$as_ac_var"
@@ -12449,7 +12449,7 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
   test ! -z "${CPPFLAGS}"
-  export AM_CPPFLAGS="${CPPFLAGS} -Wimplicit -Wno-unused"
+  export AM_CPPFLAGS="${CPPFLAGS} -Wno-unused"
   ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'

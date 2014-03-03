@@ -25,3 +25,4 @@ tags
 cscope*.out
 cscope.files
 config*.lineno
+tmpwrk*/*

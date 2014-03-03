@@ -308,13 +308,13 @@ AC_LANG_PUSH([C])
 
 dnl# argl, could somebody catapult darwin into the 21st century??? (huh?)
 AC_CHECK_FUNCS([__argz_count __argz_next __argz_stringify asprintf daemon \
-                dup2 fprintf getcwd getenv gettimeofday getpid \
+                dup2 fprintf fscanf getcwd getenv gettimeofday getpid \
                 get_current_dir_name inet_ntoa localeconv mblen mbrlen \
                 memchr memcmp memcpy memmove mempcpy memset mkdir \
-                mlockall munmap nl_langinfo ntohl putenv rmdir setlocale \
-                socket stpcpy strcasecmp strchr strcmp strcspn strdup \
-                strerror strlen strncmp strrchr strsignal strstr \
-                strtol strtoul uname unsetenv])
+                mlockall munmap nl_langinfo ntohl putenv read rmdir \
+                setlocale socket stpcpy strcasecmp strchr strcmp strcspn \
+                strdup strerror strlen strncmp strrchr strsignal strstr \
+                strtol strtoul uname unsetenv write])
 AC_CHECK_FUNCS_ONCE([gethostbyname select]) 
 AC_FUNC_ERROR_AT_LINE
 AC_FUNC_ALLOCA
@@ -561,7 +561,7 @@ if test "x${AM_CPPFLAGS}" = "x"; then
   test -z "${AM_CPPFLAGS}"
   AC_LANG_PUSH([C])
   test ! -z "${CPPFLAGS}"
-  export AM_CPPFLAGS="${CPPFLAGS} -Wimplicit -Wno-unused"
+  export AM_CPPFLAGS="${CPPFLAGS} -Wno-unused"
   AC_LANG_POP
 fi
 AC_SUBST([AM_CPPFLAGS])
