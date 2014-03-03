@@ -1,4 +1,4 @@
-# intl.m4 serial 24 (gettext-0.18.3)
+# intl.m4 serial 25 (gettext-0.18.3)
 dnl Copyright (C) 1995-2013 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -17,7 +17,7 @@ dnl Authors:
 dnl   Ulrich Drepper <drepper@cygnus.com>, 1995-2000.
 dnl   Bruno Haible <haible@clisp.cons.org>, 2000-2009.
 
-AC_PREREQ([2.69])
+AC_PREREQ([2.60])
 
 dnl Checks for all prerequisites of the intl subdirectory,
 dnl except for INTL_LIBTOOL_SUFFIX_PREFIX (and possibly LIBTOOL), INTLOBJS,
@@ -42,6 +42,7 @@ AC_DEFUN([AM_INTL_SUBDIR],
   AC_REQUIRE([gl_XSIZE])dnl
   AC_REQUIRE([gl_FCNTL_O_FLAGS])dnl
   AC_REQUIRE([gt_INTL_MACOSX])dnl
+  AC_REQUIRE([gl_EXTERN_INLINE])dnl
 
   dnl Support for automake's --enable-silent-rules.
   case "$enable_silent_rules" in

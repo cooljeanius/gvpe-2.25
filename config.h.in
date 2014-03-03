@@ -19,6 +19,9 @@
 /* The normal alignment of `int', in bytes. */
 #undef ALIGNOF_INT
 
+/* The normal alignment of `long', in bytes. */
+#undef ALIGNOF_LONG
+
 /* The normal alignment of `short', in bytes. */
 #undef ALIGNOF_SHORT
 
@@ -193,6 +196,12 @@
 /* Define to 1 if you have the `inotify_init' function. */
 #undef HAVE_INOTIFY_INIT
 
+/* Define to 1 if the system has the type `intmax_t'. */
+#undef HAVE_INTMAX_T
+
+/* Define to 1 if the system has the type `intptr_t'. */
+#undef HAVE_INTPTR_T
+
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
@@ -225,6 +234,9 @@
 
 /* Define to 1 if you have the <locale.h> header file. */
 #undef HAVE_LOCALE_H
+
+/* Define to 1 if the system has the type 'long long int'. */
+#undef HAVE_LONG_LONG_INT
 
 /* Define to 1 if `lstat' has the bug that it succeeds when given the
    zero-length file name argument. */
@@ -503,6 +515,12 @@
 /* Universal tun/tap driver present */
 #undef HAVE_TUNTAP
 
+/* Define to 1 if the system has the type `uintmax_t'. */
+#undef HAVE_UINTMAX_T
+
+/* Define to 1 if the system has the type `uintptr_t'. */
+#undef HAVE_UINTPTR_T
+
 /* Define to 1 if you have the `uname' function. */
 #undef HAVE_UNAME
 
@@ -514,6 +532,9 @@
 
 /* Define to 1 if you have the `unsetenv' function. */
 #undef HAVE_UNSETENV
+
+/* Define to 1 if the system has the type 'unsigned long long int'. */
+#undef HAVE_UNSIGNED_LONG_LONG_INT
 
 /* Define to 1 if you have the `vfork' function. */
 #undef HAVE_VFORK
@@ -594,6 +615,9 @@
 /* The size of `int', as computed by sizeof. */
 #undef SIZEOF_INT
 
+/* The size of `long', as computed by sizeof. */
+#undef SIZEOF_LONG
+
 /* The size of `short', as computed by sizeof. */
 #undef SIZEOF_SHORT
 
@@ -654,7 +678,7 @@
 # endif
 #endif
 
-/* Enable GNU extensions */
+/* Define to 1 to enable GNU extensions */
 #undef _GNU_SOURCE
 
 /* Define to 1 if on MINIX. */
@@ -664,7 +688,7 @@
    this defined. */
 #undef _POSIX_1_SOURCE
 
-/* Enable POSIX 1003.1 extensions */
+/* Define to 1 to enable POSIX 1003.1 extensions */
 #undef _POSIX_SOURCE
 
 /* Define for Solaris 2.5.1 so the uint32_t typedef from <sys/synch.h>,
@@ -682,7 +706,7 @@
    #define below would cause a syntax error. */
 #undef _UINT8_T
 
-/* Enable XOPEN extensions */
+/* Define to 1 to enable XOPEN extensions */
 #undef _XOPEN_SOURCE
 
 /* Define to 1 if type `char' is unsigned and you are not using gcc.  */
@@ -721,6 +745,14 @@
    a type exists and the standard includes do not define it. */
 #undef int8_t
 
+/* Define to the widest signed integer type if <stdint.h> and <inttypes.h> do
+   not define. */
+#undef intmax_t
+
+/* Define to the type of a signed integer type wide enough to hold a pointer,
+   if such a type exists, and if the system does not define it. */
+#undef intptr_t
+
 /* Define to rpl_malloc if the replacement function should be used. */
 #undef malloc
 
@@ -754,6 +786,14 @@
 /* Define to the type of an unsigned integer type of width exactly 8 bits if
    such a type exists and the standard includes do not define it. */
 #undef uint8_t
+
+/* Define to the widest unsigned integer type if <stdint.h> and <inttypes.h>
+   do not define. */
+#undef uintmax_t
+
+/* Define to the type of an unsigned integer type wide enough to hold a
+   pointer, if such a type exists, and if the system does not define it. */
+#undef uintptr_t
 
 /* Define as `fork' if `vfork' does not work. */
 #undef vfork

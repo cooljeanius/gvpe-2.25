@@ -56,7 +56,7 @@ AM_GNU_GETTEXT_VERSION([0.18.3])
 # Enable GNU extensions.
 # Define this here, not in acconfig's @TOP@ section, since definitions
 # in the latter do NOT make it into the configure-time tests.
-AC_DEFINE([_GNU_SOURCE],[1],[Enable GNU extensions])
+AC_DEFINE([_GNU_SOURCE],[1],[Define to 1 to enable GNU extensions])
 
 ALL_LINGUAS=""
 
@@ -158,17 +158,21 @@ AC_DEFINE_UNQUOTED([IFSUBTYPE],["${IFSUBTYPE}"],[kernel interface subtype])
 
 # do NOT define POSIX_SOURCE for BSDs, including darwin
 if test "x${IFSUBTYPE}" != "xfreebsd" -a "x${IFSUBTYPE}" != "xopenbsd" -a "x${IFSUBTYPE}" != "xnetbsd" -a "x${IFSUBTYPE}" != "xdarwin"; then
-  AC_DEFINE([_POSIX_SOURCE],[1],[Enable POSIX 1003.1 extensions])
-  AC_DEFINE([_XOPEN_SOURCE],[500],[Enable XOPEN extensions])
+  AC_DEFINE([_POSIX_SOURCE],[1],
+            [Define to 1 to enable POSIX 1003.1 extensions])
+  AC_DEFINE([_XOPEN_SOURCE],[500],[Define to 1 to enable XOPEN extensions])
 else
   AC_MSG_WARN([cannot define POSIX_SOURCE for your platform])
 fi
+dnl# TODO: instead of hardcoding by platform, do a conftest to see if
+dnl# defining either of the above breaks anything (like asprintf(), which
+dnl# can get broken on Darwin by defining one of the above)
 
 AC_CACHE_SAVE
 
 dnl# Checks for libraries.
-dnl# (there are header checks in here because they are C++ header-only
-dnl# template libraries)
+dnl# (there are header checks in this section because they are
+dnl# C++ header-only template libraries)
 
 AC_LANG([C++])
 AC_CHECK_HEADERS([tr1/unordered_map ext/hash_map clocale])
@@ -193,7 +197,8 @@ unset ac_cv_header_netinet_in_systm_h
 unset ac_cv_header_netinet_ip_h
 unset ac_cv_header_netinet_ip_icmp_h
 AC_CHECK_HEADERS([arpa/inet.h net/ethernet.h net/if.h netinet/ip.h \
-                  netinet/ip_icmp.h netinet/tcp.h netinet/in_systm.h],[],[],[
+                  netinet/ip_icmp.h netinet/tcp.h netinet/in_systm.h],[
+],[],[
 #include <sys/types.h>
 #include <sys/socket.h>
 #ifndef __CYGWIN__
@@ -232,6 +237,8 @@ AC_TYPE_INT8_T
 AC_TYPE_INT16_T
 AC_TYPE_INT32_T
 AC_TYPE_INT64_T
+AC_TYPE_INTMAX_T
+AC_TYPE_INTPTR_T
 AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 AC_TYPE_SSIZE_T
@@ -239,12 +246,16 @@ AC_TYPE_UINT8_T
 AC_TYPE_UINT16_T
 AC_TYPE_UINT32_T
 AC_TYPE_UINT64_T
+AC_TYPE_UINTMAX_T
+AC_TYPE_UINTPTR_T
 AC_CHECK_SIZEOF([int])
 AC_CHECK_ALIGNOF([int])
 AC_CHECK_SIZEOF([short])
 AC_CHECK_ALIGNOF([short])
 AC_CHECK_SIZEOF([double])
 AC_CHECK_ALIGNOF([double])
+AC_CHECK_SIZEOF([long])
+AC_CHECK_ALIGNOF([long])
 AC_STRUCT_TM
 
 AC_CACHE_CHECK([for socklen_t],[ac_cv_type_socklen_t],
@@ -291,12 +302,13 @@ dnl# Checks for library functions.
 AC_LANG_PUSH([C])
 
 dnl# argl, could somebody catapult darwin into the 21st century??? (huh?)
-AC_CHECK_FUNCS([asprintf daemon dup2 fprintf getcwd getenv gethostbyname \
+AC_CHECK_FUNCS([asprintf daemon dup2 fprintf getcwd getenv \
                 gettimeofday getpid get_current_dir_name inet_ntoa \
                 memcmp memcpy memmove memset mkdir mlockall ntohl putenv \
-                rmdir select setlocale socket strcasecmp strchr strcmp \
+                rmdir setlocale socket strcasecmp strchr strcmp \
                 strdup strerror strlen strncmp strrchr strsignal strstr \
                 strtol uname unsetenv])
+AC_CHECK_FUNCS_ONCE([gethostbyname select]) 
 AC_FUNC_ERROR_AT_LINE
 AC_FUNC_ALLOCA
 AC_FUNC_FORK
@@ -307,20 +319,54 @@ AC_FUNC_STRERROR_R
 
 dnl# Support for SunOS
 
-AC_CHECK_FUNC([socket],[],[
+if test "x${ac_cv_func_socket}" = "x"; then
+  test -z "${ac_cv_func_socket}"
+  AC_CHECK_FUNC([socket],[
+    AC_MSG_NOTICE([socket function found, skipping explicit check for socket library])
+  ],[
+    AC_CHECK_LIB([socket],[connect])
+  ])
+elif test "x${ac_cv_func_socket}" = "xno"; then
   AC_CHECK_LIB([socket],[connect])
-])
-AC_CHECK_FUNC([gethostbyname],[],[
+elif test "x${ac_cv_func_socket}" = "xyes"; then
+  AC_MSG_NOTICE([socket function has already been found, skipping explicit check for socket library])
+else
+  AC_MSG_WARN([ac_cv_func_socket should be either "yes", "no", or empty])
+fi
+if test "x${ac_cv_func_gethostbyname}" = "x"; then
+  test -z "${ac_cv_func_gethostbyname}"
+  AC_CHECK_FUNC([gethostbyname],[
+    AC_MSG_NOTICE([gethostbyname function found, skipping explicit check for nsl library])
+  ],[
+    AC_CHECK_LIB([nsl],[gethostbyname])
+  ])
+elif test "x${ac_cv_func_gethostbyname}" = "xno"; then
   AC_CHECK_LIB([nsl],[gethostbyname])
-])
+elif test "x${ac_cv_func_gethostbyname}" = "xyes"; then
+  AC_MSG_NOTICE([gethostbyname function has already been found, skipping explicit check for nsl library])
+else
+  AC_MSG_WARN([ac_cv_func_gethostbyname should be either "yes", "no", or empty])
+fi
 
 dnl# libev support
 m4_include([libev/libev.m4])
 
+dnl# libev is kinda C++ itself, should we pop the lang before its macros?
 AC_LANG_POP
 
+dnl# keep autoscan happy, but avoid duplicate checks by not actually doing
+dnl# them:
 if test "x" = "y"; then
   test -x `which autoheader`
+  if test "x${ac_cv_func_gethostbyname}" != "x"; then
+    test ! -z "${ac_cv_func_gethostbyname}"
+    unset ac_cv_func_gethostbyname
+  fi
+  if test "x${ac_cv_func_select}" != "x"; then
+    test ! -z "${ac_cv_func_select}"
+    unset ac_cv_func_select
+  fi
+  AC_CHECK_FUNCS([gethostbyname select])
   AC_CHECK_FUNCS_ONCE([freeaddrinfo gai_strerror getaddrinfo getnameinfo])
 fi
 
