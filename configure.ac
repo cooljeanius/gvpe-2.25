@@ -18,7 +18,7 @@ AH_TOP([
    using namespace std;
 #endif /* __cplusplus */
 
-])
+])dnl
 
 AH_BOTTOM([
 typedef unsigned char u8;
@@ -48,15 +48,15 @@ typedef int32_t s32;
 #else
 # define CLOCALE <locale.h>
 #endif /* HAVE_CLOCALE */
-])
+])dnl
 
 AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT_VERSION([0.18.3])
+AM_GNU_GETTEXT_VERSION([0.18.3])dnl
 
 # Enable GNU extensions.
 # Define this here, not in acconfig's @TOP@ section, since definitions
 # in the latter do NOT make it into the configure-time tests.
-AC_DEFINE([_GNU_SOURCE],[1],[Define to 1 to enable GNU extensions])
+AC_DEFINE([_GNU_SOURCE],[1],[Define to 1 to enable GNU extensions])dnl
 
 ALL_LINGUAS=""
 
@@ -69,14 +69,14 @@ AC_PROG_MKDIR_P
 AC_PROG_LN_S
 AC_PROG_RANLIB
 AC_PROG_YACC
-AC_PATH_PROG([PERL],[perl perl5])
+AC_PATH_PROG([PERL],[perl perl5])dnl
 
 AC_DEFUN([AC_DUPLICATE_PROG_CHECKS],[
-  AC_REQUIRE([AC_PROG_AWK])
-  AC_REQUIRE([AC_PROG_GREP])
-  AC_REQUIRE([AC_PROG_MAKE_SET])
-  AC_REQUIRE([AC_PROG_SED])
-])
+  AC_REQUIRE([AC_PROG_AWK])dnl
+  AC_REQUIRE([AC_PROG_GREP])dnl
+  AC_REQUIRE([AC_PROG_MAKE_SET])dnl
+  AC_REQUIRE([AC_PROG_SED])dnl
+])dnl
 AC_DUPLICATE_PROG_CHECKS
 
 AC_ARG_ENABLE([iftype],
@@ -104,10 +104,10 @@ AC_ARG_ENABLE([iftype],
   [
     IFTYPE=`echo ${enableval} | sed s%/.*%%`
     IFSUBTYPE=`echo ${enableval} | sed s%.*/%%`
-  ])
+  ])dnl
 
 dnl# Check and set OS
-AC_MSG_CHECKING([for kernel networking interface type])
+AC_MSG_CHECKING([for kernel networking interface type])dnl
 
 if test "x${IFTYPE}" = "x"; then
    case ${target_os} in
@@ -155,7 +155,7 @@ AC_MSG_RESULT([${IFTYPE}/${IFSUBTYPE}])
 AC_SUBST([IFTYPE],[${IFTYPE}])
 AC_SUBST([IFSUBTYPE],[${IFSUBTYPE}])
 AC_DEFINE_UNQUOTED([IFTYPE],["${IFTYPE}"],[kernel interface type])
-AC_DEFINE_UNQUOTED([IFSUBTYPE],["${IFSUBTYPE}"],[kernel interface subtype])
+AC_DEFINE_UNQUOTED([IFSUBTYPE],["${IFSUBTYPE}"],[kernel interface subtype])dnl
 
 # do NOT define POSIX_SOURCE for BSDs, including darwin
 if test "x${IFSUBTYPE}" != "xfreebsd" -a "x${IFSUBTYPE}" != "xopenbsd" -a "x${IFSUBTYPE}" != "xnetbsd" -a "x${IFSUBTYPE}" != "xdarwin"; then
@@ -176,7 +176,7 @@ dnl# (there are header checks in this section because they are
 dnl# C++ header-only template libraries)
 
 AC_LANG([C++])
-AC_CHECK_HEADERS([tr1/unordered_map ext/hash_map clocale])
+AC_CHECK_HEADERS([tr1/unordered_map ext/hash_map clocale])dnl
 
 dnl# Checks for header files.
 AC_HEADER_STDBOOL dnl# also "_CHECK"s it
@@ -210,24 +210,32 @@ AC_CHECK_HEADERS([arpa/inet.h net/ethernet.h net/if.h netinet/ip.h \
 #ifdef HAVE_NETINET_IN_H
 # include <netinet/in.h>
 #else
-# warning "this conftest expects <netinet/in.h> to be included."
+# if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#  warning "this conftest expects <netinet/in.h> to be included."
+# endif /* __GNUC__ && !__STRICT_ANSI__ */
 #endif /* HAVE_NETINET_IN_H */
 #ifdef HAVE_ARPA_INET_H
 # include <arpa/inet.h>
 #else
-# warning "this conftest expects <arpa/inet.h> to be included."
+# if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#  warning "this conftest expects <arpa/inet.h> to be included."
+# endif /* __GNUC__ && !__STRICT_ANSI__ */
 #endif /* HAVE_ARPA_INET_H */
 #ifdef HAVE_NETINET_IN_SYSTM_H
 # include <netinet/in_systm.h>
 #else
-# warning "this conftest expects <netinet/in_systm.h> to be included."
+# if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#  warning "this conftest expects <netinet/in_systm.h> to be included."
+# endif /* __GNUC__ && !__STRICT_ANSI__ */
 #endif /* HAVE_NETINET_IN_SYSTM_H */
 #ifdef HAVE_NETINET_IP_H
 # include <netinet/ip.h>
 #else
-# warning "this conftest expects <netinet/ip.h> to be included."
+# if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#  warning "this conftest expects <netinet/ip.h> to be included."
+# endif /* __GNUC__ && !__STRICT_ANSI__ */
 #endif /* HAVE_NETINET_IP_H */
-])
+])dnl
 
 dnl# Checks for typedefs, structures, and compiler characteristics.
 AC_C_CHAR_UNSIGNED
@@ -304,7 +312,7 @@ AC_CHECK_TYPES([ptrdiff_t])
 
 dnl# Checks for library functions.
 
-AC_LANG_PUSH([C])
+AC_LANG_PUSH([C])dnl
 
 dnl# argl, could somebody catapult darwin into the 21st century??? (huh?)
 AC_CHECK_FUNCS([__argz_count __argz_next __argz_stringify asprintf daemon \
@@ -358,15 +366,15 @@ else
 fi
 
 dnl# libev support
-m4_include([libev/libev.m4])
+m4_include([libev/libev.m4])dnl
 
 dnl# libev is kinda C++ itself, should we pop the lang before its macros?
 AC_LANG_POP
 
 dnl# keep autoscan happy, but avoid duplicate checks by not actually doing
 dnl# them:
-if test "x" = "y"; then
-  test -x `which autoheader`
+if test "x0" = "Y1"; then
+  test -x "`which autoheader`"
   if test "x${ac_cv_func_gethostbyname}" != "x"; then
     test ! -z "${ac_cv_func_gethostbyname}"
     unset ac_cv_func_gethostbyname
@@ -389,14 +397,14 @@ tinc_OPENSSL
 if test "x${openssl_include}" != "x"; then
    CXXFLAGS="${CXXFLAGS} -I${openssl_include}"
 fi
-m4_ifdef([tinc_ZLIB],[tinc_ZLIB])
+m4_ifdef([tinc_ZLIB],[tinc_ZLIB])dnl
 
 AC_ARG_ENABLE([threads],
   [AS_HELP_STRING([--enable-threads],[try to use threads for long-running asynchronous operations (default enabled).])],
   [try_threads=${enableval}],
-  [try_threads=yes])
+  [try_threads=yes])dnl
 
-if test "x${try_threads}" = xyes; then
+if test "x${try_threads}" = "xyes"; then
    AC_CHECK_HEADER([pthread.h],[
       LIBS="${LIBS} -lpthread"
       AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
@@ -410,45 +418,51 @@ pthread_t id; pthread_create (&id, 0, 0, 0);
 fi
 
 AC_ARG_ENABLE([static-daemon],
-  [AS_HELP_STRING([--enable-static-daemon],[enable statically linked daemon.])],
+  [AS_HELP_STRING([--enable-static-daemon],
+                  [enable statically linked daemon.])],
   [LDFLAGS_DAEMON=-static])
-AC_SUBST([LDFLAGS_DAEMON])
+AC_SUBST([LDFLAGS_DAEMON])dnl
 
 AC_ARG_ENABLE([rohc],
-  [AS_HELP_STRING([--enable-rohc],[enable robust header compression (rfc3095).])],
+  [AS_HELP_STRING([--enable-rohc],
+                  [enable robust header compression (rfc3095).])],
   [
-  echo
+  echo ""
   echo "******************************************************************"
   echo "******************************************************************"
   echo "**** --enable-rohc is highly experimental, do not use ************"
   echo "******************************************************************"
   echo "******************************************************************"
-  echo
+  echo ""
   export rohc=true
   AC_DEFINE_UNQUOTED([ENABLE_ROHC],[1],[Define to 1 for ROHC support])
-  ])
+  ])dnl
 
-AM_CONDITIONAL([ROHC],[test "x${rohc}" = "xtrue"])
+AM_CONDITIONAL([ROHC],[test "x${rohc}" = "xtrue"])dnl
 
 AC_ARG_ENABLE([bridging],
-  [AS_HELP_STRING([--enable-bridging],[enable bridging support (default disabled).])],[
+  [AS_HELP_STRING([--enable-bridging],
+                  [enable bridging support (default disabled).])],[
   AC_DEFINE_UNQUOTED([ENABLE_BRIDGING],[1],[Define to 1 for bridging support.])
 ])
 
 ICMP=1
 AC_ARG_ENABLE([icmp],
-  [AS_HELP_STRING([--disable-icmp],[enable icmp protocol support (default enabled).])],[
+  [AS_HELP_STRING([--disable-icmp],
+                  [enable icmp protocol support (default enabled).])],[
   if test "x${enableval}" = "xno"; then
      export ICMP=0
   fi
 ])
 if test "x${ICMP}" = "x1"; then
-  AC_DEFINE_UNQUOTED([ENABLE_ICMP],[1],[Define to 1 for ICMP protocol support.])
+  AC_DEFINE_UNQUOTED([ENABLE_ICMP],[1],
+                     [Define to 1 for ICMP protocol support.])
 fi
 
 TCP=1
 AC_ARG_ENABLE([tcp],
-  [AS_HELP_STRING([--disable-tcp],[enable tcp protocol support (default enabled).])],[
+  [AS_HELP_STRING([--disable-tcp],
+                  [enable tcp protocol support (default enabled).])],[
   if test "x${enableval}" = "xno"; then
      export TCP=0
   fi
@@ -465,7 +479,8 @@ AC_ARG_ENABLE([http-proxy],
   fi
 ])
 if test "x${HTTP}" = "x1"; then
-  AC_DEFINE_UNQUOTED([ENABLE_HTTP_PROXY],[1],[Define to 1 for http proxy connect support.])
+  AC_DEFINE_UNQUOTED([ENABLE_HTTP_PROXY],[1],
+                     [Define to 1 for http proxy connect support.])
 fi
 
 AC_ARG_ENABLE([dns],
@@ -474,8 +489,9 @@ AC_ARG_ENABLE([dns],
     AC_CHECK_HEADER([gmp.h],[],[AC_MSG_ERROR([gmp.h not found, required for --enable-dns])])
     AC_CHECK_LIB([gmp],[main],[],[AC_MSG_ERROR([libgmp not found, required for --enable-dns])])
 
-    AC_DEFINE_UNQUOTED([ENABLE_DNS],[1],[Define to 1 for DNS tunnel protocol support.])
-  ])
+    AC_DEFINE_UNQUOTED([ENABLE_DNS],[1],
+                       [Define to 1 for DNS tunnel protocol support.])dnl
+  ])dnl
 
 HMAC=12
 AC_ARG_ENABLE([hmac-length],
@@ -483,7 +499,8 @@ AC_ARG_ENABLE([hmac-length],
       use a hmac of length BYTES bytes (default 12). Allowed values are 4, 8, 12, 16.])],[
   export HMAC=${enableval}
 ])
-AC_DEFINE_UNQUOTED([HMACLENGTH],[${HMAC}],[Size of HMAC in each packet in bytes.])
+AC_DEFINE_UNQUOTED([HMACLENGTH],[${HMAC}],
+                   [Size of HMAC in each packet in bytes.])dnl
 
 RAND=8
 AC_ARG_ENABLE([rand-length],
@@ -491,14 +508,15 @@ AC_ARG_ENABLE([rand-length],
       [use BYTES bytes of extra randomness (default 8). Allowed values are 0, 4, 8.])],[
   export RAND=${enableval}
 ])
-AC_DEFINE_UNQUOTED([RAND_SIZE],[${RAND}],[Add this many bytes of randomness to each packet.])
+AC_DEFINE_UNQUOTED([RAND_SIZE],[${RAND}],
+                   [Add this many bytes of randomness to each packet.])dnl
 
 MTU=1500
 AC_ARG_ENABLE([max-mtu],
   [AS_HELP_STRING([--enable-max-mtu=BYTES],[enable mtu sizes upto BYTES bytes (default 1500). Use 9100 for jumbogram support.])],[
   export MTU=${enableval}
 ])
-AC_DEFINE_UNQUOTED([MAX_MTU],[(${MTU} + 14)],[Maximum MTU supported.])
+AC_DEFINE_UNQUOTED([MAX_MTU],[(${MTU} + 14)],[Maximum MTU supported.])dnl
 
 COMPRESS=1
 AC_ARG_ENABLE([compression],
@@ -507,7 +525,8 @@ AC_ARG_ENABLE([compression],
      export COMPRESS=0
   fi
 ])
-AC_DEFINE_UNQUOTED([ENABLE_COMPRESSION],[${COMPRESS}],[Enable compression support.])
+AC_DEFINE_UNQUOTED([ENABLE_COMPRESSION],[${COMPRESS}],
+                   [Enable compression support.])dnl
 
 CIPHER=aes_128_cbc
 AC_ARG_ENABLE([cipher],
@@ -519,7 +538,8 @@ AC_ARG_ENABLE([cipher],
   if test "x${enableval}" = "xaes-192"; then export CIPHER=aes_192_cbc; fi
   if test "x${enableval}" = "xaes-256"; then export CIPHER=aes_256_cbc; fi
 ])
-AC_DEFINE_UNQUOTED([ENABLE_CIPHER],[EVP_${CIPHER}],[Select the symmetric cipher to use.])
+AC_DEFINE_UNQUOTED([ENABLE_CIPHER],[EVP_${CIPHER}],
+                   [Select the symmetric cipher to use.])dnl
 
 DIGEST=ripemd160
 AC_ARG_ENABLE([digest],
@@ -533,7 +553,8 @@ AC_ARG_ENABLE([digest],
   if test "x${enableval}" = "xmd5"      ; then export DIGEST=md5      ; fi
   if test "x${enableval}" = "xmd4"      ; then export DIGEST=md4      ; fi
 ])
-AC_DEFINE_UNQUOTED([ENABLE_DIGEST],[EVP_${DIGEST}],[Select the digest algorithm to use.])
+AC_DEFINE_UNQUOTED([ENABLE_DIGEST],[EVP_${DIGEST}],
+                   [Select the digest algorithm to use.])dnl
 
 if ${CXX} -v --help 2>&1 | grep -q fno-rtti; then
    CXXFLAGS="${CXXFLAGS} -fno-rtti"
@@ -564,7 +585,7 @@ if test "x${AM_CPPFLAGS}" = "x"; then
   export AM_CPPFLAGS="${CPPFLAGS} -Wno-unused"
   AC_LANG_POP
 fi
-AC_SUBST([AM_CPPFLAGS])
+AC_SUBST([AM_CPPFLAGS])dnl
 
 AC_CONFIG_FILES([Makefile \
 po/Makefile.in \
@@ -575,7 +596,7 @@ lib/Makefile \
 m4/Makefile])
 AC_OUTPUT
 
-echo
+echo ""
 echo "***"
 echo "*** Configuration Summary"
 echo "***"
@@ -590,12 +611,12 @@ echo "***"
 echo "*** Enable options:"
 grep ENABLE_ config.h | sed -e 's/^/*** /'
 
-if test "x${DIGEST}" = xmd4; then
+if test "x${DIGEST}" = "xmd4"; then
 echo "***"
 echo "** WARNING: The digest you chose (${DIGEST}) is known to be insecure"
 fi
 
-if test "x${DIGEST}" = xmd5; then
+if test "x${DIGEST}" = "xmd5"; then
 echo "***"
 echo "*** WARNING: The digest you chose (${DIGEST}) is quite insecure"
 fi
@@ -611,6 +632,6 @@ echo "WARNING: The random prefix you chose (${RAND}) is probably insecure"
 fi
 
 echo "***"
-echo
+echo ""
 
-
+dnl# EOF

@@ -3269,8 +3269,8 @@ test -n "$target_alias" &&
   test "$program_prefix$program_suffix$program_transform_name" = \
     NONENONEs,x,x, &&
   program_prefix=${target_alias}-
-# expand $ac_aux_dir to an absolute path
-am_aux_dir=`cd $ac_aux_dir && pwd`
+# Expand $ac_aux_dir to an absolute path.
+am_aux_dir=`cd "$ac_aux_dir" && pwd`
 
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
@@ -4579,7 +4579,7 @@ $as_echo "$ac_cv_safe_to_define___extensions__" >&6; }
   $as_echo "#define _TANDEM_SOURCE 1" >>confdefs.h
 
 
-am__api_version='1.14'
+am__api_version='1.15'
 
 # Find a good install program.  We prefer a C program (faster),
 # so one script is as good as another.  But avoid the broken or
@@ -4768,7 +4768,7 @@ else
 $as_echo "$as_me: WARNING: 'missing' script is too old or missing" >&2;}
 fi
 
-if test x"${install_sh}" != xset; then
+if test x"${install_sh+set}" != xset; then
   case $am_aux_dir in
   *\ * | *\	*)
     install_sh="\${SHELL} '$am_aux_dir/install-sh'" ;;
@@ -5159,8 +5159,8 @@ MAKEINFO=${MAKEINFO-"${am_missing_run}makeinfo"}
 # <http://lists.gnu.org/archive/html/automake/2012-07/msg00014.html>
 mkdir_p='$(MKDIR_P)'
 
-# We need awk for the "check" target.  The system "awk" is bad on
-# some platforms.
+# We need awk for the "check" target (and possibly the TAP driver).  The
+# system "awk" is bad on some platforms.
 # Always define AMTAR for backward compatibility.  Yes, it's still used
 # in the wild :-(  We should find a proper way to deprecate it ...
 AMTAR='$${TAR-tar}'
@@ -5345,6 +5345,7 @@ END
     as_fn_error $? "Your 'rm' program is bad, sorry." "$LINENO" 5
   fi
 fi
+
 ac_config_headers="$ac_config_headers config.h"
 
 
@@ -5368,8 +5369,6 @@ else
 fi
 
   MAINT=$MAINTAINER_MODE_TRUE
-
-
 
 
 
@@ -7508,13 +7507,11 @@ $as_echo "#define HAVE_DCGETTEXT 1" >>confdefs.h
 
 
 
-
 # Enable GNU extensions.
 # Define this here, not in acconfig's @TOP@ section, since definitions
 # in the latter do NOT make it into the configure-time tests.
 
 $as_echo "#define _GNU_SOURCE 1" >>confdefs.h
-
 
 ALL_LINGUAS=""
 
@@ -8273,12 +8270,6 @@ fi
 
 
 
-
-
-
-
-
-
 # Check whether --enable-iftype was given.
 if test "${enable_iftype+set}" = set; then :
   enableval=$enable_iftype;
@@ -8287,10 +8278,8 @@ if test "${enable_iftype+set}" = set; then :
 
 fi
 
-
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for kernel networking interface type" >&5
 $as_echo_n "checking for kernel networking interface type... " >&6; }
-
 if test "x${IFTYPE}" = "x"; then
    case ${target_os} in
      *linux*)
@@ -8362,7 +8351,6 @@ _ACEOF
 cat >>confdefs.h <<_ACEOF
 #define IFSUBTYPE "${IFSUBTYPE}"
 _ACEOF
-
 
 # do NOT define POSIX_SOURCE for BSDs, including darwin
 if test "x${IFSUBTYPE}" != "xfreebsd" -a "x${IFSUBTYPE}" != "xopenbsd" -a "x${IFSUBTYPE}" != "xnetbsd" -a "x${IFSUBTYPE}" != "xdarwin"; then
@@ -8618,7 +8606,6 @@ fi
 
 done
 
-
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for stdbool.h that conforms to C99" >&5
 $as_echo_n "checking for stdbool.h that conforms to C99... " >&6; }
 if ${ac_cv_header_stdbool_h+:} false; then :
@@ -8817,22 +8804,30 @@ ac_fn_cxx_check_header_compile "$LINENO" "$ac_header" "$as_ac_Header" "
 #ifdef HAVE_NETINET_IN_H
 # include <netinet/in.h>
 #else
-# warning \"this conftest expects <netinet/in.h> to be included.\"
+# if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#  warning \"this conftest expects <netinet/in.h> to be included.\"
+# endif /* __GNUC__ && !__STRICT_ANSI__ */
 #endif /* HAVE_NETINET_IN_H */
 #ifdef HAVE_ARPA_INET_H
 # include <arpa/inet.h>
 #else
-# warning \"this conftest expects <arpa/inet.h> to be included.\"
+# if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#  warning \"this conftest expects <arpa/inet.h> to be included.\"
+# endif /* __GNUC__ && !__STRICT_ANSI__ */
 #endif /* HAVE_ARPA_INET_H */
 #ifdef HAVE_NETINET_IN_SYSTM_H
 # include <netinet/in_systm.h>
 #else
-# warning \"this conftest expects <netinet/in_systm.h> to be included.\"
+# if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#  warning \"this conftest expects <netinet/in_systm.h> to be included.\"
+# endif /* __GNUC__ && !__STRICT_ANSI__ */
 #endif /* HAVE_NETINET_IN_SYSTM_H */
 #ifdef HAVE_NETINET_IP_H
 # include <netinet/ip.h>
 #else
-# warning \"this conftest expects <netinet/ip.h> to be included.\"
+# if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#  warning \"this conftest expects <netinet/ip.h> to be included.\"
+# endif /* __GNUC__ && !__STRICT_ANSI__ */
 #endif /* HAVE_NETINET_IP_H */
 
 "
@@ -8845,7 +8840,6 @@ _ACEOF
 fi
 
 done
-
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether char is unsigned" >&5
 $as_echo_n "checking whether char is unsigned... " >&6; }
@@ -10148,7 +10142,6 @@ ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 for ac_func in __argz_count __argz_next __argz_stringify asprintf daemon \
                 dup2 fprintf fscanf getcwd getenv gettimeofday getpid \
@@ -11693,7 +11686,6 @@ fi
 
 
 
-
 ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -11701,8 +11693,8 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
-if test "x" = "y"; then
-  test -x `which autoheader`
+if test "x0" = "Y1"; then
+  test -x "`which autoheader`"
   if test "x${ac_cv_func_gethostbyname}" != "x"; then
     test ! -z "${ac_cv_func_gethostbyname}"
     unset ac_cv_func_gethostbyname
@@ -12116,7 +12108,6 @@ if test "x${openssl_include}" != "x"; then
    CXXFLAGS="${CXXFLAGS} -I${openssl_include}"
 fi
 
-
 # Check whether --enable-threads was given.
 if test "${enable_threads+set}" = set; then :
   enableval=$enable_threads; try_threads=${enableval}
@@ -12124,8 +12115,7 @@ else
   try_threads=yes
 fi
 
-
-if test "x${try_threads}" = xyes; then
+if test "x${try_threads}" = "xyes"; then
    ac_fn_cxx_check_header_mongrel "$LINENO" "pthread.h" "ac_cv_header_pthread_h" "$ac_includes_default"
 if test "x$ac_cv_header_pthread_h" = xyes; then :
 
@@ -12166,17 +12156,16 @@ if test "${enable_static_daemon+set}" = set; then :
 fi
 
 
-
 # Check whether --enable-rohc was given.
 if test "${enable_rohc+set}" = set; then :
   enableval=$enable_rohc;
-  echo
+  echo ""
   echo "******************************************************************"
   echo "******************************************************************"
   echo "**** --enable-rohc is highly experimental, do not use ************"
   echo "******************************************************************"
   echo "******************************************************************"
-  echo
+  echo ""
   export rohc=true
 
 cat >>confdefs.h <<_ACEOF
@@ -12186,7 +12175,6 @@ _ACEOF
 
 fi
 
-
  if test "x${rohc}" = "xtrue"; then
   ROHC_TRUE=
   ROHC_FALSE='#'
@@ -12194,7 +12182,6 @@ else
   ROHC_TRUE='#'
   ROHC_FALSE=
 fi
-
 
 # Check whether --enable-bridging was given.
 if test "${enable_bridging+set}" = set; then :
@@ -12320,9 +12307,7 @@ cat >>confdefs.h <<_ACEOF
 #define ENABLE_DNS 1
 _ACEOF
 
-
 fi
-
 
 HMAC=12
 # Check whether --enable-hmac-length was given.
@@ -12337,7 +12322,6 @@ cat >>confdefs.h <<_ACEOF
 #define HMACLENGTH ${HMAC}
 _ACEOF
 
-
 RAND=8
 # Check whether --enable-rand-length was given.
 if test "${enable_rand_length+set}" = set; then :
@@ -12351,7 +12335,6 @@ cat >>confdefs.h <<_ACEOF
 #define RAND_SIZE ${RAND}
 _ACEOF
 
-
 MTU=1500
 # Check whether --enable-max-mtu was given.
 if test "${enable_max_mtu+set}" = set; then :
@@ -12364,7 +12347,6 @@ fi
 cat >>confdefs.h <<_ACEOF
 #define MAX_MTU (${MTU} + 14)
 _ACEOF
-
 
 COMPRESS=1
 # Check whether --enable-compression was given.
@@ -12381,7 +12363,6 @@ cat >>confdefs.h <<_ACEOF
 #define ENABLE_COMPRESSION ${COMPRESS}
 _ACEOF
 
-
 CIPHER=aes_128_cbc
 # Check whether --enable-cipher was given.
 if test "${enable_cipher+set}" = set; then :
@@ -12397,7 +12378,6 @@ fi
 cat >>confdefs.h <<_ACEOF
 #define ENABLE_CIPHER EVP_${CIPHER}
 _ACEOF
-
 
 DIGEST=ripemd160
 # Check whether --enable-digest was given.
@@ -12416,7 +12396,6 @@ fi
 cat >>confdefs.h <<_ACEOF
 #define ENABLE_DIGEST EVP_${DIGEST}
 _ACEOF
-
 
 if ${CXX} -v --help 2>&1 | grep -q fno-rtti; then
    CXXFLAGS="${CXXFLAGS} -fno-rtti"
@@ -12457,7 +12436,6 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 fi
-
 
 ac_config_files="$ac_config_files Makefile po/Makefile.in src/Makefile src/rohc/Makefile doc/Makefile lib/Makefile m4/Makefile"
 
@@ -14057,7 +14035,7 @@ $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
 
 
-echo
+echo ""
 echo "***"
 echo "*** Configuration Summary"
 echo "***"
@@ -14072,12 +14050,12 @@ echo "***"
 echo "*** Enable options:"
 grep ENABLE_ config.h | sed -e 's/^/*** /'
 
-if test "x${DIGEST}" = xmd4; then
+if test "x${DIGEST}" = "xmd4"; then
 echo "***"
 echo "** WARNING: The digest you chose (${DIGEST}) is known to be insecure"
 fi
 
-if test "x${DIGEST}" = xmd5; then
+if test "x${DIGEST}" = "xmd5"; then
 echo "***"
 echo "*** WARNING: The digest you chose (${DIGEST}) is quite insecure"
 fi
@@ -14093,6 +14071,5 @@ echo "WARNING: The random prefix you chose (${RAND}) is probably insecure"
 fi
 
 echo "***"
-echo
-
+echo ""
 

@@ -8,7 +8,7 @@ ACLOCAL_AMFLAGS = -I m4 --install
 
 AM_CPPFLAGS = @AM_CPPFLAGS@
 AM_CFLAGS = -Wimplicit -Wno-unused
-AM_CXXFLAGS = -Wno-unused
+AM_CXXFLAGS = -Wno-unused -std=gnu++98
 
 EXTRA_DIST = config.rpath mkinstalldirs depcomp TODO \
 	     libev/ev.c libev/ev.h libev/libev.m4 libev/ev++.h \
