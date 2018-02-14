@@ -2,8 +2,8 @@ noinst_LIBRARIES = libgvpe.a
 
 AM_CPPFLAGS = @AM_CPPFLAGS@ -I. -I$(top_builddir)
 
-AM_CFLAGS = -Wall -Wno-unused
-AM_CXXFLAGS = -Wall -Wno-unused
+AM_CFLAGS = -Wall -Wextra -Wno-unused -pedantic
+AM_CXXFLAGS = -Wall -Wextra -Wno-unused -pedantic
 
 libgvpe_a_SOURCES = pidfile.c getopt.c getopt1.c dropin.c
 

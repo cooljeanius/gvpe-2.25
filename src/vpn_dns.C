@@ -1,24 +1,24 @@
 /*
     vpn_dns.C -- handle the dns tunnel part of the protocol.
     Copyright (C) 2003-2011 Marc Lehmann <gvpe@schmorp.de>
- 
+
     This file is part of GVPE.
 
     GVPE is free software; you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by the
     Free Software Foundation; either version 3 of the License, or (at your
     option) any later version.
-   
+
     This program is distributed in the hope that it will be useful, but
     WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
     Public License for more details.
-   
+
     You should have received a copy of the GNU General Public License along
     with this program; if not, see <http://www.gnu.org/licenses/>.
-   
+
     Additional permission under GNU GPL version 3 section 7
-   
+
     If you modify this Program, or any covered work, by linking or
     combining it with the OpenSSL project's OpenSSL library (or a modified
     version of that library), containing parts covered by the terms of the
@@ -302,7 +302,7 @@ static basecoder cdc26 ("dPhZrQmJkBtSvLxAeFwGyOuCnI"); // a-z
 /////////////////////////////////////////////////////////////////////////////
 
 #define HDRSIZE 5
- 
+
 inline void
 encode_header (char *data, int clientid, int seqno, int retry = 0)
 {
@@ -400,7 +400,7 @@ vpn_packet *
 byte_stream::get ()
 {
   unsigned int len;
-  
+
   for (;;)
     {
       if (fill < 2)
@@ -415,7 +415,7 @@ byte_stream::get ()
       slog (L_DEBUG, _("DNS: corrupted packet (%02x %02x > %d) stream skipping a byte..."), data [0], data [1], MAXSIZE);
       remove (1);
     }
-      
+
   if (fill < len + 2)
     return 0;
 
@@ -803,7 +803,7 @@ dns_rcv::~dns_rcv ()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-    
+
 dns_connection::dns_connection (connection *c)
 : c (c)
 , rcvdq (MAX_BACKLOG * 2)
@@ -955,7 +955,7 @@ vpn::dnsv4_server (dns_packet &pkt)
                 {
                   connection *c = conns [client - 1];
                   dns_connection *dns = c->dns;
-                  dns_rcv *rcv;
+                  dns_rcv *rcv = NULL;
 
                   if (dns)
                     {
@@ -1315,7 +1315,7 @@ vpn::send_dnsv4_packet (vpn_packet *pkt, const sockinfo &si, int tos)
 
   if (!c->dns)
     c->dns = new dns_connection (c);
-  
+
   if (c->dns->snddq.put (pkt))
     {
       min_it (c->dns->poll_interval, 0.25);
@@ -1336,7 +1336,7 @@ dns_connection::time_cb (ev::timer &w, int revents)
   // check for timeouts and (re)transmit
   tstamp next = 86400 * 365;
   dns_snd *send = 0;
-  
+
   for (vector<dns_snd *>::iterator i = vpn->dns_sndpq.begin ();
        i != vpn->dns_sndpq.end ();
        ++i)
