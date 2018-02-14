@@ -1,4 +1,4 @@
-/*
+/* -*- C++ -*-
     vpn_tcp.C -- handle the tcp part of the protocol.
     Copyright (C) 2003-2008 Marc Lehmann <gvpe@schmorp.de>
 

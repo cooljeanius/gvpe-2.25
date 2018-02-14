@@ -1,4 +1,4 @@
-/*
+/*  -*- C++ -*-
     connection.C -- manage a single connection
     Copyright (C) 2003-2008,2010,2011 Marc Lehmann <gvpe@schmorp.de>
 

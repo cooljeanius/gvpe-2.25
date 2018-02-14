@@ -1,4 +1,4 @@
-/*
+/* -*- C++ -*-
     conf.h -- configuration database
     Copyright (C) 2003-2008 Marc Lehmann <gvpe@schmorp.de>
 

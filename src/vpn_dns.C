@@ -1,4 +1,4 @@
-/*
+/* -*- C++ -*-
     vpn_dns.C -- handle the dns tunnel part of the protocol.
     Copyright (C) 2003-2011 Marc Lehmann <gvpe@schmorp.de>
 

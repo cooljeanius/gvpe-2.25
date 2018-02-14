@@ -1,3 +1,5 @@
+// ev_cpp.h -*- C++ -*-
+
 #define EV_COMPAT3 0
 #define EV_CHILD_ENABLE 1
 #define EV_USE_STDEXCEPT 0

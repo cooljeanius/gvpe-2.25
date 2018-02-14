@@ -1,4 +1,4 @@
-/*
+/* -*- C++ -*-
  *  gvpectrl.C -- the main file for gvpectrl
  *  Copyright (C) 1998-2002 Ivo Timmermans <ivo@o2w.nl>
  *                2000-2002 Guus Sliepen <guus@sliepen.eu.org>

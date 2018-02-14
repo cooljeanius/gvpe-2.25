@@ -1,26 +1,26 @@
-/*
+/* -*- C++ -*-
     util.C -- process management and other utility functions
     Copyright (C) 2003-2011 Marc Lehmann <gvpe@schmorp.de>
-    
+
     Some of these are taken from tinc, see the AUTHORS file.
- 
+
     This file is part of GVPE.
 
     GVPE is free software; you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by the
     Free Software Foundation; either version 3 of the License, or (at your
     option) any later version.
-   
+
     This program is distributed in the hope that it will be useful, but
     WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
     Public License for more details.
-   
+
     You should have received a copy of the GNU General Public License along
     with this program; if not, see <http://www.gnu.org/licenses/>.
-   
+
     Additional permission under GNU GPL version 3 section 7
-   
+
     If you modify this Program, or any covered work, by linking or
     combining it with the OpenSSL project's OpenSSL library (or a modified
     version of that library), containing parts covered by the terms of the
@@ -310,7 +310,7 @@ base64_encode (const u8 *data, unsigned int len)
     {
       t = (((data[0] << 8) | data[1]) << 8) | data[2];
       data += 3;
-      
+
       *out++ = base64[(t >> 18) & 0x3f];
       *out++ = base64[(t >> 12) & 0x3f];
       *out++ = base64[(t >>  6) & 0x3f];

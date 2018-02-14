@@ -1,4 +1,4 @@
-/*
+/* -*- C++ -*-
     vpn.h -- header for vpn.C
     Copyright (C) 2003-2008 Marc Lehmann <gvpe@schmorp.de>
 
