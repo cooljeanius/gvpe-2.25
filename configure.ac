@@ -1,7 +1,7 @@
 dnl#                                               -*- Autoconf -*-
 dnl# Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.69])
+AC_PREREQ([2.69.185-b502e])
 AC_INIT([gvpe],[2.25],[gvpe@schmorp.de])
 AC_CONFIG_SRCDIR([src/gvpe.C])
 AC_CANONICAL_TARGET
@@ -24,7 +24,7 @@ AH_BOTTOM([
 typedef unsigned char u8;
 typedef signed char s8;
 
-#if __CYGWIN__
+#if defined(__CYGWIN__) && __CYGWIN__
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -43,7 +43,7 @@ typedef int32_t s32;
 
 #endif /* CONFIG_H__ (from the AH_TOP fragment) */
 
-#if HAVE_CLOCALE
+#if defined(HAVE_CLOCALE) && HAVE_CLOCALE
 # define CLOCALE <clocale>
 #else
 # define CLOCALE <locale.h>
@@ -180,7 +180,20 @@ AC_CHECK_HEADERS([tr1/unordered_map ext/hash_map clocale])dnl
 
 dnl# Checks for header files.
 AC_HEADER_STDBOOL dnl# also "_CHECK"s it
-AC_HEADER_TIME
+dnl# autoupdate says: Update your code to rely only on HAVE_SYS_TIME_H,
+dnl# then remove this comment and the obsolete code below it.
+dnl# All current systems provide time.h; it need not be checked for.
+dnl# Not all systems provide sys/time.h, but those that do, all allow
+dnl# you to include it and time.h simultaneously.
+AC_CHECK_HEADERS_ONCE([sys/time.h])
+# Obsolete code to be removed.
+if test "x${ac_cv_header_sys_time_h}" = "xyes"; then
+  AC_DEFINE([TIME_WITH_SYS_TIME],[1],
+            [Define to 1 if you can safely include both <sys/time.h>
+	     and <time.h>.  This macro is obsolete.])
+fi
+# End of obsolete code.
+
 AC_SYS_POSIX_TERMIOS
 AC_CHECK_HEADERS([argz.h arpa/inet.h bits/libc-lock.h errno.h fcntl.h \
                   float.h gnu-versions.h langinfo.h libintl.h \
@@ -236,6 +249,23 @@ AC_CHECK_HEADERS([arpa/inet.h net/ethernet.h net/if.h netinet/ip.h \
 # endif /* __GNUC__ && !__STRICT_ANSI__ */
 #endif /* HAVE_NETINET_IP_H */
 ])dnl
+
+if test "x${ac_cv_header_stdint_h}" = "x"; then
+  test -z "${ac_cv_header_stdint_h}"
+  AC_CHECK_HEADERS([inttypes.h])
+fi
+if test "x${ac_cv_header_stdint_h}" = "x"; then
+  test -z "${ac_cv_header_stdint_h}"
+  AC_CHECK_HEADERS([stdint.h])
+fi
+if test "x${ac_cv_header_strings_h}" = "x"; then
+  test -z "${ac_cv_header_strings_h}"
+  AC_CHECK_HEADERS([strings.h])
+fi
+if test "x${ac_cv_header_unistd_h}" = "x"; then
+  test -z "${ac_cv_header_unistd_h}"
+  AC_CHECK_HEADERS([unistd.h])
+fi
 
 dnl# Checks for typedefs, structures, and compiler characteristics.
 AC_C_CHAR_UNSIGNED
