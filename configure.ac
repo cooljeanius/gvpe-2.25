@@ -4,6 +4,7 @@ dnl# Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.69.185-b502e])
 AC_INIT([gvpe],[2.25],[gvpe@schmorp.de])
 AC_CONFIG_SRCDIR([src/gvpe.C])
+AC_CONFIG_AUX_DIR([build-aux])
 AC_CANONICAL_TARGET
 AC_USE_SYSTEM_EXTENSIONS
 AM_INIT_AUTOMAKE([1.11 gnits])

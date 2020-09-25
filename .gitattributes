@@ -1,2 +1,15 @@
+# we already say *.C are c++ files in the equivalent files in subdirs
+
+compile linguist-vendored
+config.guess linguist-vendored
+config.rpath linguist-vendored
+config.sub linguist-vendored
+depcomp linguist-vendored
+install-sh linguist-vendored
+missing linguist-vendored
+mkinstalldirs linguist-vendored
+texinfo.tex linguist-vendored
+build-aux/* linguist-vendored
+
 # Gnulib's git-merge-changelog driver:
 ChangeLog    merge=cl-merge

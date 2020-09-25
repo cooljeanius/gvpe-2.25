@@ -1,4 +1,4 @@
-/*
+/* ev++.h -*- C++ -*-
  * libev simple C++ wrapper classes
  *
  * Copyright (c) 2007,2008,2010 Marc Alexander Lehmann <libev@schmorp.de>
