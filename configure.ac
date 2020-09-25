@@ -70,7 +70,7 @@ AC_PROG_MKDIR_P
 AC_PROG_LN_S
 AC_PROG_RANLIB
 AC_PROG_YACC
-AC_PATH_PROG([PERL],[perl perl5])dnl
+AC_PATH_PROGS([PERL],[perl perl5])dnl
 
 AC_DEFUN([AC_DUPLICATE_PROG_CHECKS],[
   AC_REQUIRE([AC_PROG_AWK])dnl
@@ -251,8 +251,8 @@ AC_CHECK_HEADERS([arpa/inet.h net/ethernet.h net/if.h netinet/ip.h \
 #endif /* HAVE_NETINET_IP_H */
 ])dnl
 
-if test "x${ac_cv_header_stdint_h}" = "x"; then
-  test -z "${ac_cv_header_stdint_h}"
+if test "x${ac_cv_header_inttypes_h}" = "x"; then
+  test -z "${ac_cv_header_inttypes_h}"
   AC_CHECK_HEADERS([inttypes.h])
 fi
 if test "x${ac_cv_header_stdint_h}" = "x"; then
