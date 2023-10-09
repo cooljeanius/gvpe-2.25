@@ -12,7 +12,7 @@ jobs:
       uses: actions/checkout@v4.1.0
 #     # 'Transformers::TravisCI::Scripts::Dependencies' dependencies are currently unsupported
 #     # 'compiler' was not transformed because there is no suitable equivalent in GitHub Actions
-    - run: sudo apt-get install texinfo
+    - run: sudo apt-get install texinfo getopt
     - run: "./configure && make && make check"
     strategy:
       matrix:
