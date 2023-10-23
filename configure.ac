@@ -163,6 +163,8 @@ if test "x${IFSUBTYPE}" != "xfreebsd" -a "x${IFSUBTYPE}" != "xopenbsd" -a "x${IF
   AC_DEFINE([_POSIX_SOURCE],[1],
             [Define to 1 to enable POSIX 1003.1 extensions])
   AC_DEFINE([_XOPEN_SOURCE],[500],[Define to 1 to enable XOPEN extensions])
+elif test -n "${IFSUBTYPE}"; then
+  AC_MSG_WARN([cannot define POSIX_SOURCE for your platform (${IFSUBTYPE})])
 else
   AC_MSG_WARN([cannot define POSIX_SOURCE for your platform])
 fi
@@ -340,6 +342,7 @@ dnl# end what used to be AC\_TYPE\_SIGNAL
 AC_CHECK_MEMBERS([struct stat.st_rdev])
 AC_CHECK_MEMBER([std.libintl_setlocale])
 AC_CHECK_TYPES([ptrdiff_t])
+AC_CHECK_TYPES([BN_GENCB])dnl
 
 dnl# Checks for library functions.
 
@@ -366,6 +369,7 @@ AC_FUNC_REALLOC
 AC_FUNC_STRERROR_R
 
 AC_CHECK_DECLS([getopt])
+AC_CHECK_DECLS([BN_GENCB])dnl
 
 dnl# Support for SunOS
 

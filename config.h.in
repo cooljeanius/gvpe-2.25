@@ -84,6 +84,9 @@
 /* Define to 1 if you have the <bits/libc-lock.h> header file. */
 #undef HAVE_BITS_LIBC_LOCK_H
 
+/* Define to 1 if the system has the type `BN_GENCB'. */
+#undef HAVE_BN_GENCB
+
 /* Define to 1 if you have the Mac OS X function CFLocaleCopyCurrent in the
    CoreFoundation framework. */
 #undef HAVE_CFLOCALECOPYCURRENT
@@ -113,6 +116,10 @@
 /* Define if the GNU dcgettext() function is already present or preinstalled.
    */
 #undef HAVE_DCGETTEXT
+
+/* Define to 1 if you have the declaration of `BN_GENCB', and to 0 if you
+   don't. */
+#undef HAVE_DECL_BN_GENCB
 
 /* Define to 1 if you have the declaration of `getopt', and to 0 if you don't.
    */

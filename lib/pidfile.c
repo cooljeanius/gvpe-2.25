@@ -50,7 +50,8 @@ int read_pid (char *pidfile)
 
   if (!(f=fopen(pidfile,"r")))
     return 0;
-  fscanf(f,"%d", &pid);
+  if (!fscanf(f,"%d", &pid))
+    return 0;
   fclose(f);
   return pid;
 }

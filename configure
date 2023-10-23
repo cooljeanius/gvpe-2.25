@@ -9287,6 +9287,9 @@ printf "%s\n" "#define _POSIX_SOURCE 1" >>confdefs.h
 
 printf "%s\n" "#define _XOPEN_SOURCE 500" >>confdefs.h
 
+elif test -n "${IFSUBTYPE}"; then
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: cannot define POSIX_SOURCE for your platform (${IFSUBTYPE})" >&5
+printf "%s\n" "$as_me: WARNING: cannot define POSIX_SOURCE for your platform (${IFSUBTYPE})" >&2;}
 else
   { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: cannot define POSIX_SOURCE for your platform" >&5
 printf "%s\n" "$as_me: WARNING: cannot define POSIX_SOURCE for your platform" >&2;}
@@ -11384,6 +11387,14 @@ printf "%s\n" "#define HAVE_PTRDIFF_T 1" >>confdefs.h
 
 fi
 
+ac_fn_cxx_check_type "$LINENO" "BN_GENCB" "ac_cv_type_BN_GENCB" "$ac_includes_default"
+if test "x$ac_cv_type_BN_GENCB" = xyes
+then :
+
+printf "%s\n" "#define HAVE_BN_GENCB 1" >>confdefs.h
+
+
+fi
 
 
 ac_ext=c
@@ -12723,6 +12734,14 @@ else $as_nop
 fi
 printf "%s\n" "#define HAVE_DECL_GETOPT $ac_have_decl" >>confdefs.h
 
+ac_fn_check_decl "$LINENO" "BN_GENCB" "ac_cv_have_decl_BN_GENCB" "$ac_includes_default" "$ac_c_undeclared_builtin_options" "CFLAGS"
+if test "x$ac_cv_have_decl_BN_GENCB" = xyes
+then :
+  ac_have_decl=1
+else $as_nop
+  ac_have_decl=0
+fi
+printf "%s\n" "#define HAVE_DECL_BN_GENCB $ac_have_decl" >>confdefs.h
 
 
 if test "x${ac_cv_func_socket}" = "x"; then

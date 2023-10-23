@@ -260,7 +260,7 @@ keygen (int bits)
   mkdir (fname, 0700);
   free (fname);
 
-  for (configuration::node_vector::iterator i = conf.nodes.begin (); i != conf.nodes.end (); ++i)
+  for (configuration::node_vector::iterator i = conf.nodes.begin(); i != conf.nodes.end(); ++i)
     {
       conf_node *node = *i;
 
@@ -287,50 +287,60 @@ keygen (int bits)
       fprintf (stderr, _("generating %d bits key for %s:\n"), bits,
                node->nodename);
 
-      RSA *rsa = RSA_new ();
-      BIGNUM *e = BN_new ();
-      BN_set_bit (e, 0); BN_set_bit (e, 16); /* 0x10001, 65537 */
-      BN_GENCB cb;
-      BN_GENCB_set (&cb, indicator, 0);
+      RSA *rsa = RSA_new();
+      BIGNUM *e = BN_new();
+      BN_set_bit(e, 0); BN_set_bit(e, 16); /* 0x10001, 65537 */
+      BN_GENCB *cb;
+      cb = BN_GENCB_new();
+      if (!cb) {
+        fprintf(stderr, _("failed to create a callback!"));
+        exit(EXIT_FAILURE);
+      }
+      BN_GENCB_set(cb, indicator, 0);
 
-      require (RSA_generate_key_ex (rsa, bits, e, &cb));
+      require(RSA_generate_key_ex(rsa, bits, e, cb));
 
-      fprintf (stderr, _("Done.\n"));
+      fprintf(stderr, _("Done.\n"));
 
-      require (PEM_write_RSAPublicKey (f, rsa));
-      fclose (f);
-      free (fname);
+      require(PEM_write_RSAPublicKey(f, rsa));
+      fclose(f);
+      free(fname);
 
-      asprintf (&fname, "%s/hostkeys/%s", confbase, node->nodename);
+      if (!asprintf(&fname, "%s/hostkeys/%s", confbase, node->nodename)) {
+      	  perror(fname);
+          exit(EXIT_FAILURE);
+      }
 
-      f = fopen (fname, "a");
+      f = fopen(fname, "a");
       if (!f) {
-          perror (fname);
-          exit (EXIT_FAILURE);
+          perror(fname);
+          exit(EXIT_FAILURE);
 	  }
 
-      require (PEM_write_RSAPrivateKey (f, rsa, NULL, NULL, 0, NULL, NULL));
-      fclose (f);
-      free (fname);
+      require(PEM_write_RSAPrivateKey(f, rsa, NULL, NULL, 0, NULL, NULL));
+      fclose(f);
+      free(fname);
 
-      BN_free (e);
-      RSA_free (rsa);
+      BN_free(e);
+      RSA_free(rsa);
+      BN_GENCB_free(cb);
     }
 
   return 0;
 }
 
+/* */
 int
-main (int argc, char **argv, char **envp)
+main(int argc, char **argv, char **envp)
 {
-  set_identity (argv[0]);
-  log_to (LOGTO_STDERR);
+  set_identity(argv[0]);
+  log_to(LOGTO_STDERR);
 
-  setlocale (LC_ALL, "");
-  bindtextdomain (PACKAGE, LOCALEDIR);
-  textdomain (PACKAGE);
+  setlocale(LC_ALL, "");
+  bindtextdomain(PACKAGE, LOCALEDIR);
+  textdomain(PACKAGE);
 
-  parse_options (argc, argv, envp);
+  parse_options(argc, argv, envp);
 
   if (show_version) {
       printf (_("%s version %s (built %s %s, protocol version %d.%d)\n"), get_identity (),
