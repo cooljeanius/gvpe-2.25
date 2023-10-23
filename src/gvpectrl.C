@@ -92,293 +92,295 @@ static int generate_keys;
 
 static struct option const long_options[] =
 {
-  {"config", required_argument, NULL, 'c'},
-  {"kill", optional_argument, NULL, 'k'},
-  {"help", no_argument, &show_help, 1},
-  {"version", no_argument, &show_version, 1},
-  {"generate-keys", no_argument, NULL, 'g'},
-  {"quiet", no_argument, &quiet, 1},
-  {"show-config", no_argument, &show_config, 's'},
-  {NULL, 0, NULL, 0}
+    {"config", required_argument, NULL, 'c'},
+    {"kill", optional_argument, NULL, 'k'},
+    {"help", no_argument, &show_help, 1},
+    {"version", no_argument, &show_version, 1},
+    {"generate-keys", no_argument, NULL, 'g'},
+    {"quiet", no_argument, &quiet, 1},
+    {"show-config", no_argument, &show_config, 's'},
+    {NULL, 0, NULL, 0}
 };
 
+/* */
 static void
 usage (int status)
 {
-  if (status != 0)
-    fprintf (stderr, _("Try `%s --help\' for more information.\n"), get_identity ());
-  else
+    if (status != 0)
+        fprintf(stderr, _("Try `%s --help\' for more information.\n"),
+                get_identity ());
+    else
     {
-      printf (_("Usage: %s [option]...\n\n"), get_identity ());
-      printf (_
-              ("  -c, --config=DIR           Read configuration options from DIR.\n"
-               "  -k, --kill[=SIGNAL]        Attempt to kill a running gvpe and exit.\n"
-               "  -g, --generate-keys        Generate public/private RSA keypair.\n"
-               "  -s, --show-config          Display the configuration information.\n"
-               "  -q, --quiet                Be quite quiet.\n"
-               "      --help                 Display this help and exit.\n"
-               "      --version              Output version information and exit.\n\n"));
-      printf (_("Report bugs to <gvpe@schmorp.de>.\n"));
+        printf(_("Usage: %s [option]...\n\n"), get_identity ());
+        printf(_("  -c, --config=DIR    Read configuration options from DIR.\n"
+                 "  -k, --kill[=SIGNAL] Attempt to kill a running gvpe and exit.\n"
+                 "  -g, --generate-keys Generate public/private RSA keypair.\n"
+                 "  -s, --show-config   Display the configuration information.\n"
+                 "  -q, --quiet         Be quite quiet.\n"
+                 "      --help          Display this help and exit.\n"
+                 "      --version       Output version information and exit.\n\n"));
+        printf(_("Report bugs to <gvpe@schmorp.de>.\n"));
     }
 
-  exit (status);
+    exit(status);
 }
 
+/* */
 static void
-parse_options (int argc, char **argv, char **envp)
+parse_options(int argc, char **argv, char **envp)
 {
-  int r;
-  int option_index = 0;
+    int r;
+    int option_index = 0;
 
-  while ((r = getopt_long (argc, argv, "c:k::qgs", long_options, &option_index)) != EOF)
+    while ((r = getopt_long(argc, argv, "c:k::qgs", long_options, &option_index)) != EOF)
     {
-      switch (r)
+        switch (r)
         {
-          case 0:		/* long option */
-            break;
+            case 0:		/* long option */
+                break;
 
-          case 'c':		/* config file */
-            confbase = strdup (optarg);
-            break;
+            case 'c':		/* config file */
+                confbase = strdup(optarg);
+                break;
 
-          case 'k':		/* kill old gvpes */
-            if (optarg)
-              {
-                if (!strcasecmp (optarg, "HUP"))
-                  kill_gvpe = SIGHUP;
-                else if (!strcasecmp (optarg, "TERM"))
-                  kill_gvpe = SIGTERM;
-                else if (!strcasecmp (optarg, "KILL"))
-                  kill_gvpe = SIGKILL;
-                else if (!strcasecmp (optarg, "USR1"))
-                  kill_gvpe = SIGUSR1;
-                else if (!strcasecmp (optarg, "USR2"))
-                  kill_gvpe = SIGUSR2;
-                else if (!strcasecmp (optarg, "INT"))
-                  kill_gvpe = SIGINT;
-                else if (!strcasecmp (optarg, "ALRM"))
-                  kill_gvpe = SIGALRM;
+            case 'k':		/* kill old gvpes */
+                if (optarg)
+                {
+                    if (!strcasecmp(optarg, "HUP"))
+                        kill_gvpe = SIGHUP;
+                    else if (!strcasecmp(optarg, "TERM"))
+                        kill_gvpe = SIGTERM;
+                    else if (!strcasecmp(optarg, "KILL"))
+                        kill_gvpe = SIGKILL;
+                    else if (!strcasecmp(optarg, "USR1"))
+                        kill_gvpe = SIGUSR1;
+                    else if (!strcasecmp(optarg, "USR2"))
+                        kill_gvpe = SIGUSR2;
+                    else if (!strcasecmp(optarg, "INT"))
+                        kill_gvpe = SIGINT;
+                    else if (!strcasecmp(optarg, "ALRM"))
+                        kill_gvpe = SIGALRM;
+                    else
+                    {
+                        kill_gvpe = atoi(optarg);
+
+                        if (!kill_gvpe)
+                        {
+                            fprintf(stderr,
+                                    _("Invalid argument `%s'; SIGNAL must be a number or one of HUP, TERM, KILL, USR1, USR2, WINCH, INT or ALRM.\n"),
+                                    optarg);
+                            usage(1);
+                        }
+                    }
+                }
                 else
-                  {
-                    kill_gvpe = atoi (optarg);
+                    kill_gvpe = SIGTERM;
 
-                    if (!kill_gvpe)
-                      {
-                        fprintf (stderr,
-                                 _
-                                 ("Invalid argument `%s'; SIGNAL must be a number or one of HUP, TERM, KILL, USR1, USR2, WINCH, INT or ALRM.\n"),
-                                 optarg);
-                        usage (1);
-                      }
-                  }
-              }
-            else
-              kill_gvpe = SIGTERM;
+                break;
 
-            break;
+            case 'g':		/* generate public/private keypair */
+                generate_keys = RSA_KEYBITS;
+                break;
 
-          case 'g':		/* generate public/private keypair */
-            generate_keys = RSA_KEYBITS;
-            break;
+            case 's':
+                show_config = 1;
+                break;
 
-          case 's':
-            show_config = 1;
-            break;
+            case 'q':
+                quiet = 1;
+                break;
 
-          case 'q':
-            quiet = 1;
-            break;
+            case '?':
+                usage (1);
 
-          case '?':
-            usage (1);
-
-          default:
-            break;
+            default:
+                break;
         }
     }
 }
 
 /* this function prettyprints the key generation process */
 static int
-indicator (int a, int b, BN_GENCB *cb)
+indicator(int a, int b, BN_GENCB *cb)
 {
-	if (quiet) {
-		return 1;
-	}
-
-	switch (a) {
-      case 0:
-        fprintf (stderr, ".");
-        break;
-
-      case 1:
-        fprintf (stderr, "+");
-        break;
-
-      case 2:
-        fprintf (stderr, "-");
-        break;
-
-      case 3:
-        switch (b)
-          {
-          case 0:
-            fprintf (stderr, " p\n");
-            break;
-
-          case 1:
-            fprintf (stderr, " q\n");
-            break;
-
-          default:
-            fprintf (stderr, "?");
-          }
-        break;
-
-      default:
-        fprintf (stderr, "?");
+    if (quiet) {
+        return 1;
     }
 
-  return 1;
+    switch (a) {
+        case 0:
+            fprintf(stderr, ".");
+            break;
+
+        case 1:
+            fprintf(stderr, "+");
+            break;
+
+        case 2:
+            fprintf(stderr, "-");
+            break;
+
+        case 3:
+            switch (b)
+            {
+                case 0:
+                    fprintf(stderr, " p\n");
+                    break;
+
+                case 1:
+                    fprintf(stderr, " q\n");
+                    break;
+
+                default:
+                    fprintf(stderr, "?");
+            }
+            break;
+
+        default:
+            fprintf(stderr, "?");
+    }
+
+    return 1;
 }
 
 /*
  * generate public/private RSA keypairs for all hosts that do NOT have one.
  */
 static int
-keygen (int bits)
+keygen(int bits)
 {
-  FILE *f;
-  char *name = NULL;
-  char *fname;
+    FILE *f;
+    char *name = NULL;
+    char *fname;
 
-  asprintf (&fname, "%s/hostkeys", confbase);
-  mkdir (fname, 0700);
-  free (fname);
+    asprintf(&fname, "%s/hostkeys", confbase);
+    mkdir(fname, 0700);
+    free(fname);
 
-  asprintf (&fname, "%s/pubkey", confbase);
-  mkdir (fname, 0700);
-  free (fname);
+    asprintf(&fname, "%s/pubkey", confbase);
+    mkdir(fname, 0700);
+    free(fname);
 
-  for (configuration::node_vector::iterator i = conf.nodes.begin(); i != conf.nodes.end(); ++i)
+    for (configuration::node_vector::iterator i = conf.nodes.begin();
+         i != conf.nodes.end(); ++i)
     {
-      conf_node *node = *i;
+        conf_node *node = *i;
 
-      asprintf (&fname, "%s/pubkey/%s", confbase, node->nodename);
+        asprintf (&fname, "%s/pubkey/%s", confbase, node->nodename);
 
-      f = fopen (fname, "a");
+        f = fopen (fname, "a");
 
-      /* some libcs are buggy and require an extra seek to the end */
-      if (!f || fseek (f, 0, SEEK_END)) {
-          perror (fname);
-          exit (EXIT_FAILURE);
-	  }
+        /* some libcs are buggy and require an extra seek to the end: */
+        if (!f || fseek(f, 0, SEEK_END)) {
+            perror(fname);
+            exit(EXIT_FAILURE);
+        }
 
-      if (ftell (f)) {
-          if (!quiet) {
-			  fprintf (stderr, "'%s' already exists, skipping this node %d\n",
-					   fname, quiet);
-		  }
+        if (ftell (f)) {
+            if (!quiet) {
+                fprintf(stderr, "'%s' already exists, skipping this node %d\n",
+                        fname, quiet);
+            }
 
-          fclose (f);
-          continue;
-	  }
+            fclose(f);
+            continue;
+        }
 
-      fprintf (stderr, _("generating %d bits key for %s:\n"), bits,
-               node->nodename);
+        fprintf(stderr, _("generating %d bits key for %s:\n"), bits,
+                node->nodename);
 
-      RSA *rsa = RSA_new();
-      BIGNUM *e = BN_new();
-      BN_set_bit(e, 0); BN_set_bit(e, 16); /* 0x10001, 65537 */
-      BN_GENCB *cb;
-      cb = BN_GENCB_new();
-      if (!cb) {
-        fprintf(stderr, _("failed to create a callback!"));
-        exit(EXIT_FAILURE);
-      }
-      BN_GENCB_set(cb, indicator, 0);
+        RSA *rsa = RSA_new();
+        BIGNUM *e = BN_new();
+        BN_set_bit(e, 0); BN_set_bit(e, 16); /* 0x10001, 65537 */
+        BN_GENCB *cb;
+        cb = BN_GENCB_new();
+        if (!cb) {
+            fprintf(stderr, _("failed to create a callback!"));
+            exit(EXIT_FAILURE);
+        }
+        BN_GENCB_set(cb, indicator, 0);
 
-      require(RSA_generate_key_ex(rsa, bits, e, cb));
+        require(RSA_generate_key_ex(rsa, bits, e, cb));
 
-      fprintf(stderr, _("Done.\n"));
+        fprintf(stderr, _("Done.\n"));
 
-      require(PEM_write_RSAPublicKey(f, rsa));
-      fclose(f);
-      free(fname);
+        require(PEM_write_RSAPublicKey(f, rsa));
+        fclose(f);
+        free(fname);
 
-      if (!asprintf(&fname, "%s/hostkeys/%s", confbase, node->nodename)) {
-      	  perror(fname);
-          exit(EXIT_FAILURE);
-      }
+        if (!asprintf(&fname, "%s/hostkeys/%s", confbase, node->nodename)) {
+            perror(fname);
+            exit(EXIT_FAILURE);
+        }
 
-      f = fopen(fname, "a");
-      if (!f) {
-          perror(fname);
-          exit(EXIT_FAILURE);
-	  }
+        f = fopen(fname, "a");
+        if (!f) {
+            perror(fname);
+            exit(EXIT_FAILURE);
+        }
 
-      require(PEM_write_RSAPrivateKey(f, rsa, NULL, NULL, 0, NULL, NULL));
-      fclose(f);
-      free(fname);
+        require(PEM_write_RSAPrivateKey(f, rsa, NULL, NULL, 0, NULL, NULL));
+        fclose(f);
+        free(fname);
 
-      BN_free(e);
-      RSA_free(rsa);
-      BN_GENCB_free(cb);
+        BN_free(e);
+        RSA_free(rsa);
+        BN_GENCB_free(cb);
     }
 
-  return 0;
+    return 0;
 }
 
 /* */
 int
 main(int argc, char **argv, char **envp)
 {
-  set_identity(argv[0]);
-  log_to(LOGTO_STDERR);
+    set_identity(argv[0]);
+    log_to(LOGTO_STDERR);
 
-  setlocale(LC_ALL, "");
-  bindtextdomain(PACKAGE, LOCALEDIR);
-  textdomain(PACKAGE);
+    setlocale(LC_ALL, "");
+    bindtextdomain(PACKAGE, LOCALEDIR);
+    textdomain(PACKAGE);
 
-  parse_options(argc, argv, envp);
+    parse_options(argc, argv, envp);
 
-  if (show_version) {
-      printf (_("%s version %s (built %s %s, protocol version %d.%d)\n"), get_identity (),
-              VERSION, __DATE__, __TIME__, PROTOCOL_MAJOR, PROTOCOL_MINOR);
-      printf (_("Built with kernel interface %s/%s.\n"), IFTYPE, IFSUBTYPE);
-      printf (_
-              ("Copyright (C) 2003-2013 Marc Lehmann <gvpe@schmorp.de> and others.\n"
-               "See the AUTHORS file for a complete list.\n\n"
-               "vpe comes with ABSOLUTELY NO WARRANTY.  This is free software,\n"
-               "and you are welcome to redistribute it under certain conditions;\n"
-               "see the file COPYING for details.\n"));
+    if (show_version) {
+        printf(_("%s version %s (built %s %s, protocol version %d.%d)\n"),
+               get_identity(), VERSION, __DATE__, __TIME__, PROTOCOL_MAJOR,
+               PROTOCOL_MINOR);
+        printf(_("Built with kernel interface %s/%s.\n"), IFTYPE, IFSUBTYPE);
+        printf(_("Copyright (C) 2003-2013 Marc Lehmann <gvpe@schmorp.de> & others.\n"
+                 "See the AUTHORS file for a complete list.\n\n"
+                 "gvpe comes with ABSOLUTELY NO WARRANTY. This is free software,\n"
+                 "& you are welcome to redistribute it under certain conditions;\n"
+                 "see the file COPYING for details.\n"));
 
-      return 0;
-  }
+        return 0;
+    }
 
-	if (show_help) {
-		usage (0);
-	}
+    if (show_help) {
+        usage (0);
+    }
 
-  {
-    configuration_parser (conf, false, 0, 0);
-  }
+    {
+        configuration_parser(conf, false, 0, 0);
+    }
 
-  if (generate_keys) {
-      RAND_load_file (conf.seed_dev, SEED_SIZE);
-      exit (keygen (generate_keys));
-  }
+    if (generate_keys) {
+        RAND_load_file(conf.seed_dev, SEED_SIZE);
+        exit(keygen(generate_keys));
+    }
+    
+    if (kill_gvpe) {
+        exit(kill_other(kill_gvpe));
+    }
 
-	if (kill_gvpe) {
-		exit (kill_other (kill_gvpe));
-	}
+    if (show_config) {
+        conf.print();
+        exit(EXIT_SUCCESS);
+    }
 
-  if (show_config) {
-      conf.print ();
-      exit (EXIT_SUCCESS);
-  }
-
-  usage (1);
+    usage(1);
 }
 
 /* EOF */
