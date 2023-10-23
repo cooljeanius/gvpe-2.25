@@ -253,11 +253,17 @@ keygen(int bits)
     char *name = NULL;
     char *fname;
 
-    asprintf(&fname, "%s/hostkeys", confbase);
+    if (!asprintf(&fname, "%s/hostkeys", confbase)) {
+        perror(fname);
+        exit(EXIT_FAILURE);
+    }
     mkdir(fname, 0700);
     free(fname);
 
-    asprintf(&fname, "%s/pubkey", confbase);
+    if (!asprintf(&fname, "%s/pubkey", confbase)) {
+        perror(fname);
+        exit(EXIT_FAILURE);
+    }
     mkdir(fname, 0700);
     free(fname);
 
@@ -266,9 +272,12 @@ keygen(int bits)
     {
         conf_node *node = *i;
 
-        asprintf (&fname, "%s/pubkey/%s", confbase, node->nodename);
+        if (!asprintf(&fname, "%s/pubkey/%s", confbase, node->nodename)) {
+            perror(fname);
+            exit(EXIT_FAILURE);
+        }
 
-        f = fopen (fname, "a");
+        f = fopen(fname, "a");
 
         /* some libcs are buggy and require an extra seek to the end: */
         if (!f || fseek(f, 0, SEEK_END)) {
@@ -370,7 +379,7 @@ main(int argc, char **argv, char **envp)
         RAND_load_file(conf.seed_dev, SEED_SIZE);
         exit(keygen(generate_keys));
     }
-    
+
     if (kill_gvpe) {
         exit(kill_other(kill_gvpe));
     }
