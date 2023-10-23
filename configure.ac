@@ -347,7 +347,7 @@ AC_LANG_PUSH([C])dnl
 
 dnl# argl, could somebody catapult darwin into the 21st century??? (huh?)
 AC_CHECK_FUNCS([__argz_count __argz_next __argz_stringify asprintf daemon \
-                dup2 fprintf fscanf getcwd getenv gettimeofday getpid \
+                dup2 fprintf fscanf getcwd getenv gettimeofday getopt getpid \
                 get_current_dir_name inet_ntoa localeconv mblen mbrlen \
                 memchr memcmp memcpy memmove mempcpy memset mkdir \
                 mlockall munmap nl_langinfo ntohl putenv read rmdir \
@@ -364,6 +364,8 @@ AC_FUNC_MBRTOWC
 AC_FUNC_MMAP
 AC_FUNC_REALLOC
 AC_FUNC_STRERROR_R
+
+AC_CHECK_DECLS([getopt])
 
 dnl# Support for SunOS
 
