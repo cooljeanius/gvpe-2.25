@@ -434,6 +434,10 @@ tinc_OPENSSL
 if test "x${openssl_include}" != "x"; then
    CXXFLAGS="${CXXFLAGS} -I${openssl_include}"
 fi
+AC_SUBST([openssl_include])dnl
+AC_SUBST([openssl_lib])dnl
+AM_CONDITIONAL([CUSTOM_OPENSSL_PREFIX],
+           [test "x${openssl_include}" != "x" && test "x${openssl_lib}" != "x"])dnl
 m4_ifdef([tinc_ZLIB],[tinc_ZLIB])dnl
 
 ## Some additional openssl things:

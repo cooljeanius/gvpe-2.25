@@ -660,6 +660,10 @@ AM_CPPFLAGS
 ROHC_FALSE
 ROHC_TRUE
 LDFLAGS_DAEMON
+CUSTOM_OPENSSL_PREFIX_FALSE
+CUSTOM_OPENSSL_PREFIX_TRUE
+openssl_lib
+openssl_include
 HAVE_TUNTAP
 LINUX_IF_TUN_H
 ALLOCA
@@ -13737,6 +13741,13 @@ fi
 if test "x${openssl_include}" != "x"; then
    CXXFLAGS="${CXXFLAGS} -I${openssl_include}"
 fi
+ if test "x${openssl_include}" != "x" && test "x${openssl_lib}" != "x"; then
+  CUSTOM_OPENSSL_PREFIX_TRUE=
+  CUSTOM_OPENSSL_PREFIX_FALSE='#'
+else
+  CUSTOM_OPENSSL_PREFIX_TRUE='#'
+  CUSTOM_OPENSSL_PREFIX_FALSE=
+fi
 
 ## Some additional openssl things:
 ac_fn_cxx_check_type "$LINENO" "EVP_CIPHER_CTX HMAC_CTX" "ac_cv_type_EVP_CIPHER_CTX_HMAC_CTX" "$ac_includes_default"
@@ -14232,6 +14243,10 @@ if test -z "${am__fastdepCXX_TRUE}" && test -z "${am__fastdepCXX_FALSE}"; then
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 
+if test -z "${CUSTOM_OPENSSL_PREFIX_TRUE}" && test -z "${CUSTOM_OPENSSL_PREFIX_FALSE}"; then
+  as_fn_error $? "conditional \"CUSTOM_OPENSSL_PREFIX\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
 if test -z "${ROHC_TRUE}" && test -z "${ROHC_FALSE}"; then
   as_fn_error $? "conditional \"ROHC\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5

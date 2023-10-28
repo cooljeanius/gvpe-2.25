@@ -646,7 +646,7 @@ configuration_parser::configuration_parser (configuration &conf,
 
   free (fname);
 
-#if !defined(OPENSSL_NO_DEPRECATED) && defined(OPENSSL_API_COMPAT) && (OPENSSL_API_COMPAT < 0x30000L)
+#if !defined(OPENSSL_NO_DEPRECATED) && defined(OPENSSL_API_COMPAT) && (OPENSSL_API_COMPAT < 0x30000L) && defined(L_NOTICE) && defined(EXIT_FAILURE)
   if (need_keys && ::thisnode
       && conf.rsa_key && conf.thisnode && conf.thisnode->rsa_key)
     if (BN_cmp (conf.rsa_key->n, conf.thisnode->rsa_key->n) != 0
@@ -660,7 +660,7 @@ configuration_parser::configuration_parser (configuration &conf,
 # if defined(__GNUC__) && !defined(__STRICT_ANSI__)
 #  warning "skipping key mismatch check due to openssl version incompatibility"
 # endif /* __GNUC__ && !__STRICT_ANSI__ */
-#endif /* !OPENSSL_NO_DEPRECATED && (OPENSSL_API_COMPAT < 0x30000L) */
+#endif /* !OPENSSL_NO_DEPRECATED && (OPENSSL_API_COMPAT < 0x30000L) && L_NOTICE && EXIT_FAILURE */
 
   for (configuration::node_vector::iterator i = conf.nodes.begin(); i != conf.nodes.end(); ++i)
     (*i)->finalise ();
