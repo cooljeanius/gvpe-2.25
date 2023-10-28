@@ -39,6 +39,7 @@
 #include <openssl/evp.h>
 #include <openssl/rsa.h>
 #include <openssl/err.h>
+#include <openssl/hmac.h>
 
 #include "conf.h"
 #include "slog.h"
@@ -107,38 +108,38 @@ run_script_queued (run_script_cb *cb, const char *warnmsg)
 
 struct crypto_ctx
 {
-  EVP_CIPHER_CTX cctx;
-  HMAC_CTX hctx;
+  EVP_CIPHER_CTX *cctx;
+  HMAC_CTX *hctx;
 
-  crypto_ctx (const rsachallenge &challenge, int enc);
-  ~crypto_ctx ();
+  crypto_ctx(const rsachallenge &challenge, int enc);
+  ~crypto_ctx();
 };
 
-crypto_ctx::crypto_ctx (const rsachallenge &challenge, int enc)
+crypto_ctx::crypto_ctx(const rsachallenge &challenge, int enc)
 {
-  EVP_CIPHER_CTX_init (&cctx);
-  require (EVP_CipherInit_ex (&cctx, CIPHER, 0, &challenge[CHG_CIPHER_KEY], 0, enc));
-  HMAC_CTX_init (&hctx);
-  HMAC_Init_ex (&hctx, &challenge[CHG_HMAC_KEY], HMAC_KEYLEN, DIGEST, 0);
+  cctx = EVP_CIPHER_CTX_new();
+  require(EVP_CipherInit_ex(cctx, CIPHER, 0, &challenge[CHG_CIPHER_KEY], 0, enc));
+  hctx = HMAC_CTX_new();
+  HMAC_Init_ex(hctx, &challenge[CHG_HMAC_KEY], HMAC_KEYLEN, DIGEST, 0);
 }
 
-crypto_ctx::~crypto_ctx ()
+crypto_ctx::~crypto_ctx()
 {
-  require (EVP_CIPHER_CTX_cleanup (&cctx));
-  HMAC_CTX_cleanup (&hctx);
+  require(EVP_CIPHER_CTX_cleanup(cctx));
+  HMAC_CTX_free(hctx);
 }
 
 static void
 rsa_hash (const rsaid &id, const rsachallenge &chg, rsaresponse &h)
 {
-  EVP_MD_CTX ctx;
+  EVP_MD_CTX *ctx;
 
-  EVP_MD_CTX_init (&ctx);
-  require (EVP_DigestInit   (&ctx, RSA_HASH));
-  require (EVP_DigestUpdate (&ctx, &chg, sizeof chg));
-  require (EVP_DigestUpdate (&ctx, &id, sizeof id));
-  require (EVP_DigestFinal  (&ctx, (unsigned char *)&h, 0));
-  EVP_MD_CTX_cleanup (&ctx);
+  ctx = EVP_MD_CTX_new();
+  require(EVP_DigestInit(ctx, RSA_HASH));
+  require(EVP_DigestUpdate(ctx, &chg, sizeof(chg)));
+  require(EVP_DigestUpdate(ctx, &id, sizeof(id)));
+  require(EVP_DigestFinal(ctx, (unsigned char *)&h, 0));
+  EVP_MD_CTX_free(ctx);
 }
 
 struct rsa_entry
@@ -374,7 +375,7 @@ hmac_packet::hmac_gen (crypto_ctx *ctx)
 {
   unsigned int xlen;
 
-  HMAC_CTX *hctx = &ctx->hctx;
+  HMAC_CTX *hctx = ctx->hctx;
 
   HMAC_Init_ex (hctx, 0, 0, 0, 0);
   HMAC_Update (hctx, ((unsigned char *) this) + sizeof (hmac_packet),
@@ -430,7 +431,7 @@ private:
 void
 vpndata_packet::setup (connection *conn, int dst, u8 *d, u32 l, u32 seqno)
 {
-  EVP_CIPHER_CTX *cctx = &conn->octx->cctx;
+  EVP_CIPHER_CTX *cctx = conn->octx->cctx;
   int outl = 0, outl2;
   ptype type = PT_DATA_UNCOMPRESSED;
 
@@ -490,7 +491,7 @@ vpndata_packet::setup (connection *conn, int dst, u8 *d, u32 l, u32 seqno)
 tap_packet *
 vpndata_packet::unpack (connection *conn, u32 &seqno)
 {
-  EVP_CIPHER_CTX *cctx = &conn->ictx->cctx;
+  EVP_CIPHER_CTX *cctx = conn->ictx->cctx;
   int outl = 0, outl2;
   tap_packet *p = new tap_packet;
   u8 *d;
