@@ -141,6 +141,12 @@
 /* Define to 1 if you have the `eventfd' function. */
 #undef HAVE_EVENTFD
 
+/* Define to 1 if the system has the type `EVP_CIPHER_CTX HMAC_CTX'. */
+#undef HAVE_EVP_CIPHER_CTX_HMAC_CTX
+
+/* Define to 1 if you have the `EVP_MD_CTX_cleanup' function. */
+#undef HAVE_EVP_MD_CTX_CLEANUP
+
 /* Define to 1 if you have the <ext/hash_map> header file. */
 #undef HAVE_EXT_HASH_MAP
 
@@ -206,6 +212,12 @@
 
 /* Define to 1 if you have the <gnu-versions.h> header file. */
 #undef HAVE_GNU_VERSIONS_H
+
+/* Define to 1 if you have the `HMAC_CTX_cleanup' function. */
+#undef HAVE_HMAC_CTX_CLEANUP
+
+/* Define to 1 if you have the `HMAC_CTX_init' function. */
+#undef HAVE_HMAC_CTX_INIT
 
 /* Define if you have the iconv() function and it works. */
 #undef HAVE_ICONV

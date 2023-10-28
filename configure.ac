@@ -436,6 +436,10 @@ if test "x${openssl_include}" != "x"; then
 fi
 m4_ifdef([tinc_ZLIB],[tinc_ZLIB])dnl
 
+## Some additional openssl things:
+AC_CHECK_TYPES([EVP_CIPHER_CTX HMAC_CTX])
+AC_CHECK_FUNCS([HMAC_CTX_init HMAC_CTX_cleanup EVP_MD_CTX_cleanup])dnl
+
 AC_ARG_ENABLE([threads],
   [AS_HELP_STRING([--enable-threads],[try to use threads for long-running asynchronous operations (default enabled).])],
   [try_threads=${enableval}],

@@ -13738,6 +13738,35 @@ if test "x${openssl_include}" != "x"; then
    CXXFLAGS="${CXXFLAGS} -I${openssl_include}"
 fi
 
+## Some additional openssl things:
+ac_fn_cxx_check_type "$LINENO" "EVP_CIPHER_CTX HMAC_CTX" "ac_cv_type_EVP_CIPHER_CTX_HMAC_CTX" "$ac_includes_default"
+if test "x$ac_cv_type_EVP_CIPHER_CTX_HMAC_CTX" = xyes
+then :
+
+printf "%s\n" "#define HAVE_EVP_CIPHER_CTX_HMAC_CTX 1" >>confdefs.h
+
+
+fi
+
+ac_fn_cxx_check_func "$LINENO" "HMAC_CTX_init" "ac_cv_func_HMAC_CTX_init"
+if test "x$ac_cv_func_HMAC_CTX_init" = xyes
+then :
+  printf "%s\n" "#define HAVE_HMAC_CTX_INIT 1" >>confdefs.h
+
+fi
+ac_fn_cxx_check_func "$LINENO" "HMAC_CTX_cleanup" "ac_cv_func_HMAC_CTX_cleanup"
+if test "x$ac_cv_func_HMAC_CTX_cleanup" = xyes
+then :
+  printf "%s\n" "#define HAVE_HMAC_CTX_CLEANUP 1" >>confdefs.h
+
+fi
+ac_fn_cxx_check_func "$LINENO" "EVP_MD_CTX_cleanup" "ac_cv_func_EVP_MD_CTX_cleanup"
+if test "x$ac_cv_func_EVP_MD_CTX_cleanup" = xyes
+then :
+  printf "%s\n" "#define HAVE_EVP_MD_CTX_CLEANUP 1" >>confdefs.h
+
+fi
+
 # Check whether --enable-threads was given.
 if test ${enable_threads+y}
 then :

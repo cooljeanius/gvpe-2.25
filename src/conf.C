@@ -646,6 +646,7 @@ configuration_parser::configuration_parser (configuration &conf,
 
   free (fname);
 
+#if !defined(OPENSSL_NO_DEPRECATED) && defined(OPENSSL_API_COMPAT) && (OPENSSL_API_COMPAT < 0x30000L)
   if (need_keys && ::thisnode
       && conf.rsa_key && conf.thisnode && conf.thisnode->rsa_key)
     if (BN_cmp (conf.rsa_key->n, conf.thisnode->rsa_key->n) != 0
@@ -654,6 +655,12 @@ configuration_parser::configuration_parser (configuration &conf,
         slog (L_NOTICE, _("private hostkey and public node key mismatch: is '%s' the correct node?"), ::thisnode);
         exit (EXIT_FAILURE);
       }
+#else
+/* FIXME: instead of warning, figure out the right way to do the check: */
+# if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#  warning "skipping key mismatch check due to openssl version incompatibility"
+# endif /* __GNUC__ && !__STRICT_ANSI__ */
+#endif /* !OPENSSL_NO_DEPRECATED && (OPENSSL_API_COMPAT < 0x30000L) */
 
   for (configuration::node_vector::iterator i = conf.nodes.begin(); i != conf.nodes.end(); ++i)
     (*i)->finalise ();
