@@ -13,7 +13,7 @@ jobs:
 #     # 'Transformers::TravisCI::Scripts::Dependencies' dependencies are currently unsupported
 #     # 'compiler' was not transformed because there is no suitable equivalent in GitHub Actions
     - name: Dependencies
-      run: sudo apt-get update && sudo apt-get install texinfo
+      run: sudo apt-get update && sudo apt-get install texinfo texlive
     - name: Configure
       run: ./configure
     - name: Build
