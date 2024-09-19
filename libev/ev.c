@@ -1656,7 +1656,7 @@ static void * noinline ecb_cold
 array_realloc (int elem, void *base, int *cur, int cnt)
 {
   *cur = array_nextsize (elem, *cur, cnt);
-  return ev_realloc (base, elem * *cur);
+  return ev_realloc (base, (long)elem * *cur);
 }
 
 #define array_init_zero(base,count)	\
