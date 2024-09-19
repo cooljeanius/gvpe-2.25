@@ -179,7 +179,7 @@ parse_options(int argc, char **argv, char **envp)
                 break;
 
             case 'g':		/* generate public/private keypair */
-                generate_keys = RSA_KEYBITS;
+                generate_keys = 2048; // Updated to use a secure key size
                 break;
 
             case 's':
