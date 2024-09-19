@@ -181,7 +181,7 @@ configuration::cleanup ()
   free (ifname);             ifname             = 0;
 #if ENABLE_HTTP_PROXY
   free (proxy_host);         proxy_host         = 0;
-  free (proxy_auth);         proxy_auth         = 0;
+  delete proxy_auth;         proxy_auth         = 0;
 #endif
 #if ENABLE_DNS
   free (dns_forw_host);      dns_forw_host      = 0;
