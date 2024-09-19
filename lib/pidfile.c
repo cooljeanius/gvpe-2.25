@@ -50,8 +50,10 @@ int read_pid (char *pidfile)
 
   if (!(f=fopen(pidfile,"r")))
     return 0;
-  if (!fscanf(f,"%d", &pid))
+  if (fscanf(f,"%d", &pid) != 1) {
+    fclose(f);
     return 0;
+  }
   fclose(f);
   return pid;
 }
@@ -102,7 +104,11 @@ int write_pid (char *pidfile)
   
 #ifdef HAVE_FLOCK
   if (flock(fd, LOCK_EX|LOCK_NB) == -1) {
-      fscanf(f, "%d", &pid);
+      if (fscanf(f, "%d", &pid) != 1) {
+          fclose(f);
+          fprintf(stderr, "Can't read pid from %s.\n", pidfile ? pidfile : "(null)");
+          return 0;
+      }
       fclose(f);
       printf("Can't lock, lock is held by pid %d.\n", pid);
       return 0;
