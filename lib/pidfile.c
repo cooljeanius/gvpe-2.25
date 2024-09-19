@@ -98,7 +98,7 @@ int write_pid (char *pidfile)
 
   if ( ((fd = open(pidfile, O_RDWR|O_CREAT, 0644)) == -1)
        || ((f = fdopen(fd, "r+")) == NULL) ) {
-      fprintf(stderr, "Can't open or create %s.\n", pidfile ? pidfile : "(null)");
+      fprintf(stderr, "Cannot open or create %s.\n", pidfile ? pidfile : "(null)");
       return 0;
   }
   
@@ -106,18 +106,18 @@ int write_pid (char *pidfile)
   if (flock(fd, LOCK_EX|LOCK_NB) == -1) {
       if (fscanf(f, "%d", &pid) != 1) {
           fclose(f);
-          fprintf(stderr, "Can't read pid from %s.\n", pidfile ? pidfile : "(null)");
+          fprintf(stderr, "Cannot read pid from %s.\n", pidfile ? pidfile : "(null)");
           return 0;
       }
       fclose(f);
-      printf("Can't lock, lock is held by pid %d.\n", pid);
+      printf("Cannot lock, lock is held by pid %d.\n", pid);
       return 0;
   }
-#endif
+#endif /* HAVE_FLOCK */
 
   pid = getpid();
   if (!fprintf(f,"%d\n", pid)) {
-      printf("Can't write pid , %s.\n", strerror(errno));
+      printf("Cannot write pid , %s.\n", strerror(errno));
       close(fd);
       return 0;
   }
@@ -125,11 +125,11 @@ int write_pid (char *pidfile)
 
 #ifdef HAVE_FLOCK
   if (flock(fd, LOCK_UN) == -1) {
-      printf("Can't unlock pidfile %s, %s.\n", pidfile, strerror(errno));
+      printf("Cannot unlock pidfile %s, %s.\n", pidfile, strerror(errno));
       close(fd);
       return 0;
   }
-#endif
+#endif /* HAVE_FLOCK */
   close(fd);
 
   return pid;
