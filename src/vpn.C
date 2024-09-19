@@ -89,7 +89,7 @@ vpn::script_init_env ()
   asprintf (&env, "IFTYPE=%s", IFTYPE); putenv (env);
   asprintf (&env, "IFSUBTYPE=%s", IFSUBTYPE); putenv (env);
   asprintf (&env, "MTU=%d", mtu); putenv (env);
-  asprintf (&env, "NODES=%d", conns.size ()); putenv (env);
+  asprintf (&env, "NODES=%zu", conns.size ()); putenv (env);
   asprintf (&env, "NODEID=%d", THISNODE->id); putenv (env);
 
   conns [THISNODE->id - 1]->script_init_env ("");
